@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://JiangFeng07.github.com/"/>
-  <updated>2017-03-21T11:38:26.000Z</updated>
+  <updated>2017-03-21T11:44:13.000Z</updated>
   <id>http://JiangFeng07.github.com/</id>
   
   <author>
@@ -20,31 +20,18 @@
     <link href="http://JiangFeng07.github.com/2017/03/21/Mysql-%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/"/>
     <id>http://JiangFeng07.github.com/2017/03/21/Mysql-分页查询优化/</id>
     <published>2017-03-21T11:35:22.000Z</published>
-    <updated>2017-03-21T11:38:26.000Z</updated>
+    <updated>2017-03-21T11:44:13.000Z</updated>
     
-    <content type="html"><![CDATA[<p>分页查询在 mysql 中常遇到，如以下语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName limit 100,20;</div></pre></td></tr></table></figure></p>
-<p>用时大约需要0.03 sec。用时很短。</p>
-<p>但是随着偏移量的增加，查询时间也随之增加。比如如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName limit 10000000,20</div></pre></td></tr></table></figure></p>
+    <content type="html"><![CDATA[<p>分页查询在 mysql 中常遇到，如以下语句 :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName limit 100,20;</div></pre></td></tr></table></figure></p>
+<p>用时大约需要0.03 sec。用时很短。<br>但是随着偏移量的增加，查询时间也随之增加。如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName limit 10000000,20</div></pre></td></tr></table></figure></p>
 <p>用时大约需要32.43 sec，这个时间是不是就有点长了了？可以优化吗？答案是可以的。那么，该怎样优化？</p>
-<ul>
-<li>优化方法1<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName order by id limit 10000000,20;</div></pre></td></tr></table></figure>
-</li>
-</ul>
+<p><strong>优化方法1</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName order by id limit 10000000,20;</div></pre></td></tr></table></figure></p>
 <p>用时大约需要17.71 sec，还是有点长。</p>
-<ul>
-<li>优化方法2<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName where id &gt;= (select id from TableName order by id limit 10000000,1) limit 20;</div></pre></td></tr></table></figure>
-</li>
-</ul>
+<p><strong>优化方法2</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName where id &gt;= (select id from TableName order by id limit 10000000,1) limit 20;</div></pre></td></tr></table></figure></p>
 <p>用时大约需要4.01 sec。</p>
-<ul>
-<li>优化方法3<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName a, (select id from TableName where status=1 order by id limit 10000000,10) b where a.id=b.id</div></pre></td></tr></table></figure>
-</li>
-</ul>
+<p><strong>优化方法3</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName a, (select id from TableName where status=1 order by id limit 10000000,10) b where a.id=b.id</div></pre></td></tr></table></figure></p>
 <p>用时大约需要4.43sec。</p>
-<ul>
-<li>优化方法4<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName as a inner join (select id from TableName order by id limit 10000000,20) as b on a.id=b.id order by a.id;</div></pre></td></tr></table></figure>
-</li>
-</ul>
+<p><strong>优化方法4</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName as a inner join (select id from TableName order by id limit 10000000,20) as b on a.id=b.id order by a.id;</div></pre></td></tr></table></figure></p>
 <p>用时大约需要3.98sec。</p>
 <p>可见优化方法2、优化方法3 和 优化方法4 运行时间差不多，相比于32.43 sec，效率提高八倍左右。</p>
 <p>注：sql 语句中的 TableName指代的工作中一个有40000000多万记录的表。</p>
@@ -52,7 +39,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;分页查询在 mysql 中常遇到，如以下语句&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td clas
+      &lt;p&gt;分页查询在 mysql 中常遇到，如以下语句 :&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td cl
     
     </summary>
     
