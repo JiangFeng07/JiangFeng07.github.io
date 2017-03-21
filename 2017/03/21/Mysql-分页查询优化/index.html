@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="NLP," />
+  <meta name="keywords" content="Mysql," />
 
 
 
@@ -89,16 +89,25 @@
 
 
 
-<meta name="description" content="本篇文章主要是实现Python 自然语言处理包 gensim 中用于词向量建模的 word2vec算法。12345678910111213141516171819202122232425# encoding=utf-8import loggingimport sysfrom gensim.models import Word2Vecif __name__ == &apos;__main__&apos;:    log">
+<meta name="description" content="分页查询在 mysql 中常遇到，如以下语句1select * from TableName limit 100,20;
+用时大约需要0.03 sec。用时很短。
+但是随着偏移量的增加，查询时间也随之增加。比如如下代码：1select * from TableName limit 10000000,20
+用时大约需要32.43 sec，这个时间是不是就有点长了了？可以优化吗？答案是可以的。那么，该">
 <meta property="og:type" content="article">
-<meta property="og:title" content="word2vct算法实现">
-<meta property="og:url" content="http://JiangFeng07.github.com/2017/03/21/word2vct算法实现/index.html">
+<meta property="og:title" content="Mysql 分页查询优化">
+<meta property="og:url" content="http://JiangFeng07.github.com/2017/03/21/Mysql-分页查询优化/index.html">
 <meta property="og:site_name" content="Lionel">
-<meta property="og:description" content="本篇文章主要是实现Python 自然语言处理包 gensim 中用于词向量建模的 word2vec算法。12345678910111213141516171819202122232425# encoding=utf-8import loggingimport sysfrom gensim.models import Word2Vecif __name__ == &apos;__main__&apos;:    log">
-<meta property="og:updated_time" content="2017-03-21T10:03:19.000Z">
+<meta property="og:description" content="分页查询在 mysql 中常遇到，如以下语句1select * from TableName limit 100,20;
+用时大约需要0.03 sec。用时很短。
+但是随着偏移量的增加，查询时间也随之增加。比如如下代码：1select * from TableName limit 10000000,20
+用时大约需要32.43 sec，这个时间是不是就有点长了了？可以优化吗？答案是可以的。那么，该">
+<meta property="og:updated_time" content="2017-03-21T11:38:26.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="word2vct算法实现">
-<meta name="twitter:description" content="本篇文章主要是实现Python 自然语言处理包 gensim 中用于词向量建模的 word2vec算法。12345678910111213141516171819202122232425# encoding=utf-8import loggingimport sysfrom gensim.models import Word2Vecif __name__ == &apos;__main__&apos;:    log">
+<meta name="twitter:title" content="Mysql 分页查询优化">
+<meta name="twitter:description" content="分页查询在 mysql 中常遇到，如以下语句1select * from TableName limit 100,20;
+用时大约需要0.03 sec。用时很短。
+但是随着偏移量的增加，查询时间也随之增加。比如如下代码：1select * from TableName limit 10000000,20
+用时大约需要32.43 sec，这个时间是不是就有点长了了？可以优化吗？答案是可以的。那么，该">
 
 
 
@@ -126,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://JiangFeng07.github.com/2017/03/21/word2vct算法实现/"/>
+  <link rel="canonical" href="http://JiangFeng07.github.com/2017/03/21/Mysql-分页查询优化/"/>
 
 
 
 
 
-  <title> word2vct算法实现 | Lionel </title>
+  <title> Mysql 分页查询优化 | Lionel </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -261,7 +270,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/21/word2vct算法实现/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/21/Mysql-分页查询优化/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -282,7 +291,7 @@
             
             
               
-                word2vct算法实现
+                Mysql 分页查询优化
               
             
           </h1>
@@ -297,7 +306,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-21T17:50:51+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-21T19:35:22+08:00">
                 2017-03-21
               </time>
             
@@ -333,8 +342,32 @@
       
 
       
-        <p>本篇文章主要是实现Python 自然语言处理包 gensim 中用于词向量建模的 word2vec算法。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># encoding=utf-8</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> logging</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">from</span> gensim.models <span class="keyword">import</span> Word2Vec</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    logging.basicConfig(format=<span class="string">'%(asctime)s : %(levelname)s : %(message)s'</span>, level=logging.INFO)</div><div class="line"></div><div class="line">    <span class="keyword">if</span> len(sys.argv) &lt; <span class="number">3</span>:</div><div class="line">        sys.exit(<span class="number">1</span>)</div><div class="line"></div><div class="line">    outputFile1, outputFile2 = sys.argv[<span class="number">1</span>:<span class="number">3</span>]</div><div class="line"></div><div class="line">    sentences = [</div><div class="line">        <span class="string">"I think that most of us know by now that water is essential to our survival We’ve probably also all heard doctors say that drinking roughly eight glasses a day is ideal"</span>,</div><div class="line">        <span class="string">"yoyoyo you go home now to sleep"</span>]</div><div class="line"></div><div class="line">    vocab = [s.encode(<span class="string">'utf-8'</span>).decode().split() <span class="keyword">for</span> s <span class="keyword">in</span> sentences]</div><div class="line">    <span class="comment">#建立模型</span></div><div class="line">    model = Word2Vec(sentences, size=<span class="number">100</span>, window=<span class="number">5</span>, min_count=<span class="number">5</span>, workers=<span class="number">4</span>)</div><div class="line">    <span class="comment">#保存模型</span></div><div class="line">    model.save(outputFile1)</div><div class="line">    model.save_word2vec_format(outputFile2, binary=<span class="keyword">False</span>)</div></pre></td></tr></table></figure></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#测试模型</span></div><div class="line"><span class="comment"># encoding='utf-8'</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> logging</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">from</span> gensim.models <span class="keyword">import</span> Word2Vec</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    logging.basicConfig(format=<span class="string">'%(asctime)s : %(levelname)s : %(message)s'</span>, level=logging.INFO)</div><div class="line"></div><div class="line">    <span class="keyword">if</span> len(sys.argv) &lt; <span class="number">3</span>:</div><div class="line">        sys.exit(<span class="number">1</span>)</div><div class="line"></div><div class="line">    file, word = sys.argv[<span class="number">1</span>:<span class="number">3</span>]</div><div class="line">    <span class="comment">#从磁盘文件 file 加载模型</span></div><div class="line">    model = Word2Vec.load_word2vec_format(file, binary=<span class="keyword">False</span>)</div><div class="line">    print(model.most_similar(word))</div></pre></td></tr></table></figure>
+        <p>分页查询在 mysql 中常遇到，如以下语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName limit 100,20;</div></pre></td></tr></table></figure></p>
+<p>用时大约需要0.03 sec。用时很短。</p>
+<p>但是随着偏移量的增加，查询时间也随之增加。比如如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName limit 10000000,20</div></pre></td></tr></table></figure></p>
+<p>用时大约需要32.43 sec，这个时间是不是就有点长了了？可以优化吗？答案是可以的。那么，该怎样优化？</p>
+<ul>
+<li>优化方法1<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName order by id limit 10000000,20;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>用时大约需要17.71 sec，还是有点长。</p>
+<ul>
+<li>优化方法2<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName where id &gt;= (select id from TableName order by id limit 10000000,1) limit 20;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>用时大约需要4.01 sec。</p>
+<ul>
+<li>优化方法3<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName a, (select id from TableName where status=1 order by id limit 10000000,10) b where a.id=b.id</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>用时大约需要4.43sec。</p>
+<ul>
+<li>优化方法4<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName as a inner join (select id from TableName order by id limit 10000000,20) as b on a.id=b.id order by a.id;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>用时大约需要3.98sec。</p>
+<p>可见优化方法2、优化方法3 和 优化方法4 运行时间差不多，相比于32.43 sec，效率提高八倍左右。</p>
+<p>注：sql 语句中的 TableName指代的工作中一个有40000000多万记录的表。</p>
 
       
     </div>
@@ -358,7 +391,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/NLP/" rel="tag"># NLP</a>
+            <a href="/tags/Mysql/" rel="tag"># Mysql</a>
           
         </div>
       
@@ -371,8 +404,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/21/tensorflow-安装和卸载/" rel="next" title="tensorflow 安装和卸载">
-                <i class="fa fa-chevron-left"></i> tensorflow 安装和卸载
+              <a href="/2017/03/21/doc2vct算法实现/" rel="next" title="doc2vct算法实现">
+                <i class="fa fa-chevron-left"></i> doc2vct算法实现
               </a>
             
           </div>
@@ -380,10 +413,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/21/doc2vct算法实现/" rel="prev" title="doc2vct算法实现">
-                doc2vct算法实现 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
