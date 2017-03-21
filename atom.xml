@@ -4,9 +4,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="http://JiangFeng07.github.com/"/>
   <updated>2017-03-21T10:05:31.000Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>http://JiangFeng07.github.com/</id>
   
   <author>
     <name>Jiang Feng</name>
@@ -17,8 +17,8 @@
   
   <entry>
     <title>doc2vct算法实现</title>
-    <link href="http://yoursite.com/2017/03/21/doc2vct%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/"/>
-    <id>http://yoursite.com/2017/03/21/doc2vct算法实现/</id>
+    <link href="http://JiangFeng07.github.com/2017/03/21/doc2vct%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/"/>
+    <id>http://JiangFeng07.github.com/2017/03/21/doc2vct算法实现/</id>
     <published>2017-03-21T10:03:56.000Z</published>
     <updated>2017-03-21T10:05:31.000Z</updated>
     
@@ -35,14 +35,14 @@
     </summary>
     
     
-      <category term="NLP" scheme="http://yoursite.com/tags/NLP/"/>
+      <category term="NLP" scheme="http://JiangFeng07.github.com/tags/NLP/"/>
     
   </entry>
   
   <entry>
     <title>word2vct算法实现</title>
-    <link href="http://yoursite.com/2017/03/21/word2vct%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/"/>
-    <id>http://yoursite.com/2017/03/21/word2vct算法实现/</id>
+    <link href="http://JiangFeng07.github.com/2017/03/21/word2vct%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/"/>
+    <id>http://JiangFeng07.github.com/2017/03/21/word2vct算法实现/</id>
     <published>2017-03-21T09:50:51.000Z</published>
     <updated>2017-03-21T10:03:19.000Z</updated>
     
@@ -57,16 +57,16 @@
     </summary>
     
     
-      <category term="NLP" scheme="http://yoursite.com/tags/NLP/"/>
+      <category term="NLP" scheme="http://JiangFeng07.github.com/tags/NLP/"/>
     
   </entry>
   
   <entry>
     <title>tensorflow 安装和卸载</title>
-    <link href="http://yoursite.com/2017/03/21/tensorflow-%E5%AE%89%E8%A3%85%E5%92%8C%E5%8D%B8%E8%BD%BD/"/>
-    <id>http://yoursite.com/2017/03/21/tensorflow-安装和卸载/</id>
+    <link href="http://JiangFeng07.github.com/2017/03/21/tensorflow-%E5%AE%89%E8%A3%85%E5%92%8C%E5%8D%B8%E8%BD%BD/"/>
+    <id>http://JiangFeng07.github.com/2017/03/21/tensorflow-安装和卸载/</id>
     <published>2017-03-21T09:07:31.000Z</published>
-    <updated>2017-03-21T10:47:53.000Z</updated>
+    <updated>2017-03-21T11:00:54.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="基于-virtualenv-安装"><a href="#基于-virtualenv-安装" class="headerlink" title="基于 virtualenv 安装"></a>基于 virtualenv 安装</h2><p>安装步骤如下：</p>
 <ol>
@@ -99,17 +99,17 @@
     
     </summary>
     
-      <category term="深度学习" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+      <category term="深度学习" scheme="http://JiangFeng07.github.com/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="深度学习" scheme="http://yoursite.com/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+      <category term="深度学习" scheme="http://JiangFeng07.github.com/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
   <entry>
     <title>Hello World</title>
-    <link href="http://yoursite.com/2017/03/21/hello-world/"/>
-    <id>http://yoursite.com/2017/03/21/hello-world/</id>
+    <link href="http://JiangFeng07.github.com/2017/03/21/hello-world/"/>
+    <id>http://JiangFeng07.github.com/2017/03/21/hello-world/</id>
     <published>2017-03-21T08:56:25.000Z</published>
     <updated>2017-03-21T08:56:25.000Z</updated>
     
