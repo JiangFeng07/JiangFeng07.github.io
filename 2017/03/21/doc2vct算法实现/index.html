@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="深度学习框架," />
+  <meta name="keywords" content="NLP," />
 
 
 
@@ -87,37 +87,19 @@
 
 
 
-<meta name="description" content="基于 virtualenv 安装安装步骤如下：
-
-打开终端（a shell）;
-安装 pip（如果之前没有安装的话） 和 virtualenv :
-12$ sudo easy_install pip$ sudo pip install --upgrade virtualenv
-
-建立一个新的 virtualenv 环境 :
-1$ virtualenv --system-site-packages">
+<meta name="description" content="本篇文章主要是实现Python 自然语言处理包 gensim 中用于长文本向量建模的 doc2vec算法。
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849#!/usr/bin/env python3# -*- coding: utf-8 -*-import loggi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="tensorflow 安装和卸载">
-<meta property="og:url" content="http://yoursite.com/2017/03/21/tensorflow-安装和卸载/index.html">
+<meta property="og:title" content="doc2vct算法实现">
+<meta property="og:url" content="http://yoursite.com/2017/03/21/doc2vct算法实现/index.html">
 <meta property="og:site_name" content="Lionel">
-<meta property="og:description" content="基于 virtualenv 安装安装步骤如下：
-
-打开终端（a shell）;
-安装 pip（如果之前没有安装的话） 和 virtualenv :
-12$ sudo easy_install pip$ sudo pip install --upgrade virtualenv
-
-建立一个新的 virtualenv 环境 :
-1$ virtualenv --system-site-packages">
-<meta property="og:updated_time" content="2017-03-21T09:13:40.000Z">
+<meta property="og:description" content="本篇文章主要是实现Python 自然语言处理包 gensim 中用于长文本向量建模的 doc2vec算法。
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849#!/usr/bin/env python3# -*- coding: utf-8 -*-import loggi">
+<meta property="og:updated_time" content="2017-03-21T10:05:31.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tensorflow 安装和卸载">
-<meta name="twitter:description" content="基于 virtualenv 安装安装步骤如下：
-
-打开终端（a shell）;
-安装 pip（如果之前没有安装的话） 和 virtualenv :
-12$ sudo easy_install pip$ sudo pip install --upgrade virtualenv
-
-建立一个新的 virtualenv 环境 :
-1$ virtualenv --system-site-packages">
+<meta name="twitter:title" content="doc2vct算法实现">
+<meta name="twitter:description" content="本篇文章主要是实现Python 自然语言处理包 gensim 中用于长文本向量建模的 doc2vec算法。
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849#!/usr/bin/env python3# -*- coding: utf-8 -*-import loggi">
 
 
 
@@ -145,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/21/tensorflow-安装和卸载/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/21/doc2vct算法实现/"/>
 
 
 
 
 
-  <title> tensorflow 安装和卸载 | Lionel </title>
+  <title> doc2vct算法实现 | Lionel </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -270,7 +252,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/21/tensorflow-安装和卸载/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/21/doc2vct算法实现/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -291,7 +273,7 @@
             
             
               
-                tensorflow 安装和卸载
+                doc2vct算法实现
               
             
           </h1>
@@ -306,7 +288,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-21T17:07:31+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-21T18:03:56+08:00">
                 2017-03-21
               </time>
             
@@ -342,29 +324,10 @@
       
 
       
-        <h2 id="基于-virtualenv-安装"><a href="#基于-virtualenv-安装" class="headerlink" title="基于 virtualenv 安装"></a>基于 virtualenv 安装</h2><p>安装步骤如下：</p>
-<ol>
-<li>打开终端（a shell）;</li>
-<li><p>安装 pip（如果之前没有安装的话） 和 virtualenv :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo easy_install pip</div><div class="line">$ sudo pip install --upgrade virtualenv</div></pre></td></tr></table></figure>
-</li>
-<li><p>建立一个新的 virtualenv 环境 :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ virtualenv --system-site-packages ~/tensorflow</div></pre></td></tr></table></figure>
-</li>
-<li><p>激活 virtualenv :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ cd ~/tensorflow</div><div class="line">$ source bin/activate # 如果使用 bash, sh, ksh, 或者 zsh</div><div class="line">$ source bin/activate.csh # 如果使用 csh 或者 tcsh</div><div class="line">终端发生变化:</div><div class="line">(tensorflow)$</div></pre></td></tr></table></figure>
-</li>
-<li><p>安装 tensorflow :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pip install --upgrade tensorflow # for python 2.7</div><div class="line">pip3 install --upgrade tensorflow # for python 3.n</div></pre></td></tr></table></figure>
-</li>
-<li><p>测试是否安装成功 :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">(tensorflow) $ bin python</div><div class="line">Python 3.5.2 (default, Jul 28 2016, 21:28:00)</div><div class="line">[GCC 4.2.1 Compatible Apple LLVM 7.3.0 (clang-703.0.31)] on darwin</div><div class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</div><div class="line">&gt;&gt;&gt; import tensorflow as tf</div><div class="line">&gt;&gt;&gt; hello = tf.constant(&apos;Hello, TensorFlow!&apos;)</div><div class="line">&gt;&gt;&gt; sess = tf.Session()</div><div class="line">&gt;&gt;&gt; print(sess.run(hello))</div><div class="line">b&apos;Hello, TensorFlow!&apos; # 安装成功</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="tensorflow-卸载"><a href="#tensorflow-卸载" class="headerlink" title="tensorflow 卸载"></a>tensorflow 卸载</h2><ol>
-<li>执行卸载很简单，直接删除目录即可：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rm -r ~/tensorflow</div></pre></td></tr></table></figure></li>
-</ol>
-
+        <p>本篇文章主要是实现Python 自然语言处理包 gensim 中用于长文本向量建模的 doc2vec算法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python3</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> logging</div><div class="line"><span class="keyword">import</span> multiprocessing</div><div class="line"><span class="keyword">import</span> os.path</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">from</span> gensim <span class="keyword">import</span> utils</div><div class="line"><span class="keyword">from</span> gensim.models.doc2vec <span class="keyword">import</span> TaggedDocument, Doc2Vec</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyDocs</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, filename)</span>:</span></div><div class="line">        self.filename = filename</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> open(self.filename, <span class="string">'rb'</span>):</div><div class="line">                pieces = utils.to_unicode(line).split()</div><div class="line">                tag = pieces[<span class="number">0</span>]</div><div class="line">                words = pieces[<span class="number">1</span>].split(<span class="string">','</span>)</div><div class="line">                <span class="keyword">yield</span> TaggedDocument(words, [tag])</div><div class="line">        <span class="keyword">except</span>:</div><div class="line">            logging.info(<span class="string">'e'</span>)</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    program = os.path.basename(sys.argv[<span class="number">0</span>])</div><div class="line">    logger = logging.getLogger(program)</div><div class="line"></div><div class="line">    logging.basicConfig(format=<span class="string">'%(asctime)s: %(levelname)s: %(message)s'</span>)</div><div class="line">    logging.root.setLevel(level=logging.INFO)</div><div class="line">    logger.info(<span class="string">"running %s"</span> % <span class="string">' '</span>.join(sys.argv))</div><div class="line"></div><div class="line">    <span class="comment"># check and process input arguments</span></div><div class="line">    <span class="keyword">if</span> len(sys.argv) &lt; <span class="number">4</span>:</div><div class="line">        sys.exit(<span class="number">1</span>)</div><div class="line">    inp, outp1, outp2 = sys.argv[<span class="number">1</span>:<span class="number">4</span>]</div><div class="line"></div><div class="line">    documents = MyDocs(inp)</div><div class="line">    <span class="comment">#建立模型</span></div><div class="line">    model = Doc2Vec(documents, size=<span class="number">200</span>, window=<span class="number">5</span>, min_count=<span class="number">20</span>, workers=multiprocessing.cpu_count())</div><div class="line"></div><div class="line">    <span class="comment"># trim unneeded model memory = use(much) less RAM</span></div><div class="line">    <span class="comment"># model.init_sims(replace=True)</span></div><div class="line">    <span class="comment">#保存模型</span></div><div class="line">    model.save(outp1)</div><div class="line">    model.save_word2vec_format(outp2, binary=<span class="keyword">False</span>)</div></pre></td></tr></table></figure>
+<p>说明一下：在MyDocs这个类中，我自定义了一个逐步读取文件的方法，因为在试验中我们发现，一个4个G 左右大小的文件在一个服务器内存为64G 的服务器上是不够用的，内存消耗非常之快，所以就看了一下源码中TaggedLineDocument和LineSentence这个类的源码，发现使用 yield这个关键字能很好的解决这个问题，便有了MyDocs类，实验结果表明，效果大大提高。有兴趣的同学可以看看 yield的用法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#测试模型</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">from</span> gensim.models <span class="keyword">import</span> Doc2Vec</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="comment"># check and process input arguments</span></div><div class="line">    <span class="keyword">if</span> len(sys.argv) &lt; <span class="number">3</span>:</div><div class="line">        sys.exit(<span class="number">1</span>)</div><div class="line">    file, word = sys.argv[<span class="number">1</span>:<span class="number">3</span>]</div><div class="line"></div><div class="line">    <span class="comment">#加载模型</span></div><div class="line">    docvecs = Doc2Vec.load(file).docvecs</div><div class="line">    print(docvecs.most_similar(word))</div></pre></td></tr></table></figure>
       
     </div>
 
@@ -387,7 +350,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/深度学习框架/" rel="tag"># 深度学习框架</a>
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
           
         </div>
       
@@ -400,8 +363,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/21/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2017/03/21/word2vct算法实现/" rel="next" title="word2vct算法实现">
+                <i class="fa fa-chevron-left"></i> word2vct算法实现
               </a>
             
           </div>
@@ -409,10 +372,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/21/word2vct算法实现/" rel="prev" title="word2vct算法实现">
-                word2vct算法实现 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -459,17 +418,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -531,22 +481,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于-virtualenv-安装"><span class="nav-number">1.</span> <span class="nav-text">基于 virtualenv 安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tensorflow-卸载"><span class="nav-number">2.</span> <span class="nav-text">tensorflow 卸载</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
