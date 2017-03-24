@@ -105,7 +105,7 @@
 12npm uninstall hexo-renderer-marked --savenpm install hexo-renderer-kramed --save
 
 修改 hexo 博客站点目录（node_modules\kramed\">
-<meta property="og:updated_time" content="2017-03-24T11:47:02.000Z">
+<meta property="og:updated_time" content="2017-03-24T11:52:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo博客使用MathJax数学公式">
 <meta name="twitter:description" content="本篇博文介绍在 Hexo 博客使用 MathJax 数学公式。
@@ -358,10 +358,12 @@
 </li>
 <li><p>重新启动hexo</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo clean &amp;&amp; hexo generate &amp;&amp; hexo server</div></pre></td></tr></table></figure>
+<p> 如果还不行，查看你的主题目录下_config.yml是否开启 mathjax，开启如下：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># MathJax Support</div><div class="line">mathjax:</div><div class="line">  enable: true</div><div class="line">  per_page: true</div></pre></td></tr></table></figure>
+<p> 还有就是在你写的博客文章的Front-matter里打开mathjax开关，如下：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: 文章名</div><div class="line">date: 2017-03-23 19:01:30</div><div class="line">tags:</div><div class="line">mathjax: true</div><div class="line">--</div></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>如果还不行，查看你的主题目录下_config.yml是否开启 mathjax，开启如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># MathJax Support</div><div class="line">mathjax:</div><div class="line">  enable: true</div><div class="line">  per_page: true</div></pre></td></tr></table></figure></p>
-<p>还有就是在你写的博客文章的Front-matter里打开mathjax开关，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: 文章名</div><div class="line">date: 2017-03-23 19:01:30</div><div class="line">tags:</div><div class="line">mathjax: true</div><div class="line">--</div></pre></td></tr></table></figure></p>
 
       
     </div>
