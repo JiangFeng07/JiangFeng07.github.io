@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://JiangFeng07.github.com/"/>
-  <updated>2017-03-24T09:13:54.000Z</updated>
+  <updated>2017-03-24T09:42:46.000Z</updated>
   <id>http://JiangFeng07.github.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://JiangFeng07.github.com/2017/03/24/ansj%E5%88%86%E8%AF%8D%E7%AE%80%E5%8D%95%E6%A1%88%E4%BE%8B/"/>
     <id>http://JiangFeng07.github.com/2017/03/24/ansj分词简单案例/</id>
     <published>2017-03-24T08:35:52.000Z</published>
-    <updated>2017-03-24T09:13:54.000Z</updated>
+    <updated>2017-03-24T09:42:46.000Z</updated>
     
     <content type="html"><![CDATA[<p>如今，自然语言处理技术越来越成熟，越来越得到大家关注。许多互联网公司，如京东，阿里，新美大等互联网公司都有大量的文本评论数据，如何从这些文本中挖掘出有效的信息成为关键，这就需要应用自然语言处理技术，而对文本分词是自然语言处理的第一步，很关键。分词工具有很多<a href="http://ictclas.nlpir.org/" target="_blank" rel="external">NLPIR</a>、<a href="http://code.google.com/p/ik-analyzer/" target="_blank" rel="external">IKAnalyzer</a>、<a href="https://www.baidu.com/link?url=Bv6PmRepvb8vA06WGOUleDBM6Yd-fvmNnTkGOZGDRXrmaMTU2DVEJ7Mt2HAPrZi-&amp;wd=&amp;eqid=b847872c0002fb5400000004582d599d" target="_blank" rel="external">stanford nlp</a>等等，本篇博文将介绍我所使用的分词工具 <a href="https://github.com/NLPchina/ansj_seg" target="_blank" rel="external">Ansj</a> 的使用。</p>
 <p>##准备工作</p>
@@ -64,6 +64,8 @@
     
     </summary>
     
+    
+      <category term="NLP" scheme="http://JiangFeng07.github.com/tags/NLP/"/>
     
   </entry>
   
