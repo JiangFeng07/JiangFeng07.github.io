@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://JiangFeng07.github.com/"/>
-  <updated>2017-03-24T09:42:46.000Z</updated>
+  <updated>2017-03-24T10:13:09.000Z</updated>
   <id>http://JiangFeng07.github.com/</id>
   
   <author>
@@ -16,6 +16,35 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>梯度下降法</title>
+    <link href="http://JiangFeng07.github.com/2017/03/24/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/"/>
+    <id>http://JiangFeng07.github.com/2017/03/24/梯度下降法/</id>
+    <published>2017-03-24T10:09:15.000Z</published>
+    <updated>2017-03-24T10:13:09.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>梯度下降法，又叫最速下降法，是一种最优化算法。它用负梯度方向为搜索方向的，最速下降法越接近目标值，步长越小，前进越慢。<br>梯度下降法的计算过程就是沿着梯度下降的方向求解极小值。（亦可以沿着梯度上升的方向求解极大值）。它的迭代公式为:</p>
+<script type="math/tex; mode=display">a_{k+1}=a_{k}+\gamma_ks^{-(k)}(式1-1)</script><p>其中，$s^{-(k)}$代表的是梯度的负方向，$\gamma_k$表示梯度方向上的搜索步长。梯度方向可以通过求导得到，步长的设定则比较麻烦，太大的容易发散，找不到极小值的点，太小的话则收敛的速度比较慢。</p>
+<ul>
+<li>示例<br>现有函数$f(x)=x^4-3x^3+2$,则利用梯度下降方法解题的步骤如下：<br>1.求梯度，即对函数求导，$f^,(x)=4x^3-9x^2$；<br>2.根据式1-1，向梯度相反的方向移动 $x$；<br>3.循环迭代步骤2，直到x的值变化到使得$f(x)$在两次迭代之间的差值足够小，比如0.00000001，也就是说，直到两次迭代计算出来的$f(x)$基本没有变化，则说明此时$f(x)$已经达到局部最小值了。<br>4.此时，输出 $x$，此时求得的 $x$ 就是使得$f(x)$取得最小值的 x 的值。</li>
+<li>代码</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#python 代码</span></div><div class="line"><span class="comment"># encoding=utf-8</span></div><div class="line"></div><div class="line">x_old = <span class="number">0</span></div><div class="line">x_new = <span class="number">6</span></div><div class="line">gamma = <span class="number">0.01</span></div><div class="line">precision = <span class="number">0.00000001</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># x = Symbol("x")</span></div><div class="line"><span class="comment"># f = (x ** 4) - (3 * (x ** 3)) + 2</span></div><div class="line"></div><div class="line"><span class="comment">#梯度下降算法</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">df</span><span class="params">(x)</span>:</span></div><div class="line">    y = <span class="number">4</span> * x**<span class="number">3</span> - <span class="number">9</span> * x**<span class="number">2</span></div><div class="line">    <span class="keyword">return</span> y</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">while</span> abs(x_new - x_old) &gt; precision:</div><div class="line">    x_old = x_new</div><div class="line">    x_new += -gamma * df(x_old)</div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">"The local minimum occurs at"</span>, x_new//The local minimum occurs at <span class="number">2.24999996819</span></div></pre></td></tr></table></figure>
+<p>利用数学知识可以求得函数$f(x)=x^4-3x^3+2$的极小值在$\frac{9}{4}$取得，即2.25，代码求得的结果是2.24999996819，已经满足小于0.00000001的条件，代码有效。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;梯度下降法，又叫最速下降法，是一种最优化算法。它用负梯度方向为搜索方向的，最速下降法越接近目标值，步长越小，前进越慢。&lt;br&gt;梯度下降法的计算过程就是沿着梯度下降的方向求解极小值。（亦可以沿着梯度上升的方向求解极大值）。它的迭代公式为:&lt;/p&gt;
+&lt;script type=&quot;
+    
+    </summary>
+    
+    
+      <category term="机器学习" scheme="http://JiangFeng07.github.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ansj分词简单案例</title>
     <link href="http://JiangFeng07.github.com/2017/03/24/ansj%E5%88%86%E8%AF%8D%E7%AE%80%E5%8D%95%E6%A1%88%E4%BE%8B/"/>
     <id>http://JiangFeng07.github.com/2017/03/24/ansj分词简单案例/</id>
@@ -23,14 +52,13 @@
     <updated>2017-03-24T09:42:46.000Z</updated>
     
     <content type="html"><![CDATA[<p>如今，自然语言处理技术越来越成熟，越来越得到大家关注。许多互联网公司，如京东，阿里，新美大等互联网公司都有大量的文本评论数据，如何从这些文本中挖掘出有效的信息成为关键，这就需要应用自然语言处理技术，而对文本分词是自然语言处理的第一步，很关键。分词工具有很多<a href="http://ictclas.nlpir.org/" target="_blank" rel="external">NLPIR</a>、<a href="http://code.google.com/p/ik-analyzer/" target="_blank" rel="external">IKAnalyzer</a>、<a href="https://www.baidu.com/link?url=Bv6PmRepvb8vA06WGOUleDBM6Yd-fvmNnTkGOZGDRXrmaMTU2DVEJ7Mt2HAPrZi-&amp;wd=&amp;eqid=b847872c0002fb5400000004582d599d" target="_blank" rel="external">stanford nlp</a>等等，本篇博文将介绍我所使用的分词工具 <a href="https://github.com/NLPchina/ansj_seg" target="_blank" rel="external">Ansj</a> 的使用。</p>
-<p>##准备工作</p>
-<ul>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
 <li><p>下载 jar</p>
 <p>访问<a href="http://maven.nlpcn.org/org/ansj/" target="_blank" rel="external">http://maven.nlpcn.org/org/ansj/ </a>下载ansj-seg，倒入自己的 IDE，就可以了。如果你使用 maven，可以添加以下依赖：</p>
 </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 增加新的maven源 --&gt;</div><div class="line">&lt;repositories&gt;</div><div class="line">    &lt;repository&gt;</div><div class="line">        &lt;id&gt;mvn-repo&lt;/id&gt;</div><div class="line">        &lt;url&gt;http://maven.nlpcn.org/&lt;/url&gt;</div><div class="line">    &lt;/repository&gt;</div><div class="line">&lt;/repositories&gt;</div><div class="line"></div><div class="line"></div><div class="line">&lt;dependencies&gt;</div><div class="line">    ....</div><div class="line"></div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;org.ansj&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;ansj_seg&lt;/artifactId&gt;</div><div class="line">        &lt;version&gt;5.0.1&lt;/version&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">    ....</div><div class="line">&lt;/dependencies&gt;</div></pre></td></tr></table></figure>
-<p>##示例演示<br>先来看一个简单的的 demo 演示。</p>
+<h2 id="示例演示"><a href="#示例演示" class="headerlink" title="示例演示"></a>示例演示</h2><p>先来看一个简单的的 demo 演示。</p>
 <ul>
 <li>Demo</li>
 </ul>
@@ -70,11 +98,11 @@
   </entry>
   
   <entry>
-    <title>Mysql 分页查询优化</title>
+    <title>mysql 分页查询优化</title>
     <link href="http://JiangFeng07.github.com/2017/03/21/Mysql-%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/"/>
     <id>http://JiangFeng07.github.com/2017/03/21/Mysql-分页查询优化/</id>
     <published>2017-03-21T11:35:22.000Z</published>
-    <updated>2017-03-21T11:44:13.000Z</updated>
+    <updated>2017-03-24T10:05:40.000Z</updated>
     
     <content type="html"><![CDATA[<p>分页查询在 mysql 中常遇到，如以下语句 :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName limit 100,20;</div></pre></td></tr></table></figure></p>
 <p>用时大约需要0.03 sec。用时很短。<br>但是随着偏移量的增加，查询时间也随之增加。如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from TableName limit 10000000,20</div></pre></td></tr></table></figure></p>

@@ -93,15 +93,15 @@
 用时大约需要0.03 sec。用时很短。但是随着偏移量的增加，查询时间也随之增加。如下代码：1select * from TableName limit 10000000,20
 用时大约需要32.43 sec，这个时间是不是就有点长了了？可以优化吗？答案是可以的。那么，该怎">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mysql 分页查询优化">
+<meta property="og:title" content="mysql 分页查询优化">
 <meta property="og:url" content="http://JiangFeng07.github.com/2017/03/21/Mysql-分页查询优化/index.html">
 <meta property="og:site_name" content="江峰的技术博客">
 <meta property="og:description" content="分页查询在 mysql 中常遇到，如以下语句 :1select * from TableName limit 100,20;
 用时大约需要0.03 sec。用时很短。但是随着偏移量的增加，查询时间也随之增加。如下代码：1select * from TableName limit 10000000,20
 用时大约需要32.43 sec，这个时间是不是就有点长了了？可以优化吗？答案是可以的。那么，该怎">
-<meta property="og:updated_time" content="2017-03-21T11:44:13.000Z">
+<meta property="og:updated_time" content="2017-03-24T10:05:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mysql 分页查询优化">
+<meta name="twitter:title" content="mysql 分页查询优化">
 <meta name="twitter:description" content="分页查询在 mysql 中常遇到，如以下语句 :1select * from TableName limit 100,20;
 用时大约需要0.03 sec。用时很短。但是随着偏移量的增加，查询时间也随之增加。如下代码：1select * from TableName limit 10000000,20
 用时大约需要32.43 sec，这个时间是不是就有点长了了？可以优化吗？答案是可以的。那么，该怎">
@@ -138,7 +138,7 @@
 
 
 
-  <title> Mysql 分页查询优化 | 江峰的技术博客 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> mysql 分页查询优化 | 江峰的技术博客 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -288,7 +288,7 @@
             
             
               
-                Mysql 分页查询优化
+                mysql 分页查询优化
               
             
           </h1>
@@ -463,7 +463,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -481,7 +481,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -644,7 +644,7 @@
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
 
 
 
@@ -683,6 +683,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
 
   
 

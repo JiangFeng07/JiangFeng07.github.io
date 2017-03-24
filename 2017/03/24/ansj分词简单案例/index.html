@@ -90,24 +90,24 @@
 
 
 <meta name="description" content="如今，自然语言处理技术越来越成熟，越来越得到大家关注。许多互联网公司，如京东，阿里，新美大等互联网公司都有大量的文本评论数据，如何从这些文本中挖掘出有效的信息成为关键，这就需要应用自然语言处理技术，而对文本分词是自然语言处理的第一步，很关键。分词工具有很多NLPIR、IKAnalyzer、stanford nlp等等，本篇博文将介绍我所使用的分词工具 Ansj 的使用。
-##准备工作
-
-下载 ja">
+准备工作
+下载 jar
+访">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ansj分词简单案例">
 <meta property="og:url" content="http://JiangFeng07.github.com/2017/03/24/ansj分词简单案例/index.html">
 <meta property="og:site_name" content="江峰的技术博客">
 <meta property="og:description" content="如今，自然语言处理技术越来越成熟，越来越得到大家关注。许多互联网公司，如京东，阿里，新美大等互联网公司都有大量的文本评论数据，如何从这些文本中挖掘出有效的信息成为关键，这就需要应用自然语言处理技术，而对文本分词是自然语言处理的第一步，很关键。分词工具有很多NLPIR、IKAnalyzer、stanford nlp等等，本篇博文将介绍我所使用的分词工具 Ansj 的使用。
-##准备工作
-
-下载 ja">
+准备工作
+下载 jar
+访">
 <meta property="og:updated_time" content="2017-03-24T09:42:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ansj分词简单案例">
 <meta name="twitter:description" content="如今，自然语言处理技术越来越成熟，越来越得到大家关注。许多互联网公司，如京东，阿里，新美大等互联网公司都有大量的文本评论数据，如何从这些文本中挖掘出有效的信息成为关键，这就需要应用自然语言处理技术，而对文本分词是自然语言处理的第一步，很关键。分词工具有很多NLPIR、IKAnalyzer、stanford nlp等等，本篇博文将介绍我所使用的分词工具 Ansj 的使用。
-##准备工作
-
-下载 ja">
+准备工作
+下载 jar
+访">
 
 
 
@@ -343,14 +343,13 @@
 
       
         <p>如今，自然语言处理技术越来越成熟，越来越得到大家关注。许多互联网公司，如京东，阿里，新美大等互联网公司都有大量的文本评论数据，如何从这些文本中挖掘出有效的信息成为关键，这就需要应用自然语言处理技术，而对文本分词是自然语言处理的第一步，很关键。分词工具有很多<a href="http://ictclas.nlpir.org/" target="_blank" rel="external">NLPIR</a>、<a href="http://code.google.com/p/ik-analyzer/" target="_blank" rel="external">IKAnalyzer</a>、<a href="https://www.baidu.com/link?url=Bv6PmRepvb8vA06WGOUleDBM6Yd-fvmNnTkGOZGDRXrmaMTU2DVEJ7Mt2HAPrZi-&amp;wd=&amp;eqid=b847872c0002fb5400000004582d599d" target="_blank" rel="external">stanford nlp</a>等等，本篇博文将介绍我所使用的分词工具 <a href="https://github.com/NLPchina/ansj_seg" target="_blank" rel="external">Ansj</a> 的使用。</p>
-<p>##准备工作</p>
-<ul>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
 <li><p>下载 jar</p>
 <p>访问<a href="http://maven.nlpcn.org/org/ansj/" target="_blank" rel="external">http://maven.nlpcn.org/org/ansj/ </a>下载ansj-seg，倒入自己的 IDE，就可以了。如果你使用 maven，可以添加以下依赖：</p>
 </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 增加新的maven源 --&gt;</div><div class="line">&lt;repositories&gt;</div><div class="line">    &lt;repository&gt;</div><div class="line">        &lt;id&gt;mvn-repo&lt;/id&gt;</div><div class="line">        &lt;url&gt;http://maven.nlpcn.org/&lt;/url&gt;</div><div class="line">    &lt;/repository&gt;</div><div class="line">&lt;/repositories&gt;</div><div class="line"></div><div class="line"></div><div class="line">&lt;dependencies&gt;</div><div class="line">    ....</div><div class="line"></div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;org.ansj&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;ansj_seg&lt;/artifactId&gt;</div><div class="line">        &lt;version&gt;5.0.1&lt;/version&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">    ....</div><div class="line">&lt;/dependencies&gt;</div></pre></td></tr></table></figure>
-<p>##示例演示<br>先来看一个简单的的 demo 演示。</p>
+<h2 id="示例演示"><a href="#示例演示" class="headerlink" title="示例演示"></a>示例演示</h2><p>先来看一个简单的的 demo 演示。</p>
 <ul>
 <li>Demo</li>
 </ul>
@@ -412,8 +411,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/21/Mysql-分页查询优化/" rel="next" title="Mysql 分页查询优化">
-                <i class="fa fa-chevron-left"></i> Mysql 分页查询优化
+              <a href="/2017/03/21/Mysql-分页查询优化/" rel="next" title="mysql 分页查询优化">
+                <i class="fa fa-chevron-left"></i> mysql 分页查询优化
               </a>
             
           </div>
@@ -421,6 +420,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/24/梯度下降法/" rel="prev" title="梯度下降法">
+                梯度下降法 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -467,8 +470,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -483,7 +495,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -501,7 +513,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -544,6 +556,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例演示"><span class="nav-number">2.</span> <span class="nav-text">示例演示</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -703,6 +731,8 @@
   
 
   
+  
+
 
   
 
