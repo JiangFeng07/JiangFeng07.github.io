@@ -99,7 +99,7 @@
 <meta property="og:description" content="分页查询在 mysql 中常遇到，如以下语句 :1select * from TableName limit 100,20;
 用时大约需要0.03 sec。用时很短。但是随着偏移量的增加，查询时间也随之增加。如下代码：1select * from TableName limit 10000000,20
 用时大约需要32.43 sec，这个时间是不是就有点长了了？可以优化吗？答案是可以的。那么，该怎">
-<meta property="og:updated_time" content="2017-03-24T10:05:40.000Z">
+<meta property="og:updated_time" content="2017-03-24T10:31:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql 分页查询优化">
 <meta name="twitter:description" content="分页查询在 mysql 中常遇到，如以下语句 :1select * from TableName limit 100,20;
@@ -644,7 +644,7 @@
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 
@@ -683,26 +683,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
