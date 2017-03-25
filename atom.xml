@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://JiangFeng07.github.com/"/>
-  <updated>2017-03-25T04:27:41.000Z</updated>
+  <updated>2017-03-25T04:32:14.000Z</updated>
   <id>http://JiangFeng07.github.com/</id>
   
   <author>
@@ -14,6 +14,22 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>tensorflow 入门</title>
+    <link href="http://JiangFeng07.github.com/2017/03/25/tensorflow-%E5%85%A5%E9%97%A8/"/>
+    <id>http://JiangFeng07.github.com/2017/03/25/tensorflow-入门/</id>
+    <published>2017-03-25T04:31:44.000Z</published>
+    <updated>2017-03-25T04:32:14.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+      <category term="深度学习" scheme="http://JiangFeng07.github.com/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
   
   <entry>
     <title>编辑距离</title>
