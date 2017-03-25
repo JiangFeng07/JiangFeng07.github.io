@@ -36,9 +36,9 @@
     <link href="http://JiangFeng07.github.com/2017/03/25/%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB/"/>
     <id>http://JiangFeng07.github.com/2017/03/25/编辑距离/</id>
     <published>2017-03-25T04:10:33.000Z</published>
-    <updated>2017-03-25T04:27:41.000Z</updated>
+    <updated>2017-03-25T06:33:14.000Z</updated>
     
-    <content type="html"><![CDATA[<p>什么是编辑距离？<br>看下百度百科的介绍：编辑距离（Edit Distance），又称Levenshtein距离，是指两个字串之间，由一个转成另一个所需的最少编辑操作次数。许可的编辑操作包括将<font color="ff000">一个字符替换成另一个字符</font>，<font color="ff000">插入一个字符</font>，<font color="ff000">删除一个字符</font>。一般来说，<font color="ff000">编辑距离越小，两个串的相似度越大</font>。<br>比如说:<br>kitten-&gt;sitten （k→s）<br>sitten-&gt;sittin （e→i）<br>sittin-&gt;sitting （插入g）</p>
+    <content type="html"><![CDATA[<p>什么是编辑距离？<br>看下百度百科的介绍：编辑距离（Edit Distance），又称Levenshtein距离，是指两个字串之间，由一个转成另一个所需的最少编辑操作次数。许可的编辑操作包括将<font color="ff000">一个字符替换成另一个字符</font>，<font color="ff000">插入一个字符</font>，<font color="ff000">删除一个字符</font>。一般来说，<font color="ff000">编辑距离越小，两个串的相似度越大</font>。<br>比如说:<br>    kitten-&gt;sitten （k→s）<br>    sitten-&gt;sittin （e→i）<br>    sittin-&gt;sitting （插入g）</p>
 <p>找出字符串s1和字符串s2的编辑距离，就是求出字符串s1变成字符串s2的最小操作步骤，主要操作步骤有三种：交换、删除、插入。可以利用动态规划的思想来求解字符转 s1和字符串s2的编辑距离。</p>
 <p>动态规划公式如下所示：</p>
 <p><img src="http://img.blog.csdn.net/20160222115529695" alt="编辑距离公式"></p>
