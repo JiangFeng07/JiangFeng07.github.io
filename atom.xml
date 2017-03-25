@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://JiangFeng07.github.com/"/>
-  <updated>2017-03-25T04:03:02.000Z</updated>
+  <updated>2017-03-25T04:08:52.000Z</updated>
   <id>http://JiangFeng07.github.com/</id>
   
   <author>
@@ -20,17 +20,17 @@
     <link href="http://JiangFeng07.github.com/2017/03/25/%E7%BB%88%E7%AB%AF%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE/"/>
     <id>http://JiangFeng07.github.com/2017/03/25/终端常用快捷键/</id>
     <published>2017-03-25T02:56:48.000Z</published>
-    <updated>2017-03-25T04:03:02.000Z</updated>
+    <updated>2017-03-25T04:08:52.000Z</updated>
     
     <content type="html"><![CDATA[<ul>
-<li>终端常用快捷键<br>⌘ + r = clear，而且只是换到新一屏，不会像 clear 一样创建一个空屏<br>ctrl + u 清空当前行，无论光标在什么位置<br>新建窗口 :  command + t<br>垂直分屏：command + d<br>水平分屏：command + shift + d<br>切换屏幕：command + option + 方向键 command + [ 或 command + ]<br>删除光标之前的字符：ctrl + h<br>删除光标之前的单词：ctrl + w<br>删除到文本末尾：ctrl + k<br>定位当前行首部:   control + a<br>定位当前行尾部:   contorl + e<br>清屏：command + r  或者 ctrl + l</li>
+<li>终端常用快捷键<br>⌘ + r = clear，而且只是换到新一屏，不会像 clear 一样创建一个空屏<br>ctrl + u 清空当前行，无论光标在什么位置<br>新建窗口：command + t<br>垂直分屏：command + d<br>水平分屏：command + shift + d<br>切换屏幕：command + option + 方向键 command + [ 或 command + ]<br>删除光标之前的字符：ctrl + h<br>删除光标之前的单词：ctrl + w<br>删除到文本末尾：ctrl + k<br>定位当前行首部：control + a<br>定位当前行尾部：contorl + e<br>清屏：command + r  或者 ctrl + l</li>
 </ul>
 ]]></content>
     
     <summary type="html">
     
       &lt;ul&gt;
-&lt;li&gt;终端常用快捷键&lt;br&gt;⌘ + r = clear，而且只是换到新一屏，不会像 clear 一样创建一个空屏&lt;br&gt;ctrl + u 清空当前行，无论光标在什么位置&lt;br&gt;新建窗口 :  command + t&lt;br&gt;垂直分屏：command + d&lt;br&gt;水平分
+&lt;li&gt;终端常用快捷键&lt;br&gt;⌘ + r = clear，而且只是换到新一屏，不会像 clear 一样创建一个空屏&lt;br&gt;ctrl + u 清空当前行，无论光标在什么位置&lt;br&gt;新建窗口：command + t&lt;br&gt;垂直分屏：command + d&lt;br&gt;水平分屏：c
     
     </summary>
     
