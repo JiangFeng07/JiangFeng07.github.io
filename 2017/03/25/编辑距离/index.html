@@ -89,19 +89,18 @@
 
 
 
-<meta name="description" content="本篇文章主要是实现Python 自然语言处理包 gensim 中用于长文本向量建模的 doc2vec算法。
-12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849#!/usr/bin/env python3# -*- coding: utf-8 -*-import loggi">
+<meta name="description" content="什么是编辑距离？看下百度百科的介绍：编辑距离（Edit Distance），又称Levenshtein距离，是指两个字串之间，由一个转成另一个所需的最少编辑操作次数。许可的编辑操作包括将一个字符替换成另一个字符，插入一个字符，删除一个字符。一般来说，编辑距离越小，两个串的相似度越大。比如说:kitten-&amp;gt;sitten （k→s）sitten-&amp;gt;sittin （e→i）sittin-&amp;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="doc2vct算法实现">
-<meta property="og:url" content="http://JiangFeng07.github.com/2017/03/21/doc2vct算法实现/index.html">
+<meta property="og:title" content="编辑距离">
+<meta property="og:url" content="http://JiangFeng07.github.com/2017/03/25/编辑距离/index.html">
 <meta property="og:site_name" content="江峰的技术博客">
-<meta property="og:description" content="本篇文章主要是实现Python 自然语言处理包 gensim 中用于长文本向量建模的 doc2vec算法。
-12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849#!/usr/bin/env python3# -*- coding: utf-8 -*-import loggi">
-<meta property="og:updated_time" content="2017-03-21T10:05:31.000Z">
+<meta property="og:description" content="什么是编辑距离？看下百度百科的介绍：编辑距离（Edit Distance），又称Levenshtein距离，是指两个字串之间，由一个转成另一个所需的最少编辑操作次数。许可的编辑操作包括将一个字符替换成另一个字符，插入一个字符，删除一个字符。一般来说，编辑距离越小，两个串的相似度越大。比如说:kitten-&amp;gt;sitten （k→s）sitten-&amp;gt;sittin （e→i）sittin-&amp;">
+<meta property="og:image" content="http://img.blog.csdn.net/20160222115529695">
+<meta property="og:updated_time" content="2017-03-25T04:27:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="doc2vct算法实现">
-<meta name="twitter:description" content="本篇文章主要是实现Python 自然语言处理包 gensim 中用于长文本向量建模的 doc2vec算法。
-12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849#!/usr/bin/env python3# -*- coding: utf-8 -*-import loggi">
+<meta name="twitter:title" content="编辑距离">
+<meta name="twitter:description" content="什么是编辑距离？看下百度百科的介绍：编辑距离（Edit Distance），又称Levenshtein距离，是指两个字串之间，由一个转成另一个所需的最少编辑操作次数。许可的编辑操作包括将一个字符替换成另一个字符，插入一个字符，删除一个字符。一般来说，编辑距离越小，两个串的相似度越大。比如说:kitten-&amp;gt;sitten （k→s）sitten-&amp;gt;sittin （e→i）sittin-&amp;">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160222115529695">
 
 
 
@@ -129,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://JiangFeng07.github.com/2017/03/21/doc2vct算法实现/"/>
+  <link rel="canonical" href="http://JiangFeng07.github.com/2017/03/25/编辑距离/"/>
 
 
 
 
 
-  <title> doc2vct算法实现 | 江峰的技术博客 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> 编辑距离 | 江峰的技术博客 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -264,7 +263,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/21/doc2vct算法实现/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/25/编辑距离/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -285,7 +284,7 @@
             
             
               
-                doc2vct算法实现
+                编辑距离
               
             
           </h1>
@@ -300,8 +299,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-21T18:03:56+08:00">
-                2017-03-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-25T12:10:33+08:00">
+                2017-03-25
               </time>
             
 
@@ -336,10 +335,14 @@
       
 
       
-        <p>本篇文章主要是实现Python 自然语言处理包 gensim 中用于长文本向量建模的 doc2vec算法。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python3</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> logging</div><div class="line"><span class="keyword">import</span> multiprocessing</div><div class="line"><span class="keyword">import</span> os.path</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">from</span> gensim <span class="keyword">import</span> utils</div><div class="line"><span class="keyword">from</span> gensim.models.doc2vec <span class="keyword">import</span> TaggedDocument, Doc2Vec</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyDocs</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, filename)</span>:</span></div><div class="line">        self.filename = filename</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> open(self.filename, <span class="string">'rb'</span>):</div><div class="line">                pieces = utils.to_unicode(line).split()</div><div class="line">                tag = pieces[<span class="number">0</span>]</div><div class="line">                words = pieces[<span class="number">1</span>].split(<span class="string">','</span>)</div><div class="line">                <span class="keyword">yield</span> TaggedDocument(words, [tag])</div><div class="line">        <span class="keyword">except</span>:</div><div class="line">            logging.info(<span class="string">'e'</span>)</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    program = os.path.basename(sys.argv[<span class="number">0</span>])</div><div class="line">    logger = logging.getLogger(program)</div><div class="line"></div><div class="line">    logging.basicConfig(format=<span class="string">'%(asctime)s: %(levelname)s: %(message)s'</span>)</div><div class="line">    logging.root.setLevel(level=logging.INFO)</div><div class="line">    logger.info(<span class="string">"running %s"</span> % <span class="string">' '</span>.join(sys.argv))</div><div class="line"></div><div class="line">    <span class="comment"># check and process input arguments</span></div><div class="line">    <span class="keyword">if</span> len(sys.argv) &lt; <span class="number">4</span>:</div><div class="line">        sys.exit(<span class="number">1</span>)</div><div class="line">    inp, outp1, outp2 = sys.argv[<span class="number">1</span>:<span class="number">4</span>]</div><div class="line"></div><div class="line">    documents = MyDocs(inp)</div><div class="line">    <span class="comment">#建立模型</span></div><div class="line">    model = Doc2Vec(documents, size=<span class="number">200</span>, window=<span class="number">5</span>, min_count=<span class="number">20</span>, workers=multiprocessing.cpu_count())</div><div class="line"></div><div class="line">    <span class="comment"># trim unneeded model memory = use(much) less RAM</span></div><div class="line">    <span class="comment"># model.init_sims(replace=True)</span></div><div class="line">    <span class="comment">#保存模型</span></div><div class="line">    model.save(outp1)</div><div class="line">    model.save_word2vec_format(outp2, binary=<span class="keyword">False</span>)</div></pre></td></tr></table></figure>
-<p>说明一下：在MyDocs这个类中，我自定义了一个逐步读取文件的方法，因为在试验中我们发现，一个4个G 左右大小的文件在一个服务器内存为64G 的服务器上是不够用的，内存消耗非常之快，所以就看了一下源码中TaggedLineDocument和LineSentence这个类的源码，发现使用 yield这个关键字能很好的解决这个问题，便有了MyDocs类，实验结果表明，效果大大提高。有兴趣的同学可以看看 yield的用法。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#测试模型</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">from</span> gensim.models <span class="keyword">import</span> Doc2Vec</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="comment"># check and process input arguments</span></div><div class="line">    <span class="keyword">if</span> len(sys.argv) &lt; <span class="number">3</span>:</div><div class="line">        sys.exit(<span class="number">1</span>)</div><div class="line">    file, word = sys.argv[<span class="number">1</span>:<span class="number">3</span>]</div><div class="line"></div><div class="line">    <span class="comment">#加载模型</span></div><div class="line">    docvecs = Doc2Vec.load(file).docvecs</div><div class="line">    print(docvecs.most_similar(word))</div></pre></td></tr></table></figure>
+        <p>什么是编辑距离？<br>看下百度百科的介绍：编辑距离（Edit Distance），又称Levenshtein距离，是指两个字串之间，由一个转成另一个所需的最少编辑操作次数。许可的编辑操作包括将<font color="ff000">一个字符替换成另一个字符</font>，<font color="ff000">插入一个字符</font>，<font color="ff000">删除一个字符</font>。一般来说，<font color="ff000">编辑距离越小，两个串的相似度越大</font>。<br>比如说:<br>kitten-&gt;sitten （k→s）<br>sitten-&gt;sittin （e→i）<br>sittin-&gt;sitting （插入g）</p>
+<p>找出字符串s1和字符串s2的编辑距离，就是求出字符串s1变成字符串s2的最小操作步骤，主要操作步骤有三种：交换、删除、插入。可以利用动态规划的思想来求解字符转 s1和字符串s2的编辑距离。</p>
+<p>动态规划公式如下所示：</p>
+<p><img src="http://img.blog.csdn.net/20160222115529695" alt="编辑距离公式"></p>
+<ul>
+<li>代码示例</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.myapp.ml.nlp;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.commons.lang3.StringUtils;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by lionel on 16/12/21.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EditDistance</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">editDistance</span><span class="params">(String A, String B)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (StringUtils.isBlank(A + B)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> lengthA = A.length();</div><div class="line">        <span class="keyword">int</span> lengthB = B.length();</div><div class="line">        <span class="keyword">int</span>[][] distance = <span class="keyword">new</span> <span class="keyword">int</span>[lengthA + <span class="number">1</span>][lengthB + <span class="number">1</span>];</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; lengthA; i++) &#123;</div><div class="line">            distance[i][<span class="number">0</span>] = i;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; lengthB; i++) &#123;</div><div class="line">            distance[<span class="number">0</span>][i] = i;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; lengthA; i++) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; lengthB; j++) &#123;</div><div class="line">                <span class="keyword">int</span> cost = A.charAt(i - <span class="number">1</span>) == B.charAt(j - <span class="number">1</span>) ? <span class="number">0</span> : <span class="number">1</span>;</div><div class="line">                <span class="keyword">int</span> deletion = distance[i - <span class="number">1</span>][j] + <span class="number">1</span>;</div><div class="line">                <span class="keyword">int</span> insertion = distance[i][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">                <span class="keyword">int</span> exchange = distance[i - <span class="number">1</span>][j - <span class="number">1</span>] + cost;</div><div class="line">                distance[i][j] = Math.min(exchange, Math.min(insertion, deletion));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> distance[lengthA - <span class="number">1</span>][lengthB - <span class="number">1</span>];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        EditDistance editDistance = <span class="keyword">new</span> EditDistance();</div><div class="line">        String str2 = <span class="string">"kitten"</span>;</div><div class="line">        String str1 = <span class="string">"sitting"</span>;</div><div class="line">        System.out.println(editDistance.editDistance(str1, str2));<span class="comment">//3</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
       
     </div>
 
@@ -375,8 +378,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/21/word2vct算法实现/" rel="next" title="word2vct算法实现">
-                <i class="fa fa-chevron-left"></i> word2vct算法实现
+              <a href="/2017/03/25/终端常用快捷键/" rel="next" title="终端常用快捷键">
+                <i class="fa fa-chevron-left"></i> 终端常用快捷键
               </a>
             
           </div>
@@ -384,10 +387,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/21/Mysql-分页查询优化/" rel="prev" title="mysql 分页查询优化">
-                mysql 分页查询优化 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
