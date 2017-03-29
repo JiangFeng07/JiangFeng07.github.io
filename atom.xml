@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://JiangFeng07.github.com/"/>
-  <updated>2017-03-29T15:45:19.000Z</updated>
+  <updated>2017-03-29T17:08:23.000Z</updated>
   <id>http://JiangFeng07.github.com/</id>
   
   <author>
@@ -16,11 +16,40 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>逻辑回归</title>
+    <link href="http://JiangFeng07.github.com/2017/03/30/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"/>
+    <id>http://JiangFeng07.github.com/2017/03/30/逻辑回归/</id>
+    <published>2017-03-29T16:09:19.000Z</published>
+    <updated>2017-03-29T17:08:23.000Z</updated>
+    
+    <content type="html"><![CDATA[<script type="math/tex; mode=display">h_\theta(x)=g(\theta^Tx)=\frac{1}{1+e^{-\theta^Tx}}</script><p>其中，</p>
+<script type="math/tex; mode=display">g(z)=\frac{1}{1+e^{-z}}</script><p>称为logistic 函数或者 sigmod 函数。函数图像如下所示：<br><img src="images/sigmodfunction.png" alt=""><br>$g(z)$的导数$g′(z)$为:<br>\begin{align}<br>g′(z) &amp;= \frac{d}{dz}\frac{1}{1+e^{-z}}\\<br>&amp;= \frac{1}{(1+e^{-z})^2})(e^{-z}) \\<br>&amp;= \frac{1}{(1+e^{-z})}\cdot(1-\frac{1}{(1+e^{-z})})\\<br>&amp;= g(z)(1-g(z)).<br>\end{align}</p>
+<p>假设有:</p>
+<script type="math/tex; mode=display">P(y=1 | x;\theta) = h_{\theta}(x)</script><script type="math/tex; mode=display">P(y=0 | x;\theta) = 1 - h_{\theta}(x)</script><script type="math/tex; mode=display">P(y|x;\theta) = (h_{\theta}(x))^y((1 - h_{\theta}(x)))^{1-y}</script><p>最大似然函数为：</p>
+<p>\begin{align}<br>L(\theta) &amp;= p(\vec{y}|X;\theta)\\<br>&amp;= \prod_{i=1}^mp(y^{(i)} | x^{(i)};\theta)\\<br>&amp;= \prod_{i=1}^m(h_{\theta}(x^{(i)}))^{y^{(i)}} (1-h_{\theta}(x^{(i)}))^{1-y^{(i)}}<br>\end{align}</p>
+<p>上式求对数得：<br>\begin{align}<br>l(\theta) &amp;= \log{L(\theta)}\\<br>&amp;= \sum_{i=1}^my^{(i)}\log h(x^{(i)})+(1-y^{(i)})\log(1-h(x^{(i)})))<br>\end{align}</p>
+<p>对$l(\theta)$求导得:</p>
+<p>\begin{align}<br>\frac{\partial}{\partial\theta_j}l(\theta) &amp;= \left(y\frac{1}{g(\theta^Tx)}-(1-y)\frac{1}{1-g(\theta^Tx)}\right)\frac{\partial}{\partial\theta_j}g(\theta^Tx)\\<br>&amp;= \left(y\frac{1}{g(\theta^Tx)}-(1-y)\frac{1}{1-g(\theta^Tx)}\right)g(\theta^Tx)(1-g(\theta^Tx))\frac{\partial}{\partial\theta_j}\theta^Tx\\<br>&amp;= \left(y(1-g(\theta^Tx)-(1-y)g(\theta^Tx)x_j\right) \\<br>&amp;= (y-h_{\theta}(x))x_j<br>\end{align}</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_\theta(x)=g(\theta^Tx)=\frac{1}{1+e^{-\theta^Tx}}&lt;/script&gt;&lt;p&gt;其中，&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=di
+    
+    </summary>
+    
+    
+      <category term="机器学习" scheme="http://JiangFeng07.github.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>线性回归</title>
     <link href="http://JiangFeng07.github.com/2017/03/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"/>
     <id>http://JiangFeng07.github.com/2017/03/25/线性回归/</id>
     <published>2017-03-25T08:31:14.000Z</published>
-    <updated>2017-03-29T15:45:19.000Z</updated>
+    <updated>2017-03-29T17:08:25.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="一元线性回归"><a href="#一元线性回归" class="headerlink" title="一元线性回归"></a>一元线性回归</h2><p>在机器学习中，线性回归被用来对连续型数据进行预测，来确定两种或者两种以上变量间的相互关系。本篇博客介绍线性回归的最简单的一种情况——一元线性回归。如下图，现在我们在图上画一系列的点，然后打算花一条线，这些点到这条线的距离尽可能的短。那么该怎么找到这条线了？线性回归就是很好的解决方法。<br><img src="images/LinearRegression.png" alt="" title="原始数据分布图"><br>首先，假设 y 和 x 满足下面的一元线性关系：</p>
 <script type="math/tex; mode=display">y=\theta_0 + \theta_1x</script><p>这称为线性回归方程，其中$\theta_i$是回归系数。</p>
