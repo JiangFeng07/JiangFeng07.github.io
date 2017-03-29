@@ -99,7 +99,7 @@ y=\theta_0 + \theta_1x这称为线性">
 y=\theta_0 + \theta_1x这称为线性">
 <meta property="og:image" content="http://JiangFeng07.github.com/images/LinearRegression.png">
 <meta property="og:image" content="http://JiangFeng07.github.com/images/LinearRegression2.png">
-<meta property="og:updated_time" content="2017-03-29T12:55:06.000Z">
+<meta property="og:updated_time" content="2017-03-29T15:45:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线性回归">
 <meta name="twitter:description" content="一元线性回归在机器学习中，线性回归被用来对连续型数据进行预测，来确定两种或者两种以上变量间的相互关系。本篇博客介绍线性回归的最简单的一种情况——一元线性回归。如下图，现在我们在图上画一系列的点，然后打算花一条线，这些点到这条线的距离尽可能的短。那么该怎么找到这条线了？线性回归就是很好的解决方法。首先，假设 y 和 x 满足下面的一元线性关系：
@@ -358,7 +358,7 @@ y=\theta_0 + \theta_1x这称为线性">
 <h2 id="多元线性回归"><a href="#多元线性回归" class="headerlink" title="多元线性回归"></a>多元线性回归</h2><p>日常生活中，一个因变量是和多个自变量有关的，比如房价会和房子大小、房子面积、房子的地理位置等因素有关，一元线性关系不足以解决这样的问题，可以使用多元线性来解决。<br>现有方程：</p>
 <script type="math/tex; mode=display">Y=X\beta</script><p>当 X 可逆时，会有</p>
 <script type="math/tex; mode=display">\beta = X^{-1}Y</script><p>当 X 不可逆时，上述公式就不成立了。<br>这是就需要对上式进行转化了:</p>
-<p>\begin{align}<br>Y=X\beta=&gt; X^TY=X^TX\beta=&gt; \\<br>\end{align}<br>由于$X^TX$是可逆的,得</p>
+<p>\begin{align}<br>Y=X\beta=&gt; X^TY=X^TX\beta \\<br>\end{align}<br>由于$X^TX$是可逆的,得</p>
 <script type="math/tex; mode=display">\beta=(X^TX)^{-1}X^TY</script><p>现有示例方程：$y=2+3x_1+4x_2$<br>X=[[1,1,1],[1,1,2],[1,2,1]]<br>y=[[9],[13],[12]]<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</div><div class="line"></div><div class="line">X = [[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>]]</div><div class="line">y = [[<span class="number">9</span>], [<span class="number">13</span>], [<span class="number">12</span>]]</div><div class="line"></div><div class="line">model = LinearRegression()</div><div class="line">model.fit(X, y)</div><div class="line"></div><div class="line">x2 = [[<span class="number">1</span>, <span class="number">4</span>, <span class="number">5</span>]]</div><div class="line">y2 = model.predict(x2)</div><div class="line">print(y2)</div></pre></td></tr></table></figure></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[[ <span class="number">34.</span>]]</div></pre></td></tr></table></figure>
 <p>带入函数，得y=2+3x4+4x5=34, 验证正确。</p>
