@@ -309,6 +309,39 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/回归/" itemprop="url" rel="index">
+                    <span itemprop="name">回归</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -347,14 +380,19 @@
       
         
           
-            <script type="math/tex; mode=display">h_\theta(x)=g(\theta^Tx)=\frac{1}{1+e^{-\theta^Tx}}</script><p>其中，</p>
-<script type="math/tex; mode=display">g(z)=\frac{1}{1+e^{-z}}</script><p>称为logistic 函数或者 sigmod 函数。函数图像如下所示：<br><img src="http://onm4pqoqp.bkt.clouddn.com/LinearRegression.png" alt=""><br>$g(z)$的导数$g′(z)$为:<br>\begin{align}<br>g′(z) &amp;= \frac{d}{dz}\frac{1}{1+e^{-z}}\\<br>&amp;= \frac{1}{(1+e^{-z})^2})(e^{-z}) \\<br>&amp;= \frac{1}{(1+e^{-z})}\cdot(1-\frac{1}{(1+e^{-z})})\\<br>&amp;= g(z)(1-g(z)).<br>\end{align}</p>
-<p>假设有:</p>
-<script type="math/tex; mode=display">P(y=1 | x;\theta) = h_{\theta}(x)</script><script type="math/tex; mode=display">P(y=0 | x;\theta) = 1 - h_{\theta}(x)</script><script type="math/tex; mode=display">P(y|x;\theta) = (h_{\theta}(x))^y((1 - h_{\theta}(x)))^{1-y}</script><p>最大似然函数为：</p>
+            <p>前一篇博客介绍了线性回归，纵使可以撇开 y 是离散值得事实，给定 x, 使用线性回归对 y 进行预测，可以找到很多示例说明这种预测结果不会很好，比如说，房价不可能随着面积大小线性增长。并且当我们知道 y 的取值范围在{0，1}时，预测结果大于 1 或者小于 0 已经没有了意义。怎样解决这个问题？可以使用逻辑回归。</p>
+<p>逻辑回归于线性回归有很多相似之处，最大的不同在于他们的因变量不同。线性回归用来预测连续变量的值，而逻辑回归是用来求分类的，可以用来解决二分类问题，也可以用于解决多分类问题，但是解决二分类问题更为常见。</p>
+<script type="math/tex; mode=display">g(z)=\frac{1}{1+e^{-z}}</script><p>称为logistic 函数或者 sigmod 函数。函数图像如下所示：<br><img src="http://onm4pqoqp.bkt.clouddn.com/sigmodfunction.png" alt=""><br>$g(z)$的导数$g′(z)$为:<br>\begin{align}<br>g′(z) &amp;= \frac{d}{dz}\frac{1}{1+e^{-z}}\\<br>&amp;= \frac{1}{(1+e^{-z})^2})(e^{-z}) \\<br>&amp;= \frac{1}{(1+e^{-z})}\cdot(1-\frac{1}{(1+e^{-z})})\\<br>&amp;= g(z)(1-g(z)).<br>\end{align}</p>
+<script type="math/tex; mode=display">h_\theta(x)=g(\theta^Tx)=\frac{1}{1+e^{-\theta^Tx}}</script><p>假设有:</p>
+<script type="math/tex; mode=display">P(y=1 | x;\theta) = h_{\theta}(x)</script><script type="math/tex; mode=display">P(y=0 | x;\theta) = 1 - h_{\theta}(x)</script><p>更为一般的形式 :</p>
+<script type="math/tex; mode=display">P(y|x;\theta) = (h_{\theta}(x))^y((1 - h_{\theta}(x)))^{1-y}</script><p>最大似然函数为：</p>
 <p>\begin{align}<br>L(\theta) &amp;= p(\vec{y}|X;\theta)\\<br>&amp;= \prod_{i=1}^mp(y^{(i)} | x^{(i)};\theta)\\<br>&amp;= \prod_{i=1}^m(h_{\theta}(x^{(i)}))^{y^{(i)}} (1-h_{\theta}(x^{(i)}))^{1-y^{(i)}}<br>\end{align}</p>
 <p>上式求对数得：<br>\begin{align}<br>l(\theta) &amp;= \log{L(\theta)}\\<br>&amp;= \sum_{i=1}^my^{(i)}\log h(x^{(i)})+(1-y^{(i)})\log(1-h(x^{(i)})))<br>\end{align}</p>
 <p>对$l(\theta)$求导得:</p>
 <p>\begin{align}<br>\frac{\partial}{\partial\theta_j}l(\theta) &amp;= \left(y\frac{1}{g(\theta^Tx)}-(1-y)\frac{1}{1-g(\theta^Tx)}\right)\frac{\partial}{\partial\theta_j}g(\theta^Tx)\\<br>&amp;= \left(y\frac{1}{g(\theta^Tx)}-(1-y)\frac{1}{1-g(\theta^Tx)}\right)g(\theta^Tx)(1-g(\theta^Tx))\frac{\partial}{\partial\theta_j}\theta^Tx\\<br>&amp;= \left(y(1-g(\theta^Tx)-(1-y)g(\theta^Tx)x_j\right) \\<br>&amp;= (y-h_{\theta}(x))x_j<br>\end{align}</p>
+<p>所以随机梯度下降规则为 :</p>
+<script type="math/tex; mode=display">\theta_j := \theta_j(y^{(i)}-h_{\theta}(x^{(i)}))(x_j)^{(i)}</script><p>实验代码如下 :<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># encoding=utf-8</span></div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">gradAscent</span><span class="params">(dataMatIn, classLabels)</span>:</span></div><div class="line">    dataMatrix = np.mat(dataMatIn)  <span class="comment"># 数据列表转换成矩阵</span></div><div class="line">    labelMat = np.mat(classLabels).transpose()  <span class="comment"># 类标签列表转换成矩阵</span></div><div class="line">    m, n = np.shape(dataMatrix)  <span class="comment"># 得到dataMatrix矩阵大小</span></div><div class="line">    alpha = <span class="number">0.001</span>  <span class="comment"># 每次上升的步长</span></div><div class="line">    maxCycles = <span class="number">500</span>  <span class="comment"># 迭代次数</span></div><div class="line">    weights = np.ones((n, <span class="number">1</span>))</div><div class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(maxCycles):</div><div class="line">        h = sigmoid(dataMatrix * weights)  <span class="comment"># 计算假设函数h（列向量）</span></div><div class="line">        error = (labelMat - h)  <span class="comment"># 类标签和假设函数的误差</span></div><div class="line">        weights = weights + alpha * dataMatrix.transpose() * error  <span class="comment"># 对weights进行迭代更新</span></div><div class="line">    <span class="keyword">return</span> weights</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">sigmoid</span><span class="params">(inX)</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="number">1.0</span> / (<span class="number">1</span> + np.exp(-inX))</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadDataSet</span><span class="params">()</span>:</span></div><div class="line">    dataMat = []</div><div class="line">    labelMat = []</div><div class="line">    fr = open(<span class="string">'../resources/lr.txt'</span>)</div><div class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> fr.readlines():</div><div class="line">        lineArr = line.strip().split()</div><div class="line">        dataMat.append([<span class="number">1.0</span>, float(lineArr[<span class="number">0</span>]), float(lineArr[<span class="number">1</span>])])  <span class="comment"># 得到数据列表</span></div><div class="line">        labelMat.append(int(lineArr[<span class="number">2</span>]))  <span class="comment"># 类标签</span></div><div class="line">    <span class="keyword">return</span> dataMat, labelMat</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    data, lable = loadDataSet()</div><div class="line">    weights = gradAscent(data, lable)</div><div class="line">    print(weights)</div></pre></td></tr></table></figure></p>
+<p>源代码以及实验数据存储在<a href="https://github.com/JiangFeng07/JF-ML-python/tree/master/src/python/ml" target="_blank" rel="external">github</a></p>
 
           
         
@@ -979,6 +1017,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -1122,6 +1182,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -1271,6 +1353,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -1709,7 +1813,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1718,7 +1822,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

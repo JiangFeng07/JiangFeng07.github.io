@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://JiangFeng07.github.com/"/>
-  <updated>2017-03-30T05:37:02.000Z</updated>
+  <updated>2017-03-31T12:55:53.000Z</updated>
   <id>http://JiangFeng07.github.com/</id>
   
   <author>
@@ -20,27 +20,37 @@
     <link href="http://JiangFeng07.github.com/2017/03/30/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"/>
     <id>http://JiangFeng07.github.com/2017/03/30/逻辑回归/</id>
     <published>2017-03-29T16:09:19.000Z</published>
-    <updated>2017-03-30T05:37:02.000Z</updated>
+    <updated>2017-03-31T12:55:53.000Z</updated>
     
-    <content type="html"><![CDATA[<script type="math/tex; mode=display">h_\theta(x)=g(\theta^Tx)=\frac{1}{1+e^{-\theta^Tx}}</script><p>其中，</p>
-<script type="math/tex; mode=display">g(z)=\frac{1}{1+e^{-z}}</script><p>称为logistic 函数或者 sigmod 函数。函数图像如下所示：<br><img src="http://onm4pqoqp.bkt.clouddn.com/LinearRegression.png" alt=""><br>$g(z)$的导数$g′(z)$为:<br>\begin{align}<br>g′(z) &amp;= \frac{d}{dz}\frac{1}{1+e^{-z}}\\<br>&amp;= \frac{1}{(1+e^{-z})^2})(e^{-z}) \\<br>&amp;= \frac{1}{(1+e^{-z})}\cdot(1-\frac{1}{(1+e^{-z})})\\<br>&amp;= g(z)(1-g(z)).<br>\end{align}</p>
-<p>假设有:</p>
-<script type="math/tex; mode=display">P(y=1 | x;\theta) = h_{\theta}(x)</script><script type="math/tex; mode=display">P(y=0 | x;\theta) = 1 - h_{\theta}(x)</script><script type="math/tex; mode=display">P(y|x;\theta) = (h_{\theta}(x))^y((1 - h_{\theta}(x)))^{1-y}</script><p>最大似然函数为：</p>
+    <content type="html"><![CDATA[<p>前一篇博客介绍了线性回归，纵使可以撇开 y 是离散值得事实，给定 x, 使用线性回归对 y 进行预测，可以找到很多示例说明这种预测结果不会很好，比如说，房价不可能随着面积大小线性增长。并且当我们知道 y 的取值范围在{0，1}时，预测结果大于 1 或者小于 0 已经没有了意义。怎样解决这个问题？可以使用逻辑回归。</p>
+<p>逻辑回归于线性回归有很多相似之处，最大的不同在于他们的因变量不同。线性回归用来预测连续变量的值，而逻辑回归是用来求分类的，可以用来解决二分类问题，也可以用于解决多分类问题，但是解决二分类问题更为常见。</p>
+<script type="math/tex; mode=display">g(z)=\frac{1}{1+e^{-z}}</script><p>称为logistic 函数或者 sigmod 函数。函数图像如下所示：<br><img src="http://onm4pqoqp.bkt.clouddn.com/sigmodfunction.png" alt=""><br>$g(z)$的导数$g′(z)$为:<br>\begin{align}<br>g′(z) &amp;= \frac{d}{dz}\frac{1}{1+e^{-z}}\\<br>&amp;= \frac{1}{(1+e^{-z})^2})(e^{-z}) \\<br>&amp;= \frac{1}{(1+e^{-z})}\cdot(1-\frac{1}{(1+e^{-z})})\\<br>&amp;= g(z)(1-g(z)).<br>\end{align}</p>
+<script type="math/tex; mode=display">h_\theta(x)=g(\theta^Tx)=\frac{1}{1+e^{-\theta^Tx}}</script><p>假设有:</p>
+<script type="math/tex; mode=display">P(y=1 | x;\theta) = h_{\theta}(x)</script><script type="math/tex; mode=display">P(y=0 | x;\theta) = 1 - h_{\theta}(x)</script><p>更为一般的形式 :</p>
+<script type="math/tex; mode=display">P(y|x;\theta) = (h_{\theta}(x))^y((1 - h_{\theta}(x)))^{1-y}</script><p>最大似然函数为：</p>
 <p>\begin{align}<br>L(\theta) &amp;= p(\vec{y}|X;\theta)\\<br>&amp;= \prod_{i=1}^mp(y^{(i)} | x^{(i)};\theta)\\<br>&amp;= \prod_{i=1}^m(h_{\theta}(x^{(i)}))^{y^{(i)}} (1-h_{\theta}(x^{(i)}))^{1-y^{(i)}}<br>\end{align}</p>
 <p>上式求对数得：<br>\begin{align}<br>l(\theta) &amp;= \log{L(\theta)}\\<br>&amp;= \sum_{i=1}^my^{(i)}\log h(x^{(i)})+(1-y^{(i)})\log(1-h(x^{(i)})))<br>\end{align}</p>
 <p>对$l(\theta)$求导得:</p>
 <p>\begin{align}<br>\frac{\partial}{\partial\theta_j}l(\theta) &amp;= \left(y\frac{1}{g(\theta^Tx)}-(1-y)\frac{1}{1-g(\theta^Tx)}\right)\frac{\partial}{\partial\theta_j}g(\theta^Tx)\\<br>&amp;= \left(y\frac{1}{g(\theta^Tx)}-(1-y)\frac{1}{1-g(\theta^Tx)}\right)g(\theta^Tx)(1-g(\theta^Tx))\frac{\partial}{\partial\theta_j}\theta^Tx\\<br>&amp;= \left(y(1-g(\theta^Tx)-(1-y)g(\theta^Tx)x_j\right) \\<br>&amp;= (y-h_{\theta}(x))x_j<br>\end{align}</p>
+<p>所以随机梯度下降规则为 :</p>
+<script type="math/tex; mode=display">\theta_j := \theta_j(y^{(i)}-h_{\theta}(x^{(i)}))(x_j)^{(i)}</script><p>实验代码如下 :<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># encoding=utf-8</span></div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">gradAscent</span><span class="params">(dataMatIn, classLabels)</span>:</span></div><div class="line">    dataMatrix = np.mat(dataMatIn)  <span class="comment"># 数据列表转换成矩阵</span></div><div class="line">    labelMat = np.mat(classLabels).transpose()  <span class="comment"># 类标签列表转换成矩阵</span></div><div class="line">    m, n = np.shape(dataMatrix)  <span class="comment"># 得到dataMatrix矩阵大小</span></div><div class="line">    alpha = <span class="number">0.001</span>  <span class="comment"># 每次上升的步长</span></div><div class="line">    maxCycles = <span class="number">500</span>  <span class="comment"># 迭代次数</span></div><div class="line">    weights = np.ones((n, <span class="number">1</span>))</div><div class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(maxCycles):</div><div class="line">        h = sigmoid(dataMatrix * weights)  <span class="comment"># 计算假设函数h（列向量）</span></div><div class="line">        error = (labelMat - h)  <span class="comment"># 类标签和假设函数的误差</span></div><div class="line">        weights = weights + alpha * dataMatrix.transpose() * error  <span class="comment"># 对weights进行迭代更新</span></div><div class="line">    <span class="keyword">return</span> weights</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">sigmoid</span><span class="params">(inX)</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="number">1.0</span> / (<span class="number">1</span> + np.exp(-inX))</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadDataSet</span><span class="params">()</span>:</span></div><div class="line">    dataMat = []</div><div class="line">    labelMat = []</div><div class="line">    fr = open(<span class="string">'../resources/lr.txt'</span>)</div><div class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> fr.readlines():</div><div class="line">        lineArr = line.strip().split()</div><div class="line">        dataMat.append([<span class="number">1.0</span>, float(lineArr[<span class="number">0</span>]), float(lineArr[<span class="number">1</span>])])  <span class="comment"># 得到数据列表</span></div><div class="line">        labelMat.append(int(lineArr[<span class="number">2</span>]))  <span class="comment"># 类标签</span></div><div class="line">    <span class="keyword">return</span> dataMat, labelMat</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    data, lable = loadDataSet()</div><div class="line">    weights = gradAscent(data, lable)</div><div class="line">    print(weights)</div></pre></td></tr></table></figure></p>
+<p>源代码以及实验数据存储在<a href="https://github.com/JiangFeng07/JF-ML-python/tree/master/src/python/ml" target="_blank" rel="external">github</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_\theta(x)=g(\theta^Tx)=\frac{1}{1+e^{-\theta^Tx}}&lt;/script&gt;&lt;p&gt;其中，&lt;/p&gt;
-&lt;script type=&quot;math/tex; mode=di
+      &lt;p&gt;前一篇博客介绍了线性回归，纵使可以撇开 y 是离散值得事实，给定 x, 使用线性回归对 y 进行预测，可以找到很多示例说明这种预测结果不会很好，比如说，房价不可能随着面积大小线性增长。并且当我们知道 y 的取值范围在{0，1}时，预测结果大于 1 或者小于 0 已经没有了意
     
     </summary>
     
+      <category term="机器学习" scheme="http://JiangFeng07.github.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="回归" scheme="http://JiangFeng07.github.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%9B%9E%E5%BD%92/"/>
+    
     
       <category term="机器学习" scheme="http://JiangFeng07.github.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="回归" scheme="http://JiangFeng07.github.com/tags/%E5%9B%9E%E5%BD%92/"/>
     
   </entry>
   
@@ -148,7 +158,7 @@
     <link href="http://JiangFeng07.github.com/2017/03/24/Hexo%E5%8D%9A%E5%AE%A2%E4%BD%BF%E7%94%A8MathJax%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/"/>
     <id>http://JiangFeng07.github.com/2017/03/24/Hexo博客使用MathJax数学公式/</id>
     <published>2017-03-24T11:29:15.000Z</published>
-    <updated>2017-03-25T03:10:17.000Z</updated>
+    <updated>2017-03-31T12:57:13.000Z</updated>
     
     <content type="html"><![CDATA[<p>本篇博文介绍在 Hexo 博客使用 MathJax 数学公式。</p>
 <ol>
@@ -177,6 +187,8 @@
     
     </summary>
     
+      <category term="工具" scheme="http://JiangFeng07.github.com/categories/%E5%B7%A5%E5%85%B7/"/>
+    
     
       <category term="工具" scheme="http://JiangFeng07.github.com/tags/%E5%B7%A5%E5%85%B7/"/>
     
@@ -187,7 +199,7 @@
     <link href="http://JiangFeng07.github.com/2017/03/24/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/"/>
     <id>http://JiangFeng07.github.com/2017/03/24/朴素贝叶斯/</id>
     <published>2017-03-24T10:28:43.000Z</published>
-    <updated>2017-03-25T03:05:32.000Z</updated>
+    <updated>2017-03-31T12:58:44.000Z</updated>
     
     <content type="html"><![CDATA[<p>贝叶斯定理想必大家很早就已经了解，朴素贝叶斯算法就是基于贝叶斯定理提出的一种监督机器学习算法。为什么叫“朴素”了？那是因为朴素贝叶斯分类器基于一个简单的假定：给定目标值时属性之间相互条件独立。给定类变量 y (这里一个样本仅属于一类) 和一个相互独立的特征向量 $x_1$ 到 $x_n$，贝叶斯定理可得到如下关系：</p>
 <script type="math/tex; mode=display">P(y \mid x_1, \dots, x_n) = \frac{P(y) P(x_1, \dots x_n \mid y)}
@@ -218,6 +230,8 @@
     
     </summary>
     
+      <category term="机器学习" scheme="http://JiangFeng07.github.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
     
       <category term="机器学习" scheme="http://JiangFeng07.github.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
@@ -228,7 +242,7 @@
     <link href="http://JiangFeng07.github.com/2017/03/24/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/"/>
     <id>http://JiangFeng07.github.com/2017/03/24/梯度下降法/</id>
     <published>2017-03-24T10:09:15.000Z</published>
-    <updated>2017-03-24T10:24:40.000Z</updated>
+    <updated>2017-03-31T12:59:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>梯度下降法，又叫最速下降法，是一种最优化算法。它用负梯度方向为搜索方向的，最速下降法越接近目标值，步长越小，前进越慢。<br>梯度下降法的计算过程就是沿着梯度下降的方向求解极小值。（亦可以沿着梯度上升的方向求解极大值）。它的迭代公式为:</p>
 <script type="math/tex; mode=display">a_{k+1}=a_{k}+\gamma_ks^{-(k)}(式1-1)</script><p>其中，$s^{-(k)}$代表的是梯度的负方向，$\gamma_k$表示梯度方向上的搜索步长。梯度方向可以通过求导得到，步长的设定则比较麻烦，太大的容易发散，找不到极小值的点，太小的话则收敛的速度比较慢。</p>
@@ -246,6 +260,8 @@
 &lt;script type=&quot;
     
     </summary>
+    
+      <category term="机器学习" scheme="http://JiangFeng07.github.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
       <category term="机器学习" scheme="http://JiangFeng07.github.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
@@ -343,7 +359,7 @@
     <link href="http://JiangFeng07.github.com/2017/03/21/doc2vct%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/"/>
     <id>http://JiangFeng07.github.com/2017/03/21/doc2vct算法实现/</id>
     <published>2017-03-21T10:03:56.000Z</published>
-    <updated>2017-03-21T10:05:31.000Z</updated>
+    <updated>2017-03-31T12:57:46.000Z</updated>
     
     <content type="html"><![CDATA[<p>本篇文章主要是实现Python 自然语言处理包 gensim 中用于长文本向量建模的 doc2vec算法。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python3</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> logging</div><div class="line"><span class="keyword">import</span> multiprocessing</div><div class="line"><span class="keyword">import</span> os.path</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">from</span> gensim <span class="keyword">import</span> utils</div><div class="line"><span class="keyword">from</span> gensim.models.doc2vec <span class="keyword">import</span> TaggedDocument, Doc2Vec</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyDocs</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, filename)</span>:</span></div><div class="line">        self.filename = filename</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> open(self.filename, <span class="string">'rb'</span>):</div><div class="line">                pieces = utils.to_unicode(line).split()</div><div class="line">                tag = pieces[<span class="number">0</span>]</div><div class="line">                words = pieces[<span class="number">1</span>].split(<span class="string">','</span>)</div><div class="line">                <span class="keyword">yield</span> TaggedDocument(words, [tag])</div><div class="line">        <span class="keyword">except</span>:</div><div class="line">            logging.info(<span class="string">'e'</span>)</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    program = os.path.basename(sys.argv[<span class="number">0</span>])</div><div class="line">    logger = logging.getLogger(program)</div><div class="line"></div><div class="line">    logging.basicConfig(format=<span class="string">'%(asctime)s: %(levelname)s: %(message)s'</span>)</div><div class="line">    logging.root.setLevel(level=logging.INFO)</div><div class="line">    logger.info(<span class="string">"running %s"</span> % <span class="string">' '</span>.join(sys.argv))</div><div class="line"></div><div class="line">    <span class="comment"># check and process input arguments</span></div><div class="line">    <span class="keyword">if</span> len(sys.argv) &lt; <span class="number">4</span>:</div><div class="line">        sys.exit(<span class="number">1</span>)</div><div class="line">    inp, outp1, outp2 = sys.argv[<span class="number">1</span>:<span class="number">4</span>]</div><div class="line"></div><div class="line">    documents = MyDocs(inp)</div><div class="line">    <span class="comment">#建立模型</span></div><div class="line">    model = Doc2Vec(documents, size=<span class="number">200</span>, window=<span class="number">5</span>, min_count=<span class="number">20</span>, workers=multiprocessing.cpu_count())</div><div class="line"></div><div class="line">    <span class="comment"># trim unneeded model memory = use(much) less RAM</span></div><div class="line">    <span class="comment"># model.init_sims(replace=True)</span></div><div class="line">    <span class="comment">#保存模型</span></div><div class="line">    model.save(outp1)</div><div class="line">    model.save_word2vec_format(outp2, binary=<span class="keyword">False</span>)</div></pre></td></tr></table></figure>
@@ -357,6 +373,8 @@
     
     </summary>
     
+      <category term="NLP" scheme="http://JiangFeng07.github.com/categories/NLP/"/>
+    
     
       <category term="NLP" scheme="http://JiangFeng07.github.com/tags/NLP/"/>
     
@@ -367,7 +385,7 @@
     <link href="http://JiangFeng07.github.com/2017/03/21/word2vct%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/"/>
     <id>http://JiangFeng07.github.com/2017/03/21/word2vct算法实现/</id>
     <published>2017-03-21T09:50:51.000Z</published>
-    <updated>2017-03-21T10:03:19.000Z</updated>
+    <updated>2017-03-31T12:58:17.000Z</updated>
     
     <content type="html"><![CDATA[<p>本篇文章主要是实现Python 自然语言处理包 gensim 中用于词向量建模的 word2vec算法。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># encoding=utf-8</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> logging</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">from</span> gensim.models <span class="keyword">import</span> Word2Vec</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    logging.basicConfig(format=<span class="string">'%(asctime)s : %(levelname)s : %(message)s'</span>, level=logging.INFO)</div><div class="line"></div><div class="line">    <span class="keyword">if</span> len(sys.argv) &lt; <span class="number">3</span>:</div><div class="line">        sys.exit(<span class="number">1</span>)</div><div class="line"></div><div class="line">    outputFile1, outputFile2 = sys.argv[<span class="number">1</span>:<span class="number">3</span>]</div><div class="line"></div><div class="line">    sentences = [</div><div class="line">        <span class="string">"I think that most of us know by now that water is essential to our survival We’ve probably also all heard doctors say that drinking roughly eight glasses a day is ideal"</span>,</div><div class="line">        <span class="string">"yoyoyo you go home now to sleep"</span>]</div><div class="line"></div><div class="line">    vocab = [s.encode(<span class="string">'utf-8'</span>).decode().split() <span class="keyword">for</span> s <span class="keyword">in</span> sentences]</div><div class="line">    <span class="comment">#建立模型</span></div><div class="line">    model = Word2Vec(sentences, size=<span class="number">100</span>, window=<span class="number">5</span>, min_count=<span class="number">5</span>, workers=<span class="number">4</span>)</div><div class="line">    <span class="comment">#保存模型</span></div><div class="line">    model.save(outputFile1)</div><div class="line">    model.save_word2vec_format(outputFile2, binary=<span class="keyword">False</span>)</div></pre></td></tr></table></figure></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#测试模型</span></div><div class="line"><span class="comment"># encoding='utf-8'</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> logging</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">from</span> gensim.models <span class="keyword">import</span> Word2Vec</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    logging.basicConfig(format=<span class="string">'%(asctime)s : %(levelname)s : %(message)s'</span>, level=logging.INFO)</div><div class="line"></div><div class="line">    <span class="keyword">if</span> len(sys.argv) &lt; <span class="number">3</span>:</div><div class="line">        sys.exit(<span class="number">1</span>)</div><div class="line"></div><div class="line">    file, word = sys.argv[<span class="number">1</span>:<span class="number">3</span>]</div><div class="line">    <span class="comment">#从磁盘文件 file 加载模型</span></div><div class="line">    model = Word2Vec.load_word2vec_format(file, binary=<span class="keyword">False</span>)</div><div class="line">    print(model.most_similar(word))</div></pre></td></tr></table></figure>
@@ -378,6 +396,8 @@
       &lt;p&gt;本篇文章主要是实现Python 自然语言处理包 gensim 中用于词向量建模的 word2vec算法。&lt;br&gt;&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;l
     
     </summary>
+    
+      <category term="NLP" scheme="http://JiangFeng07.github.com/categories/NLP/"/>
     
     
       <category term="NLP" scheme="http://JiangFeng07.github.com/tags/NLP/"/>
