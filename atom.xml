@@ -59,7 +59,7 @@
     <link href="http://JiangFeng07.github.com/2017/03/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"/>
     <id>http://JiangFeng07.github.com/2017/03/25/线性回归/</id>
     <published>2017-03-25T08:31:14.000Z</published>
-    <updated>2017-03-30T05:39:26.000Z</updated>
+    <updated>2017-03-31T13:00:32.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="一元线性回归"><a href="#一元线性回归" class="headerlink" title="一元线性回归"></a>一元线性回归</h2><p>在机器学习中，线性回归被用来对连续型数据进行预测，来确定两种或者两种以上变量间的相互关系。本篇博客介绍线性回归的最简单的一种情况——一元线性回归。如下图，现在我们在图上画一系列的点，然后打算花一条线，这些点到这条线的距离尽可能的短。那么该怎么找到这条线了？线性回归就是很好的解决方法。<br><img src="http://onm4pqoqp.bkt.clouddn.com/LinearRegression.png" alt="" title="原始数据分布图"><br>首先，假设 y 和 x 满足下面的一元线性关系：</p>
 <script type="math/tex; mode=display">y=\theta_0 + \theta_1x</script><p>这称为线性回归方程，其中$\theta_i$是回归系数。</p>
@@ -80,6 +80,8 @@
       &lt;h2 id=&quot;一元线性回归&quot;&gt;&lt;a href=&quot;#一元线性回归&quot; class=&quot;headerlink&quot; title=&quot;一元线性回归&quot;&gt;&lt;/a&gt;一元线性回归&lt;/h2&gt;&lt;p&gt;在机器学习中，线性回归被用来对连续型数据进行预测，来确定两种或者两种以上变量间的相互关系。本篇博客介绍线性回
     
     </summary>
+    
+      <category term="机器学习" scheme="http://JiangFeng07.github.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
       <category term="机器学习" scheme="http://JiangFeng07.github.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
