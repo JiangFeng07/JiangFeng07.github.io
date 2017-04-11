@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://JiangFeng07.github.com/"/>
-  <updated>2017-03-31T12:55:53.000Z</updated>
+  <updated>2017-04-11T16:21:36.000Z</updated>
   <id>http://JiangFeng07.github.com/</id>
   
   <author>
@@ -14,6 +14,47 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>隐马尔可夫模型（HMM）</title>
+    <link href="http://JiangFeng07.github.com/2017/04/11/%E9%9A%90%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E6%A8%A1%E5%9E%8B%EF%BC%88HMM%EF%BC%89/"/>
+    <id>http://JiangFeng07.github.com/2017/04/11/隐马尔科夫模型（HMM）/</id>
+    <published>2017-04-11T14:40:27.000Z</published>
+    <updated>2017-04-11T16:21:36.000Z</updated>
+    
+    <content type="html"><![CDATA[<ul>
+<li><p>定义<br>设$Q$是所有可能的状态的集合，V是所有可能的观测的集合。</p>
+<script type="math/tex; mode=display">Q=\{q_1,q_2,...,q_N\},V=\{v_1,v_2,...,v_M\}</script><p>其中，$N$是可能的状态数，$M$ 是可能的观测数。<br>状态$q$是不可见的，观测$v$是可见的。应用到词性标注系统，词就是$v$，词性就是$q$。<br>$I$是长度为$T$的状态序列，$O$是对应的观测序列。</p>
+<script type="math/tex; mode=display">I=\{i_1,i_2,...,i_T\},O=\{o_1,o_2,...,o_T\}</script><p>$A$为状态转移概率矩阵：</p>
+<script type="math/tex; mode=display">A=\left[a_{ij}\right]_{N\times N}</script><p>其中，</p>
+<script type="math/tex; mode=display">a_{ij}=P(i_{t+1}=q_j|i_t=q_i),    i=1,2,...,N;j=1,2,...,N</script><p>是在时刻$t$处于状态$q_i$的条件下在时刻$t+1$转移到状态$q_j$的概率。<br>这实际在表述一个一阶的HMM，所作的假设是每个状态只跟前一个状态有关。<br>$B$是观测概率矩阵:</p>
+<script type="math/tex; mode=display">B=\left[b_j(k)\right]_{N\times M}</script><p>其中，</p>
+<script type="math/tex; mode=display">b_j(k)=P(o_t=v_k|i_t=q_j),    k=1,2,...,M;j=1,2,...,N</script><p>是在时刻t处于状态qj的条件下生成观测vk的概率（也就是所谓的“发射概率”）。<br>这实际上在作另一个假设，观测是由当前时刻的状态决定的，跟其他因素无关，这有点像Moore自动机。<br>π是初始状态概率向量：</p>
+<script type="math/tex; mode=display">\pi=(\pi_i)</script><p>其中，<script type="math/tex">\pi=P(i_1=q_i),i=1,2,...,N</script><br>是时刻t=1处于状态$q_j$的概率。<br>隐马尔可夫模型由初始状态概率向量$\pi$、状态转移概率矩阵A和观测概率矩阵$B$决定,$\pi$和$A$决定状态序列，$B$决定观测序列。因此，隐马尔可夫模型$\lambda$可以用三元符号表示，即</p>
+<script type="math/tex; mode=display">\lambda=\{A,B,\pi\}</script><p>状态转移概率矩阵$A$与初始状态概率向量$\pi$确定了隐藏的马尔可夫链，生成不可观测的状态序列。观测概率矩阵$B$确定了如何从状态生成观测，与状态序列综合确定了如何产生观测序列。<br>从定义可知，隐马尔可夫模型作了两个基本假设：<br>(1)齐次马尔可夫性假设，即假设隐藏的马尔可夫链在任意时刻$t#的状态只依赖于其前一时刻的状态，与其他时刻的状态及观测无关。</p>
+<script type="math/tex; mode=display">P(i_t|i_{t-1},o_{t-1},...,i_1,0_1)=P(i_t|i_{t-1}),t=1,2,...,T</script><p>从上式左右两边的复杂程度来看，齐次马尔可夫性假设简化了许多计算。<br>(2)观测独立性假设，即假设任意时刻的观测只依赖于该时刻的马尔可夫链的状态，与其他观测及状态无关。</p>
+<script type="math/tex; mode=display">P(o_t|i_t,o_T,i_{T-1},o_{T-1},...,i_{t+1},o_{t+1},i_t,o_t,...,i_1,o_1)=P(o_t|i_t)</script><p>简化了计算。</p>
+</li>
+<li><p>推倒<br>\begin{align}<br>P(i_1,i_2,…,i_n|o_1,o_2,…,o_n)&amp;=\frac{P(o_1,o_2,…,o_n|i_1,i_2,…,i_n)*P(i_1,i_2,…,i_n)}{P(o_1,o_2,…,o_n)}(1-1)\\<br>&amp;\rightarrow {P(o_1,o_2,…,o_n|i_1,i_2,…,i_n)}\ast{P(i_1,i_2,…,i_n)}(1-2)\\<br>&amp;\rightarrow \prod_{j=1}^np(o_j|i_j)P(i_{j+1}|i_j)(1-3)<br>\end{align}<br>由于$P(o_1,o_2,…,o_n)$是常量,所以求式1-1的问题可以转化为求式1-2的问题。<br>由假设1和2可把求式1-2的问题转化为求式1-3的问题。<br>由上可知，隐马尔的求解问题可以转化为求：</p>
+<script type="math/tex; mode=display">max(\prod_{j=1}^np(o_j|i_j)P(i_{j+1}|i_j)</script><p>求解上述问题有两种方式，一种是枚举，当状态的集合和观测结合特别大时，这种方法先让不可行。一种可以有效求解的方法就是 Viterbi 算法，下一章节将用这个算法来进行求解。</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;定义&lt;br&gt;设$Q$是所有可能的状态的集合，V是所有可能的观测的集合。&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Q=\{q_1,q_2,...,q_N\},V=\{v_1,v_2,...,v_M\}&lt;/scrip
+    
+    </summary>
+    
+      <category term="NLP" scheme="http://JiangFeng07.github.com/categories/NLP/"/>
+    
+    
+      <category term="NLP" scheme="http://JiangFeng07.github.com/tags/NLP/"/>
+    
+  </entry>
   
   <entry>
     <title>逻辑回归</title>
@@ -458,7 +499,7 @@
     <link href="http://JiangFeng07.github.com/2017/03/21/hello-world/"/>
     <id>http://JiangFeng07.github.com/2017/03/21/hello-world/</id>
     <published>2017-03-21T08:56:25.000Z</published>
-    <updated>2017-03-21T08:56:25.000Z</updated>
+    <updated>2017-04-01T02:18:24.000Z</updated>
     
     <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
