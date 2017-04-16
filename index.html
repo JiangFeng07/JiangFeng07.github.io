@@ -259,6 +259,168 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/04/16/Viterbi算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/16/Viterbi算法/" itemprop="url">
+                  Viterbi算法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-16T16:20:09+08:00">
+                2017-04-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NLP/" itemprop="url" rel="index">
+                    <span itemprop="name">NLP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/04/16/Viterbi算法/" class="leancloud_visitors" data-flag-title="Viterbi算法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>&emsp;&emsp;前面已经介绍了隐马尔可夫模型，本篇博文主要是介绍用 viterbi 算法来解决 HMM 中的预测问题，也称为解码问题。<br>&emsp;&emsp;维特比算法实际是用动态规划解隐马尔可夫模型预测问题，即用动态规划(dynamic programming)求概率最大路径（最优路径）。这时一条路径对应着一个状态序列。<br>&emsp;&emsp;根据动态规划原理，最优路径具有这样的特性：如果最优路径在时刻t通过$(i_t)^*$,那么这一路径从${i_t}^*$到终点${i_T}^*$的部分路径，对于从${i_t}^{*}$到${i_T}^*$的所有可能的部分路径来说，必须是最优的。因为假如不是这样，那么从${i_1}^*$到终点${i_T}^*$就有另一条更好的部分路径存在，如果把它和${i_1}^*$到终点${i_t}^*$的部分路径连接起来，就会形成一条比原来的路径更优的路径，这是矛盾的。依据这一原理，我们只需从时刻t=1开始，递推地计算在时刻t状态为i的各条部分路径的最大概率，直至得到时刻$t=T$状态为i的各条路径的最大概率。时刻$t=T$的最大概率即为最优路径的概率$P^*$,最优路径的终结点${i_T}^*$也同时得到。之后，为了找出最优路径的各个结点，从终结点${i_T}^*$开始，由后向前逐步求得结点${i_{T-1}}^*,…,{i_1}^*$得到最优路径这就是维特比算法。</p>
+<ul>
+<li><p>viterbi 算法<br>输入：模型$\lambda=(A,B,\pi)$和观测$O=(o_1,o_2,…,o_T)$;<br>输出：最优路径$({i_1}^*,…,{i_{T-1}}^*,{i_T}^*)$.<br>(1) 初始化</p>
+<script type="math/tex; mode=display">\delta_1(i)=\pi_ib_i(o_i), \qquad i=1,2,...,N</script><script type="math/tex; mode=display">\psi_1(i)=0, \qquad i=1,2,...,N</script><p>(2) 递推.对$t=2,3,…,T$</p>
+<script type="math/tex; mode=display">\delta_t(i)=max[\delta_{t-1}(j)a_{ji}]b_i(o_t), \qquad i=1,2,..,N;1\leq j\leq N</script><script type="math/tex; mode=display">\psi_t(i)=argmax[\delta_{t-1}(j)a_{ji}], \qquad i=1,2,...,N;1\leq j\leq N</script><p>(3) 终止</p>
+<script type="math/tex; mode=display">P^*=max\delta_T(i), \qquad 1\leq j\leq N</script><script type="math/tex; mode=display">{i_T}^*=argmax[\delta_T(i)], \qquad 1\leq j\leq N</script><p>(4)最优路径回溯. 对$t=T-1,T-2,…,1$</p>
+<script type="math/tex; mode=display">{i_t}^*=\psi_{t+1}({i_{t+1}^*})</script></li>
+<li><p>viterbi算法实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.feng.nlp.algorithm;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.*;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by lionel on 17/4/11.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Viterbi</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;String&gt; <span class="title">compute</span><span class="params">(String[] observe, String[] status, <span class="keyword">double</span>[] start_p, <span class="keyword">double</span>[][] transfer_p, <span class="keyword">double</span>[][] observe_p)</span> </span>&#123;</div><div class="line">        <span class="keyword">double</span>[][] theta = <span class="keyword">new</span> <span class="keyword">double</span>[observe.length][status.length];</div><div class="line">        <span class="keyword">int</span>[][] delta = <span class="keyword">new</span> <span class="keyword">int</span>[observe.length][status.length];</div><div class="line">        transfermation(start_p, transfer_p, observe_p);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; status.length; j++) &#123;</div><div class="line">            theta[<span class="number">0</span>][j] = start_p[j] + observe_p[j][<span class="number">0</span>];</div><div class="line">            delta[<span class="number">0</span>][j] = <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;String, Integer&gt;();</div><div class="line">        <span class="keyword">int</span> index = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (String ele : observe) &#123;</div><div class="line">            <span class="keyword">if</span> (map.containsKey(ele)) &#123;</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line">            map.put(ele, index);</div><div class="line">            index++;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; observe.length; i++) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; status.length; j++) &#123;</div><div class="line">                <span class="keyword">int</span> direction = <span class="number">0</span>;</div><div class="line">                <span class="keyword">double</span> prob = Double.MAX_VALUE;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; status.length; k++) &#123;</div><div class="line">                    <span class="keyword">double</span> tmpProb = theta[i - <span class="number">1</span>][k] + transfer_p[k][j] + observe_p[j][map.get(observe[i])];</div><div class="line">                    <span class="keyword">if</span> (tmpProb &lt; prob) &#123;</div><div class="line">                        prob = tmpProb;</div><div class="line">                        direction = k;</div><div class="line">                        theta[i][j] = prob;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                delta[i][j] = direction;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"><span class="comment">//        for (int i = 0; i &lt; theta.length; i++) &#123;</span></div><div class="line"><span class="comment">//            for (int j = 0; j &lt; theta[i].length; j++) &#123;</span></div><div class="line"><span class="comment">//                System.out.print(theta[i][j] + " ");</span></div><div class="line"><span class="comment">//            &#125;</span></div><div class="line"><span class="comment">//            System.out.println();</span></div><div class="line"><span class="comment">//        &#125;</span></div><div class="line">        <span class="keyword">double</span> prob = Double.MAX_VALUE;</div><div class="line">        <span class="keyword">int</span> pos = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; status.length; j++) &#123;</div><div class="line">            <span class="keyword">if</span> (theta[observe.length - <span class="number">1</span>][j] &lt; prob) &#123;</div><div class="line">                prob = theta[observe.length - <span class="number">1</span>][j];</div><div class="line">                pos = j;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        List&lt;String&gt; res = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">        res.add(status[pos]);</div><div class="line">        <span class="comment">//回溯路径</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = observe.length - <span class="number">1</span>; i &gt; <span class="number">0</span>; i--) &#123;</div><div class="line">            res.add(status[delta[i][pos]]);</div><div class="line">            pos = delta[i][pos];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Collections.reverse(res);</div><div class="line">        <span class="keyword">return</span> res;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">transfermation</span><span class="params">(<span class="keyword">double</span>[] start_p, <span class="keyword">double</span>[][] transfer_p, <span class="keyword">double</span>[][] observe_p)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; start_p.length; ++i) &#123;</div><div class="line">            start_p[i] = -Math.log(start_p[i]);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; transfer_p.length; ++i) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; transfer_p[i].length; ++j) &#123;</div><div class="line">                transfer_p[i][j] = -Math.log(transfer_p[i][j]);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; observe_p.length; ++i) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; observe_p[i].length; ++j) &#123;</div><div class="line">                observe_p[i][j] = -Math.log(observe_p[i][j]);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        String[] observe = &#123;<span class="string">"红"</span>, <span class="string">"白"</span>, <span class="string">"红"</span>&#125;;</div><div class="line">        String[] status = &#123;<span class="string">"1"</span>, <span class="string">"2"</span>, <span class="string">"3"</span>&#125;;</div><div class="line">        <span class="keyword">double</span>[] start_p = <span class="keyword">new</span> <span class="keyword">double</span>[]&#123;<span class="number">0.2</span>, <span class="number">0.4</span>, <span class="number">0.4</span>&#125;;</div><div class="line">        <span class="keyword">double</span>[][] transfer_p = <span class="keyword">new</span> <span class="keyword">double</span>[][]&#123;</div><div class="line">                &#123;<span class="number">0.5</span>, <span class="number">0.2</span>, <span class="number">0.3</span>&#125;,</div><div class="line">                &#123;<span class="number">0.3</span>, <span class="number">0.5</span>, <span class="number">0.2</span>&#125;,</div><div class="line">                &#123;<span class="number">0.2</span>, <span class="number">0.3</span>, <span class="number">0.5</span>&#125;</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">double</span>[][] observe_p = <span class="keyword">new</span> <span class="keyword">double</span>[][]&#123;</div><div class="line">                &#123;<span class="number">0.5</span>, <span class="number">0.5</span>&#125;,</div><div class="line">                &#123;<span class="number">0.4</span>, <span class="number">0.6</span>&#125;,</div><div class="line">                &#123;<span class="number">0.7</span>, <span class="number">0.3</span>&#125;</div><div class="line">        &#125;;</div><div class="line">        List&lt;String&gt; result = compute(observe, status, start_p, transfer_p, observe_p);</div><div class="line">        System.out.println(result);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&emsp;&emsp;测试用例来源于李航老师的《统计机器学习》的例子。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/04/11/隐马尔科夫模型（HMM）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1653,167 +1815,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/24/ansj分词简单案例/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Feng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="江峰的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/24/ansj分词简单案例/" itemprop="url">
-                  ansj分词简单案例
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-24T16:35:52+08:00">
-                2017-03-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/24/ansj分词简单案例/" class="leancloud_visitors" data-flag-title="ansj分词简单案例">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>如今，自然语言处理技术越来越成熟，越来越得到大家关注。许多互联网公司，如京东，阿里，新美大等互联网公司都有大量的文本评论数据，如何从这些文本中挖掘出有效的信息成为关键，这就需要应用自然语言处理技术，而对文本分词是自然语言处理的第一步，很关键。分词工具有很多<a href="http://ictclas.nlpir.org/" target="_blank" rel="external">NLPIR</a>、<a href="http://code.google.com/p/ik-analyzer/" target="_blank" rel="external">IKAnalyzer</a>、<a href="https://www.baidu.com/link?url=Bv6PmRepvb8vA06WGOUleDBM6Yd-fvmNnTkGOZGDRXrmaMTU2DVEJ7Mt2HAPrZi-&amp;wd=&amp;eqid=b847872c0002fb5400000004582d599d" target="_blank" rel="external">stanford nlp</a>等等，本篇博文将介绍我所使用的分词工具 <a href="https://github.com/NLPchina/ansj_seg" target="_blank" rel="external">Ansj</a> 的使用。</p>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
-<li><p>下载 jar</p>
-<p>访问<a href="http://maven.nlpcn.org/org/ansj/" target="_blank" rel="external">http://maven.nlpcn.org/org/ansj/ </a>下载ansj-seg，倒入自己的 IDE，就可以了。如果你使用 maven，可以添加以下依赖：</p>
-</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 增加新的maven源 --&gt;</div><div class="line">&lt;repositories&gt;</div><div class="line">    &lt;repository&gt;</div><div class="line">        &lt;id&gt;mvn-repo&lt;/id&gt;</div><div class="line">        &lt;url&gt;http://maven.nlpcn.org/&lt;/url&gt;</div><div class="line">    &lt;/repository&gt;</div><div class="line">&lt;/repositories&gt;</div><div class="line"></div><div class="line"></div><div class="line">&lt;dependencies&gt;</div><div class="line">    ....</div><div class="line"></div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;org.ansj&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;ansj_seg&lt;/artifactId&gt;</div><div class="line">        &lt;version&gt;5.0.1&lt;/version&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">    ....</div><div class="line">&lt;/dependencies&gt;</div></pre></td></tr></table></figure>
-<h2 id="示例演示"><a href="#示例演示" class="headerlink" title="示例演示"></a>示例演示</h2><p>先来看一个简单的的 demo 演示。</p>
-<ul>
-<li>Demo</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.ansj.splitWord.analysis.ToAnalysis;</div><div class="line"><span class="keyword">import</span> org.junit.Test;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by lionel on 16/11/17.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AnsjTest</span> </span>&#123;</div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</div><div class="line">        String text=<span class="string">"中新网11月17日电 据外媒报道，日本首相安倍晋三称，有机会在唐纳德•特朗普获得美国大选胜利后，成为第一个与他会晤的外国领导人是“莫大的荣幸”，并表示希望在他们之间建立信任关系。报道称，特朗普与安倍或将于当地时间17日傍晚在纽约会谈。"</span>;</div><div class="line">        System.out.println(ToAnalysis.parse(text));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>分词结果</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">中/f,新/a,网/n,11月/m,17日/m,电/n, ,据/p,外/f,媒/ng,报道/v,，/w,日本/ns,首相/n,安倍/nr,晋/j,三/m,称/v,，</div><div class="line">/w,有/v,机会/n,在/p,唐纳德/nr,•,特朗普/nr,获得/v,美国/ns,大选/vn,胜利/vn,后/f,，/w,成为/v,第一个/m,与/p,</div><div class="line">他/r,会晤/v,的/uj,外国/n,领导人/n,是/v,“/w,莫大/b,的/uj,荣幸/a,”/w,，/w,并/c,表示/v,希望/v,在/p,他们/r,</div><div class="line">之间/f,建立/v,信任/v,关系/n,。/w,报道/v,称/v,，/w,特朗普/nr,与/p,安倍/nr,或/c,将/d,于/p,当地/s,时间/n,</div><div class="line">17日/m,傍晚/t,在/p,纽约/ns,会谈/v,。/w</div></pre></td></tr></table></figure>
-<p> 可以发现，文本已经分好词了，但是有些分词就不是很满意，如“中新网”就是一个网站名，应该就是一个词，又比如说安倍晋三是一个人名，应该就是一个词。要想解决这个问题就要加入自己的词库。</p>
-<ul>
-<li>自定义词库<br>现有以下词库：</li>
-</ul>
-<p>名字词库(name.dic)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">李连杰</div><div class="line">刘德华</div><div class="line">安倍晋三</div><div class="line">唐纳德.特兰普</div></pre></td></tr></table></figure></p>
-<p>媒体词库(media.dic)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">中新网</div><div class="line">新华网</div></pre></td></tr></table></figure>
-<p>以上两个词库我直接放在 <font color="ff0000">resources 文件夹</font>下。<br>通过UserDefineLibrary类中的静态方法 insertWord()来加载自己的词库。</p>
-<ul>
-<li>示例代码</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.ansj.domain.Term;</div><div class="line"><span class="keyword">import</span> org.ansj.library.UserDefineLibrary;</div><div class="line"><span class="keyword">import</span> org.ansj.splitWord.analysis.ToAnalysis;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.BufferedReader;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.io.InputStreamReader;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by lionel on 16/11/17.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TextSegment</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> &#123;</div><div class="line">        loadDictionary(<span class="string">"/media.dic"</span>, <span class="string">"media"</span>);</div><div class="line">        loadDictionary(<span class="string">"/name.dic"</span>, <span class="string">"name"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     *  从本地文件加载词库，并打上对应的标签，名字词库对应的词性是 name；媒体词库对应的词性是 media</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> dic    本地词库路径</div><div class="line">     * <span class="doctag">@param</span> speech 词性</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">loadDictionary</span><span class="params">(String dic, String speech)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            InputStream is = TextSegment.class.getResourceAsStream(dic);</div><div class="line">            BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(is));</div><div class="line">            String line;</div><div class="line">            <span class="keyword">while</span> ((line = reader.readLine()) != <span class="keyword">null</span>) &#123;</div><div class="line">                String token = line.replaceAll(<span class="string">"[\\r\\n]"</span>, <span class="string">""</span>).trim();</div><div class="line">                UserDefineLibrary.insertWord(token, speech, <span class="number">1000</span>);</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 实现分词</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> text 文本</div><div class="line">     * <span class="doctag">@return</span> 分词后的文本</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;Term&gt; <span class="title">parse</span><span class="params">(String text)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (text == <span class="keyword">null</span> || text.length() == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> ToAnalysis.parse(text);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>分词结果：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">中新网/media,11月/m,17日/m,电/n, ,据/p,外/f,媒/ng,报道/v,，/w,日本/ns,首相/n,安倍晋三/name,称/v,，</div><div class="line">/w,有/v,机会/n,在/p,唐纳德•特朗普/name,获得/v,美国/ns,大选/vn,胜利/vn,后/f,，/w,成为/v,第一个/m,</div><div class="line">与/p,他/r,会晤/v,的/uj,外国/n,领导人/n,是/v,“/w,莫大/b,的/uj,荣幸/a,”/w,，/w,并/c,表示/v,希望/v,</div><div class="line">在/p,他们/r,之间/f,建立/v,信任/v,关系/n,。/w,报道/v,称/v,，/w,特朗普/nr,与/p,安倍/nr,或/c,将/d,</div><div class="line">于/p,当地/s,时间/n,17日/m,傍晚/t,在/p,纽约/ns,会谈/v,。/w</div></pre></td></tr></table></figure>
-<p>从两次的分词结果比较结果可以看出，我们的词库已经起到了作用，对应的姓名和媒体都已经是单独的一个词了，而且词性也是自定义的词性。如，中新网/media，唐纳德•特朗普/name等等。这样就可以根据词性获取需要的信息了。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1863,7 +1864,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
