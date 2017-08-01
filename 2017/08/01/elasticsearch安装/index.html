@@ -113,7 +113,7 @@
 建立索引，尝试建立类似">
 <meta property="og:image" content="http://onm4pqoqp.bkt.clouddn.com/WX20170801-113145.png">
 <meta property="og:image" content="http://onm4pqoqp.bkt.clouddn.com/WX20170801-115506.png">
-<meta property="og:updated_time" content="2017-08-01T11:13:12.000Z">
+<meta property="og:updated_time" content="2017-08-01T11:51:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="elasticsearch安装">
 <meta name="twitter:description" content="安装 java8；
@@ -392,65 +392,11 @@
 </ul>
 <p><img src="http://onm4pqoqp.bkt.clouddn.com/WX20170801-115506.png" alt=""></p>
 <ul>
-<li><p>elasticsearch java客户端api使用<br>```java<br>public class ElasticSearchTest {<br>  private static TransportClient client;<br>  private static List<string> data = new ArrayList<string>();//用来存储 json 串</string></string></p>
-<p>  static {</p>
-<pre><code>  loadFile();
-</code></pre><p>  }</p>
-<p>  private static void loadFile() {</p>
-<pre><code>  System.out.println(&quot;loadfile!!!&quot;);
-  BufferedReader br = null;
-  IndexResponse response = null;
-  try {
-      br = new BufferedReader(new FileReader(new File(&quot;/***/***/Downloads/67ce7d0a61bc457abb8d4d9c729419e8.csv&quot;)));
-      String line = br.readLine();
-      int i = 0;
-      while ((line = br.readLine()) != null) {
-          String[] fields = line.split(&quot;\\t&quot;);
-          if (fields.length != 4) {
-              continue;
-          }
-          Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();
-          map.put(&quot;shopid&quot;, fields[0]);
-          map.put(&quot;star&quot;, fields[1]);
-          map.put(&quot;review&quot;, fields[3].replaceAll(&quot; &quot;, &quot;&quot;));
-          String content = new Gson().toJson(map);//转化为 json 串
-          data.add(content);
-      }
-  } catch (IOException e) {
-      System.out.println(&quot;error&quot;);
-  } finally {
-      if (br != null) {
-          try {
-              br.close();
-          } catch (IOException e) {
-              System.out.println(&quot;error&quot;);
-          }
-      }
-  }
-</code></pre><p>  }</p>
+<li><p>elasticsearch java客户端api使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ElasticSearchTest</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> TransportClient client;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;String&gt; data = <span class="keyword">new</span> ArrayList&lt;String&gt;();<span class="comment">//用来存储 json 串</span></div><div class="line"></div><div class="line">    <span class="keyword">static</span> &#123;</div><div class="line">        loadFile();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">loadFile</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"loadfile!!!"</span>);</div><div class="line">        BufferedReader br = <span class="keyword">null</span>;</div><div class="line">        IndexResponse response = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader(<span class="keyword">new</span> File(<span class="string">"/***/***/Downloads/67ce7d0a61bc457abb8d4d9c729419e8.csv"</span>)));</div><div class="line">            String line = br.readLine();</div><div class="line">            <span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">            <span class="keyword">while</span> ((line = br.readLine()) != <span class="keyword">null</span>) &#123;</div><div class="line">                String[] fields = line.split(<span class="string">"\\t"</span>);</div><div class="line">                <span class="keyword">if</span> (fields.length != <span class="number">4</span>) &#123;</div><div class="line">                    <span class="keyword">continue</span>;</div><div class="line">                &#125;</div><div class="line">                Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</div><div class="line">                map.put(<span class="string">"shopid"</span>, fields[<span class="number">0</span>]);</div><div class="line">                map.put(<span class="string">"star"</span>, fields[<span class="number">1</span>]);</div><div class="line">                map.put(<span class="string">"review"</span>, fields[<span class="number">3</span>].replaceAll(<span class="string">" "</span>, <span class="string">""</span>));</div><div class="line">                String content = <span class="keyword">new</span> Gson().toJson(map);<span class="comment">//转化为 json 串</span></div><div class="line">                data.add(content);</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">            System.out.println(<span class="string">"error"</span>);</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            <span class="keyword">if</span> (br != <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    br.close();</div><div class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">                    System.out.println(<span class="string">"error"</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</div><div class="line">        Settings settings = settingsBuilder().build();</div><div class="line">        client = TransportClient.builder().settings(settings).build();</div><div class="line">        client.addTransportAddress(<span class="keyword">new</span> InetSocketTransportAddress(<span class="keyword">new</span> InetSocketAddress(<span class="string">"localhost"</span>, <span class="number">9300</span>)));</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; data.size(); i++) &#123;</div><div class="line">            <span class="comment">//建立索引</span></div><div class="line">            IndexResponse response = client.prepareIndex(<span class="string">"ES"</span>, <span class="string">"content"</span>, String.valueOf(i)).setSource(data.get(i)).execute().actionGet();</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//查询</span></div><div class="line">        GetResponse response1 = client.prepareGet(<span class="string">"ES"</span>, <span class="string">"content"</span>, <span class="string">"0"</span>).execute().actionGet();</div><div class="line">        System.out.println(response1.getSource());</div><div class="line">        <span class="comment">//搜索包含梅西的字符串</span></div><div class="line">        SearchResponse searchResponse = client.prepareSearch().setQuery(QueryBuilders.queryStringQuery(<span class="string">"梅西"</span>)).execute().actionGet();</div><div class="line">        <span class="keyword">for</span> (SearchHit hit : searchResponse.getHits().getHits()) &#123;</div><div class="line">            System.out.println(hit.getSourceAsString());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
-</ul>
-<pre><code>@Test
-public void test() {
-    Settings settings = settingsBuilder().build();
-    client = TransportClient.builder().settings(settings).build();
-    client.addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress(&quot;localhost&quot;, 9300)));
-    for (int i = 0; i &lt; data.size(); i++) {
-        //建立索引
-        IndexResponse response = client.prepareIndex(&quot;ES&quot;, &quot;content&quot;, String.valueOf(i)).setSource(data.get(i)).execute().actionGet();
-    }
-    //查询
-    GetResponse response1 = client.prepareGet(&quot;ES&quot;, &quot;content&quot;, &quot;0&quot;).execute().actionGet();
-    System.out.println(response1.getSource());
-    //搜索包含梅西的字符串
-    SearchResponse searchResponse = client.prepareSearch().setQuery(QueryBuilders.queryStringQuery(&quot;梅西&quot;)).execute().actionGet();
-    for (SearchHit hit : searchResponse.getHits().getHits()) {
-        System.out.println(hit.getSourceAsString());
-    }
-}
-</code></pre><p>}</p>
+<li><p>参考文献：</p>
 <ul>
-<li>参考文献：<ul>
 <li><a href="https://github.com/elastic/elasticsearch" target="_blank" rel="external">elasticsearch</a></li>
 <li><a href="https://github.com/mobz/elasticsearch-head" target="_blank" rel="external">elasticsearch-head</a></li>
 </ul>
