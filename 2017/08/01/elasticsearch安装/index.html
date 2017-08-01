@@ -99,7 +99,7 @@
 出现以下页面说明安装成功；5.建立索引，尝试建立类似">
 <meta property="og:image" content="http://onm4pqoqp.bkt.clouddn.com/WX20170801-113145.png">
 <meta property="og:image" content="http://onm4pqoqp.bkt.clouddn.com/WX20170801-115506.png">
-<meta property="og:updated_time" content="2017-08-01T04:14:04.000Z">
+<meta property="og:updated_time" content="2017-08-01T04:18:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="elasticsearch安装">
 <meta name="twitter:description" content="1.安装 java82.下载 elacsticsearch，我安装的是elacsticsearch-2.4.6版本3.进入elacsticsearch根目录，执行./bin/elacsticsearch命令4.在浏览器中输入http://localhost:9200,或者执行1curl -X GET http://localhost:9200/
@@ -360,7 +360,7 @@
 <p>(3)查询所有文件<br><figure class="highlight plain"><figcaption><span>-XGET 'http://localhost:9200/twitter/_search?pretty=true' -H 'Content-Type: application/json' -d '</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;match_all&quot; : &#123;&#125;</div><div class="line">    &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
 <p>(3)范围查询<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">curl -XGET &apos;http://localhost:9200/twitter/_search?pretty=true&apos; -H &apos;Content-Type: application/json&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;range&quot; : &#123;</div><div class="line">            &quot;post_date&quot; : &#123; &quot;from&quot; : &quot;2009-11-15T13:00:00&quot;, &quot;to&quot; : &quot;2009-11-15T14:00:00&quot; &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
 <p>7.安装 head ，head 是一个用来监控 Elasticsearch 状态的客户端插件。用户在前端输入 <a href="http://localhost:9200/_plugin/head/" target="_blank" rel="external">http://localhost:9200/_plugin/head/</a> 会出现类似下图的界面。</p>
-<p>执行命令以下命令安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo elasticsearch/bin/plugin install mobz/elasticsearch-head</div></pre></td></tr></table></figure></p>
+<p>执行命令以下命令安装，注意 elasticsearch-5.x不支持以下命令安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo elasticsearch/bin/plugin install mobz/elasticsearch-head</div></pre></td></tr></table></figure></p>
 <p><img src="http://onm4pqoqp.bkt.clouddn.com/WX20170801-115506.png" alt=""></p>
 <ul>
 <li>参考文献：<ul>
