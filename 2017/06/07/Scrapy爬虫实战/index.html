@@ -1,0 +1,893 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python,爬虫," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="江峰的技术博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;最近，想好好学习下Scrapy爬虫框架，一种很强大的 python 爬虫框架，在观看了极客学院的课程后，自己实现了用 Scrapy爬虫豆瓣电影 top250，并存于 mysql 数据库中。接下来就开始介绍实现过程。&amp;emsp;&amp;emsp;首先来看看网页结构&amp;emsp;&amp;emsp;对应的html 代码为：&amp;emsp;&amp;emsp;如上图所示，主要是爬取出电影的名称、电影简要介绍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scrapy爬虫实战">
+<meta property="og:url" content="http://JiangFeng07.github.com/2017/06/07/Scrapy爬虫实战/index.html">
+<meta property="og:site_name" content="江峰的技术博客">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;最近，想好好学习下Scrapy爬虫框架，一种很强大的 python 爬虫框架，在观看了极客学院的课程后，自己实现了用 Scrapy爬虫豆瓣电影 top250，并存于 mysql 数据库中。接下来就开始介绍实现过程。&amp;emsp;&amp;emsp;首先来看看网页结构&amp;emsp;&amp;emsp;对应的html 代码为：&amp;emsp;&amp;emsp;如上图所示，主要是爬取出电影的名称、电影简要介绍">
+<meta property="og:image" content="http://onm4pqoqp.bkt.clouddn.com/2.png">
+<meta property="og:image" content="http://onm4pqoqp.bkt.clouddn.com/22222.png">
+<meta property="og:image" content="http://onm4pqoqp.bkt.clouddn.com/scrapy%20%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="http://onm4pqoqp.bkt.clouddn.com/%E7%94%B5%E5%BD%B1%E6%95%B0%E7%9B%AE.png">
+<meta property="og:image" content="http://onm4pqoqp.bkt.clouddn.com/%E7%88%AC%E5%8F%96%E7%BB%93%E6%9E%9C.png">
+<meta property="og:updated_time" content="2017-06-07T16:03:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Scrapy爬虫实战">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;最近，想好好学习下Scrapy爬虫框架，一种很强大的 python 爬虫框架，在观看了极客学院的课程后，自己实现了用 Scrapy爬虫豆瓣电影 top250，并存于 mysql 数据库中。接下来就开始介绍实现过程。&amp;emsp;&amp;emsp;首先来看看网页结构&amp;emsp;&amp;emsp;对应的html 代码为：&amp;emsp;&amp;emsp;如上图所示，主要是爬取出电影的名称、电影简要介绍">
+<meta name="twitter:image" content="http://onm4pqoqp.bkt.clouddn.com/2.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://JiangFeng07.github.com/2017/06/07/Scrapy爬虫实战/"/>
+
+
+
+
+
+  <title> Scrapy爬虫实战 | 江峰的技术博客 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">江峰的技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/06/07/Scrapy爬虫实战/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Scrapy爬虫实战
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T18:40:02+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/爬虫/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/07/Scrapy爬虫实战/" class="leancloud_visitors" data-flag-title="Scrapy爬虫实战">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;最近，想好好学习下Scrapy爬虫框架，一种很强大的 python 爬虫框架，在观看了极客学院的课程后，自己实现了用 Scrapy<a href="https://movie.douban.com/top250" target="_blank" rel="external">爬虫豆瓣电影 top250</a>，并存于 mysql 数据库中。接下来就开始介绍实现过程。<br>&emsp;&emsp;首先来看看网页结构<br><img src="http://onm4pqoqp.bkt.clouddn.com/2.png" alt=""><br>&emsp;&emsp;对应的html 代码为：<br><img src="http://onm4pqoqp.bkt.clouddn.com/22222.png" alt=""><br>&emsp;&emsp;如上图所示，主要是爬取出电影的名称、电影简要介绍、豆瓣评分、电影概括。</p>
+<p>&emsp;&emsp;环境安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pip3 install -U scrapy</div><div class="line">pip3 install -U pymysql #连接数据库</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;使用 scrapy startproject movie 命令新建一个 scrapy 项目。新建后的项目结构如下图：<br><img src="http://onm4pqoqp.bkt.clouddn.com/scrapy%20%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84.png" alt="" title="scrapy 项目结构.png"></p>
+<p>其中，几个python文件的功能如下，</p>
+<ol>
+<li>Items.py 定义需要抓取并需要后期处理的数据；</li>
+<li>settings.py 文件配置 Scrapy，从而修改 user-agent，设定爬取时间间隔，设置代理，配置各种中间件等等；</li>
+<li>pipeline.py 用于存储后期数据处理的功能，从而使得数据的爬出和处理分开，可以在这个文件中把数据存储到 mysql 数据库；</li>
+<li>MovieSpider.py 自定义爬虫，主要是爬取电影的名称、电影简要介绍、豆瓣评分、电影概括。</li>
+</ol>
+<p><strong>爬取的数据结构定义(Items.py)</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> Item, Field</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MovieItem</span><span class="params">(Item)</span>:</span></div><div class="line">    title = Field()</div><div class="line">    movieInfo = Field()</div><div class="line">    star = Field()</div><div class="line">    quote = Field()</div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p><strong>爬虫器(MovieSpider.py)</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> scrapy.spiders <span class="keyword">import</span> Spider</div><div class="line"><span class="keyword">from</span> scrapy.http <span class="keyword">import</span> Request</div><div class="line"><span class="keyword">from</span> scrapy.selector <span class="keyword">import</span> Selector</div><div class="line"></div><div class="line"><span class="keyword">from</span> movie.items <span class="keyword">import</span> MovieItem</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MovieSpider</span><span class="params">(Spider)</span>:</span></div><div class="line">    name = <span class="string">'movie'</span></div><div class="line">    url = <span class="string">'https://movie.douban.com/top250'</span></div><div class="line">    start_urls = [<span class="string">'https://movie.douban.com/top250'</span>]</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></div><div class="line">        item = MovieItem()</div><div class="line">        selector = Selector(response)</div><div class="line">        movies = selector.xpath(<span class="string">'//div[@class="info"]'</span>)</div><div class="line">        <span class="keyword">for</span> movie <span class="keyword">in</span> movies:</div><div class="line">            title = movie.xpath(<span class="string">'div[@class="hd"]/a/span/text()'</span>).extract()</div><div class="line">            fullTitle = <span class="string">''</span></div><div class="line">            <span class="keyword">for</span> each <span class="keyword">in</span> title:</div><div class="line">                fullTitle += each</div><div class="line">            movieInfo = movie.xpath(<span class="string">'div[@class="bd"]/p/text()'</span>).extract()</div><div class="line">            star = movie.xpath(<span class="string">'div[@class="bd"]/div[@class="star"]/span[@class="rating_num"]/text()'</span>).extract()[<span class="number">0</span>]</div><div class="line">            quote = movie.xpath(<span class="string">'div[@class="bd"]/p/span/text()'</span>).extract()</div><div class="line">            <span class="keyword">if</span> quote:</div><div class="line">                quote = quote[<span class="number">0</span>]</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                quote = <span class="string">''</span></div><div class="line">            item[<span class="string">'title'</span>] = fullTitle</div><div class="line">            item[<span class="string">'movieInfo'</span>] = <span class="string">';'</span>.join(movieInfo).replace(<span class="string">' '</span>, <span class="string">''</span>).replace(<span class="string">'\n'</span>, <span class="string">''</span>)</div><div class="line">            item[<span class="string">'star'</span>] = star[<span class="number">0</span>]</div><div class="line">            item[<span class="string">'quote'</span>] = quote</div><div class="line">            <span class="keyword">yield</span> item</div><div class="line">        nextPage = selector.xpath(<span class="string">'//span[@class="next"]/link/@href'</span>).extract()</div><div class="line">        <span class="keyword">if</span> nextPage:</div><div class="line">            nextPage = nextPage[<span class="number">0</span>]</div><div class="line">            print(self.url + str(nextPage))</div><div class="line">            <span class="keyword">yield</span> Request(self.url + str(nextPage), callback=self.parse)</div></pre></td></tr></table></figure></p>
+<p><strong>数据存储到 mysql 数据库</strong><br>首先，要在本地数据库建立 Movie 表，建表语句如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE Movie (</div><div class="line">  id         INT           NOT NULL PRIMARY KEY AUTO_INCREMENT</div><div class="line">  COMMENT <span class="string">'自增 id'</span>,</div><div class="line">  name       VARCHAR(<span class="number">1024</span>) NOT NULL</div><div class="line">  COMMENT <span class="string">'电影名称'</span>,</div><div class="line">  movieInfo  VARCHAR(<span class="number">1024</span>) NOT NULL</div><div class="line">  COMMENT <span class="string">'电影详情'</span>,</div><div class="line">  star       VARCHAR(<span class="number">16</span>)                        DEFAULT NULL</div><div class="line">  COMMENT <span class="string">'豆瓣评分'</span>,</div><div class="line">  quote      VARCHAR(<span class="number">1024</span>)                      DEFAULT NULL</div><div class="line">  COMMENT <span class="string">'经典台词'</span>,</div><div class="line">  createtime DATETIME                           DEFAULT CURRENT_TIMESTAMP</div><div class="line">  COMMENT <span class="string">'添加时间'</span></div><div class="line">)</div><div class="line">  ENGINE = InnoDB</div><div class="line">  DEFAULT CHARSET = utf8;</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;接着，可以对数据库进行连接和存储了。这个过程可在pipeline.py完成，代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pymysql</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MoviePipeline</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self.conn = pymysql.connect(host=<span class="string">'127.0.0.1'</span>, port=<span class="number">3306</span>, user=***, passwd=***, db=***,</div><div class="line">                                    charset=<span class="string">'utf8'</span>)</div><div class="line">        self.cursor = self.conn.cursor()</div><div class="line">        self.cursor.execute(<span class="string">"truncate table Movie"</span>)</div><div class="line">        self.conn.commit()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            self.cursor.execute(<span class="string">"insert into Movie (name,movieInfo,star,quote) VALUES (%s,%s,%s,%s)"</span>, (</div><div class="line">                item[<span class="string">'title'</span>], item[<span class="string">'movieInfo'</span>], item[<span class="string">'star'</span>], item[<span class="string">'quote'</span>]))</div><div class="line">            self.conn.commit()</div><div class="line">        <span class="keyword">except</span> pymysql.Error:</div><div class="line">            print(<span class="string">"Error%s,%s,%s,%s"</span> % (item[<span class="string">'title'</span>], item[<span class="string">'movieInfo'</span>], item[<span class="string">'star'</span>], item[<span class="string">'quote'</span>]))</div><div class="line">        <span class="keyword">return</span> item</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;到此，爬虫程序就写完了，来看下结果，<br><img src="http://onm4pqoqp.bkt.clouddn.com/%E7%94%B5%E5%BD%B1%E6%95%B0%E7%9B%AE.png" alt="" title="豆瓣电影数目"><br>&emsp;&emsp;有250条数据，和网站电影数目一致，再来看下内容，<br><img src="http://onm4pqoqp.bkt.clouddn.com/%E7%88%AC%E5%8F%96%E7%BB%93%E6%9E%9C.png" alt="" title="豆瓣电影爬取结果"></p>
+<font color="red">注意:在使用 mypysql 连接数据库时，数据库的表字段属性要定义成字符串类型，pymysql 无法插入整形和浮点型到 mysql 表中，这里面有个坑，弄了好久，都没搞定。</font>
+
+
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/爬虫/" rel="tag"># 爬虫</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/04/机器学习算法系列之K近邻算法/" rel="next" title="机器学习算法系列之K近邻算法">
+                <i class="fa fa-chevron-left"></i> 机器学习算法系列之K近邻算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/13/机器学习系列之主成分分析（PCA）/" rel="prev" title="机器学习系列之主成分分析（PCA）">
+                机器学习系列之主成分分析（PCA） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Jiang Feng" />
+          <p class="site-author-name" itemprop="name">Jiang Feng</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JiangFeng07" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/lionel_fengj" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-csdn"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiang Feng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("iC7LXqhPpb7gazVjDEbU3fB8-gzGzoHsz", "3Hf4QwJtFDYWf2rDLcGSC079");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

@@ -259,6 +259,1298 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/08/01/elasticsearch安装/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/01/elasticsearch安装/" itemprop="url">
+                  elasticsearch安装
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-01T12:01:53+08:00">
+                2017-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/01/elasticsearch安装/" class="leancloud_visitors" data-flag-title="elasticsearch安装">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.安装 java8<br>2.下载 elacsticsearch，我安装的是<a href="https://www.elastic.co/downloads/past-releases" target="_blank" rel="external">elacsticsearch-2.4.6</a>版本<br>3.进入elacsticsearch根目录，执行./bin/elacsticsearch命令<br>4.在浏览器中输入<a href="http://localhost:9200" target="_blank" rel="external">http://localhost:9200</a>,或者执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -X GET http://localhost:9200/</div></pre></td></tr></table></figure></p>
+<p>出现以下页面说明安装成功；<br><img src="http://onm4pqoqp.bkt.clouddn.com/WX20170801-113145.png" alt=""><br>5.建立索引，尝试建立类似 twitter 的索引<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -XPUT &apos;http://localhost:9200/twitter/user/kimchy?pretty&apos; -H &apos;Content-Type: application/json&apos; -d &apos;&#123; &quot;name&quot; : &quot;Shay Banon&quot; &#125;&apos;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -XPUT &apos;http://localhost:9200/twitter/tweet/1?pretty&apos; -H &apos;Content-Type: application/json&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">    &quot;user&quot;: &quot;kimchy&quot;,</div><div class="line">    &quot;post_date&quot;: &quot;2009-11-15T13:12:00&quot;,</div><div class="line">    &quot;message&quot;: &quot;Trying out Elasticsearch, so far so good?&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -XPUT &apos;http://localhost:9200/twitter/tweet/2?pretty&apos; -H &apos;Content-Type: application/json&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">    &quot;user&quot;: &quot;kimchy&quot;,</div><div class="line">    &quot;post_date&quot;: &quot;2009-11-15T14:12:12&quot;,</div><div class="line">    &quot;message&quot;: &quot;Another tweet, will it be indexed?&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure>
+<p>6.查询<br>(1)查看 kimchy 写的 tweets</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -XGET &apos;http://localhost:9200/twitter/tweet/_search?q=user:kimchy&amp;pretty=true&apos;</div></pre></td></tr></table></figure>
+<p>(2)可以使用 Json 的方式来进行查询<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -XGET &apos;http://localhost:9200/twitter/tweet/_search?pretty=true&apos; -H &apos;Content-Type: application/json&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;match&quot; : &#123; &quot;user&quot;: &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>(3)查询所有文件<br><figure class="highlight plain"><figcaption><span>-XGET 'http://localhost:9200/twitter/_search?pretty=true' -H 'Content-Type: application/json' -d '</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;match_all&quot; : &#123;&#125;</div><div class="line">    &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>(3)范围查询<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">curl -XGET &apos;http://localhost:9200/twitter/_search?pretty=true&apos; -H &apos;Content-Type: application/json&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;range&quot; : &#123;</div><div class="line">            &quot;post_date&quot; : &#123; &quot;from&quot; : &quot;2009-11-15T13:00:00&quot;, &quot;to&quot; : &quot;2009-11-15T14:00:00&quot; &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>7.安装 head ，head 是一个用来监控 Elasticsearch 状态的客户端插件。用户在前端输入 <a href="http://localhost:9200/_plugin/head/" target="_blank" rel="external">http://localhost:9200/_plugin/head/</a> 会出现类似下图的界面。</p>
+<p>执行命令以下命令安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo elasticsearch/bin/plugin install mobz/elasticsearch-head</div></pre></td></tr></table></figure></p>
+<p><img src="http://onm4pqoqp.bkt.clouddn.com/WX20170801-115506.png" alt=""></p>
+<ul>
+<li>参考文献：<ul>
+<li><a href="https://github.com/elastic/elasticsearch" target="_blank" rel="external">elasticsearch</a></li>
+<li><a href="https://github.com/mobz/elasticsearch-head" target="_blank" rel="external">elasticsearch-head</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/07/02/数据结构之-KD-树/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/02/数据结构之-KD-树/" itemprop="url">
+                  数据结构之 KD 树
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-02T14:06:59+08:00">
+                2017-07-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/07/02/数据结构之-KD-树/" class="leancloud_visitors" data-flag-title="数据结构之 KD 树">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>&emsp;&emsp;最近又把机器学习中最近邻算法看了下，为了能够让算法更有效率，提到了用 KD 树来存储数据信息，所以就学习了 kd 树。</p>
+<p>&emsp;&emsp; kd 树（K-dimensional tree）是一种对k维空间的实例点进行存储以便对其进行快速检索的属性数据结构。kd 树是二叉树，表示对 k 维空间的一个划分。构造 kd 树相当于不断地用垂直于坐标轴的超平面将 k 维空间切分，构造一系列的 k 维超矩形区域。很适合应用于高纬度数据的搜索中，比如范围搜索和最近邻搜索。<br><img src="http://onm4pqoqp.bkt.clouddn.com/3.png" alt=""><br>&emsp;&emsp;上图是一个3维的 kd 树。第一次切分是以红色的垂直平面白色长方体分为二份，再对每个子空间用绿色水平平面分为四份，最后使用蓝色垂直平面分为8份。</p>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><h3 id="kd-树构建"><a href="#kd-树构建" class="headerlink" title="kd 树构建"></a>kd 树构建</h3><p>&emsp;&emsp;对于构造一个 kd 树我们首先需要确定怎样划分左子树和右子树，即一个K维数据是依据什么被划分到左子树或右子树的。<br>&emsp;&emsp;（1）选择哪个维度进行划分？<br>常理说，我们会选择区分度比较大的维度进行划分，区分度怎样度量了？在数学里面，可以使用该维度的方差进行比较，方差越大，这些数据在该维度上的分散度就越大，也就更容易在这个维度上把数据集分开。所以说在选择维度时，可以使用最大方差法。<br>&emsp;&emsp;（2）怎样确保在这一维度上的划分得到的两个子集合的数量尽量相等，即左子树和右子树中的结点个数尽量相等？<br>选好了维度进行切分，要想让左右子树的数量尽可能相等，可以对该维度上数据进行排序，取中位数。</p>
+<p>&emsp;&emsp;解决了以上两个问题，就可以来构造 kd 树了。构造过程如下：<br>&emsp;&emsp;（1） 在K维数据集合中选择具有最大方差的维度k，然后在该维度上选择中值m为pivot对该数据集合进行划分，得到两个子集合；同时创建一个树结点node，用于存储；<br>&emsp;&emsp;（2）对两个子集合重复（1）步骤的过程，直至所有子集合都不能再划分为止；如果某个子集合不能再划分时，则将该子集合中的数据保存到叶子结点（leaf node）。</p>
+<p>&emsp;&emsp;构造过程代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">#树节点结构</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">KDTreeNode</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, point=None, split=None, left=None, right=None)</span>:</span></div><div class="line">        self.point = point</div><div class="line">        self.split = split</div><div class="line">        self.left = left</div><div class="line">        self.right = right</div><div class="line"></div><div class="line"><span class="comment">#kd 树构造</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_tree</span><span class="params">(self, data_file)</span>:</span></div><div class="line">    <span class="keyword">if</span> len(data_file) == <span class="number">0</span>:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">None</span></div><div class="line">    data_list = np.array(data_file)</div><div class="line">    m, n = np.shape(data_list)</div><div class="line"></div><div class="line">    <span class="comment"># 方差</span></div><div class="line">    max_var = <span class="number">0.0</span></div><div class="line"></div><div class="line">    <span class="comment"># 划分区域</span></div><div class="line">    split = <span class="number">0</span></div><div class="line">    <span class="keyword">if</span> m == <span class="number">1</span>:</div><div class="line">        root = KDTreeNode(data_file[<span class="number">0</span>], split)</div><div class="line">        <span class="keyword">return</span> root</div><div class="line">    <span class="comment">#找方差最大的维度</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</div><div class="line">        array_list = data_list[:, i]</div><div class="line">        tmp_var = np.var(array_list).item()</div><div class="line">        <span class="keyword">if</span> max_var &lt; tmp_var:</div><div class="line">            max_var = tmp_var</div><div class="line">            split = i</div><div class="line">    data_file.sort(key=<span class="keyword">lambda</span> x: x[split])</div><div class="line">    index = int(m / <span class="number">2</span>)</div><div class="line">    point = data_file[index]</div><div class="line">    root = KDTreeNode(point, split)</div><div class="line">    root.left = self.create_tree(data_file[<span class="number">0</span>:index])</div><div class="line">    root.right = self.create_tree(data_file[index + <span class="number">1</span>: m])</div><div class="line">    <span class="keyword">return</span> root</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;在 k 近邻算法中使用 kd 树存储数据集的目的就是能够进行快速搜索，减少距离计算的次数，节约计算成本。所以说搜索 kd 树也是一个很重要的操作。搜索过程如下：<br>&emsp;&emsp;(1)从根节点出发，递归地向下访问 kd 树。若目标点x当前维度的坐标小于切分点的坐标，则移动到左自己点，否则移动到右子节点。直到子节点为叶节点位置。并以此节点为”当前最近节点”。<br>&emsp;&emsp;(2)递归向上回退，进行以下操作：(a) 如果该节点保存的实例点比当前最近点距离目标点更近，则取该点为”当前最近节点”。(b) 当前最近点一定存在于该节点的一个子节点对应的区域。检查该子节点的父节点的另一子节点对应的区域是否有更近的点，具体的，检查另一子节点对应的区域是否与以目标为球心，以目标点与“当前最近点”的距离为半径的超球体相交，如果相交，则可能另外一个子节点对应的区域存在距离目标点更近的点，移动到另一个子节点，接着，递归地进行最近邻搜索；如果不相交，向上回退。<br>&emsp;&emsp;(3)当回退到根节点时，回溯结束，最后的“当前最近点”即为 x 的最近邻点。</p>
+<p>&emsp;&emsp;取维基百科的数据（(2,3), (5,4), (9,6), (4,7), (8,1), (7,2)）为例，找出给定节点 a 的最近邻节点。<br>&emsp;&emsp;首先，构造出的 kd 树如下图所示：<br><img src="http://onm4pqoqp.bkt.clouddn.com/1.png" alt=""><br>&emsp;&emsp;以 a=(2.2，3.2)为例。通过二叉搜索，顺着搜索路径很快就能找到最邻近的近似点，也就是叶子节点（2,3）。但是找到的叶子节点并不一定是最近的,最邻近肯定距离查询点更近，应该位于以查询点为圆心且通过叶子节点的圆域内。先从（7,2）点开始进行二叉查找，然后到达（5,4），最后到达（2,3），此时搜索路径中的节点为小于（7,2）和（5,4），大于（2,3），首先以（2,3）作为当前最近邻点，计算其到查询点（2.1,3.1）的距离为0.28，以点(2.2,3.2)为圆心，0.28为半径画圆，可知圆不会和y=4相交，也不会和 x=7相交，也就是说不会进入节点（5,4）的右子空间以及点（7，2）的右子空间，所以最近点为(2,3);<br>&emsp;&emsp;对应代码如下所示：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">query</span><span class="params">(self, root, x)</span>:</span></div><div class="line">    mathUtils = MathUtils()</div><div class="line">    node_list = []</div><div class="line">    tmp_root = root</div><div class="line">    point = root.point</div><div class="line">    nearest = root</div><div class="line">    <span class="keyword">while</span> tmp_root:</div><div class="line">        node_list.append(tmp_root)</div><div class="line">        split = tmp_root.split</div><div class="line">        point = tmp_root.point</div><div class="line">        nearest = tmp_root</div><div class="line"></div><div class="line">        <span class="keyword">if</span> x[split] &lt;= tmp_root.point[split]:</div><div class="line">            tmp_root = tmp_root.left</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            tmp_root = tmp_root.right</div><div class="line">    min_distance = mathUtils.compute_distance(x, point)</div><div class="line">    print(<span class="string">'1'</span>, min_distance)</div><div class="line">    <span class="keyword">while</span> node_list:</div><div class="line">        back_point = node_list.pop()</div><div class="line">        split = back_point.split</div><div class="line">        <span class="keyword">if</span> mathUtils.compute_distance(x, back_point.point) &lt; min_distance:</div><div class="line">            min_distance = mathUtils.compute_distance(x, back_point.point)</div><div class="line">            nearest = back_point</div><div class="line">            <span class="keyword">if</span> x[split] &lt;= back_point.point[split]:</div><div class="line">                tmp_root = back_point.right</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                tmp_root = back_point.left</div><div class="line">                <span class="keyword">pass</span></div><div class="line">            <span class="keyword">if</span> tmp_root:</div><div class="line">                node_list.append(tmp_root)</div><div class="line">                current_distance = mathUtils.compute_distance(x, tmp_root.point)</div><div class="line">                <span class="keyword">if</span> min_distance &gt; current_distance:</div><div class="line">                    min_distance = current_distance</div><div class="line">                    nearest = tmp_root</div><div class="line">                print(<span class="string">"2"</span>, min_distance)</div><div class="line">            <span class="keyword">pass</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line">    <span class="keyword">return</span> nearest.point, min_distance</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;完整代码可以去我的 <a href="https://github.com/JiangFeng07/feng-python-apply/blob/master/feng-ml-python/src/KDTree.py" target="_blank" rel="external">github</a>查看，以上是我对kd 树的理解，如有不得当之处，欢迎指出。</p>
+<h2 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h2><ol>
+<li>《统计机器学习》.李航</li>
+<li><a href="https://en.wikipedia.org/wiki/K-d_tree" target="_blank" rel="external">维基百科</a></li>
+<li><a href="http://blog.csdn.net/qll125596718/article/details/8426458" target="_blank" rel="external">统计学习笔记（3）——k近邻法与kd树</a></li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/06/13/机器学习系列之主成分分析（PCA）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/13/机器学习系列之主成分分析（PCA）/" itemprop="url">
+                  机器学习系列之主成分分析（PCA）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-13T21:38:16+08:00">
+                2017-06-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/降维/" itemprop="url" rel="index">
+                    <span itemprop="name">降维</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/13/机器学习系列之主成分分析（PCA）/" class="leancloud_visitors" data-flag-title="机器学习系列之主成分分析（PCA）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>&emsp;&emsp;主成分分析（Principal Component Analysis）,简称 PCA，是机器学习中常用的一种降维方法，其主要思想就是将n维特征映射到k维上(k&lt;=n)，这k维是全新的正交特征。本篇博文介绍了利用 PCA 算法进行特征降维的过程及相关实验代码。</p>
+<p><strong>算法过程如下</strong>：<br><em>输入</em>：样本集 <script type="math/tex">D={x_1,x_2,...,x_m}</script>；<br>&emsp;&emsp;&emsp;低维空间维度 $d^{,}$。<br><em>输出</em>：投影矩阵 <script type="math/tex">W^{*}=(w_1,w_2,...,w_{d^{,}})</script><br><em>过程</em>：<br>1.样本转置<br>2.对所有样本进行中心化：$x_i\leftarrow x_i - \frac{1}{m}\sum_{i=1}^m x_i $；<br>3.计算样本的协方差矩阵$\frac{1}{m}XX^{T}$；<br>4.对协方差矩阵的特征值和特征向量；<br>5.按照特征值从大到小排序，取最大的$d^{,}$个特征值所对应的特征向量$(w_1,w_2,…,w_{d^{,}})$;<br>6.转化到新的空间</p>
+<p><strong>案例讲解</strong>：<br>现有数据集D=[[1, 1], [1, 3], [2, 3], [4, 4], [2, 4]]<br>1.样本转置$D^{T}$<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># data.T</div><div class="line">[[1 1 2 4 2]</div><div class="line"> [1 3 3 4 4]]</div></pre></td></tr></table></figure></p>
+<p>2.求平均值得:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># mean</div><div class="line">[2,3]</div></pre></td></tr></table></figure></p>
+<p>3.中心化得：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># avg=data.T-mean</div><div class="line">[[-1. -1.  0.  2.  0.]</div><div class="line"> [-2.  0.  0.  1.  1.]]</div></pre></td></tr></table></figure></p>
+<p>4.计算协方差矩阵，求得特征值和特征向量：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># 特征值</div><div class="line">[ 2.   0.4]</div><div class="line"># 特征向量</div><div class="line">[[ 0.70710678 -0.70710678]</div><div class="line"> [ 0.70710678  0.70710678]]</div></pre></td></tr></table></figure></p>
+<p>5.本例中显然只有两个特征值，我们就选取特征值最大的2和对应的特征向量<script type="math/tex">f_1 = [0.70710678, -0.70710678]</script></p>
+<p>6.转化到新的空间 <script type="math/tex">(f_1)^{T}*avg</script><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[-2.12132034 -0.70710678  0.          2.12132034  0.70710678]</div></pre></td></tr></table></figure></p>
+<p><strong>代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">PCA</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="string">'''</span></div><div class="line">    data  m*n 矩阵</div><div class="line">    '''</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fit</span><span class="params">(self, data)</span>:</span></div><div class="line">        data = data.T</div><div class="line">        print(data)</div><div class="line">        n, m = np.shape(data)</div><div class="line">        <span class="comment"># 矩阵列求平均</span></div><div class="line">        mean = np.mean(data, axis=<span class="number">1</span>)</div><div class="line">        <span class="comment"># 中心化</span></div><div class="line">        avg = data - mean</div><div class="line">        <span class="comment"># 求协方差</span></div><div class="line">        cov = (<span class="number">1</span> / m) * avg * avg.T</div><div class="line">        <span class="comment"># 求出协方差矩阵的特征值及对应的特征向量</span></div><div class="line">        a, b = np.linalg.eig(cov)</div><div class="line">        p = b.T</div><div class="line">        <span class="keyword">return</span> p[<span class="number">0</span>, :] * avg</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">    data = [[<span class="number">1</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">3</span>], [<span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">4</span>], [<span class="number">2</span>, <span class="number">4</span>]]</div><div class="line">    <span class="comment"># 数组转换为矩阵</span></div><div class="line">    data = np.mat(data)</div><div class="line">    pca = PCA()</div><div class="line">    print(pca.fit(data))</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/06/07/Scrapy爬虫实战/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/07/Scrapy爬虫实战/" itemprop="url">
+                  Scrapy爬虫实战
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T18:40:02+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/爬虫/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/07/Scrapy爬虫实战/" class="leancloud_visitors" data-flag-title="Scrapy爬虫实战">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>&emsp;&emsp;最近，想好好学习下Scrapy爬虫框架，一种很强大的 python 爬虫框架，在观看了极客学院的课程后，自己实现了用 Scrapy<a href="https://movie.douban.com/top250" target="_blank" rel="external">爬虫豆瓣电影 top250</a>，并存于 mysql 数据库中。接下来就开始介绍实现过程。<br>&emsp;&emsp;首先来看看网页结构<br><img src="http://onm4pqoqp.bkt.clouddn.com/2.png" alt=""><br>&emsp;&emsp;对应的html 代码为：<br><img src="http://onm4pqoqp.bkt.clouddn.com/22222.png" alt=""><br>&emsp;&emsp;如上图所示，主要是爬取出电影的名称、电影简要介绍、豆瓣评分、电影概括。</p>
+<p>&emsp;&emsp;环境安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pip3 install -U scrapy</div><div class="line">pip3 install -U pymysql #连接数据库</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;使用 scrapy startproject movie 命令新建一个 scrapy 项目。新建后的项目结构如下图：<br><img src="http://onm4pqoqp.bkt.clouddn.com/scrapy%20%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84.png" alt="" title="scrapy 项目结构.png"></p>
+<p>其中，几个python文件的功能如下，</p>
+<ol>
+<li>Items.py 定义需要抓取并需要后期处理的数据；</li>
+<li>settings.py 文件配置 Scrapy，从而修改 user-agent，设定爬取时间间隔，设置代理，配置各种中间件等等；</li>
+<li>pipeline.py 用于存储后期数据处理的功能，从而使得数据的爬出和处理分开，可以在这个文件中把数据存储到 mysql 数据库；</li>
+<li>MovieSpider.py 自定义爬虫，主要是爬取电影的名称、电影简要介绍、豆瓣评分、电影概括。</li>
+</ol>
+<p><strong>爬取的数据结构定义(Items.py)</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> Item, Field</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MovieItem</span><span class="params">(Item)</span>:</span></div><div class="line">    title = Field()</div><div class="line">    movieInfo = Field()</div><div class="line">    star = Field()</div><div class="line">    quote = Field()</div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p><strong>爬虫器(MovieSpider.py)</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> scrapy.spiders <span class="keyword">import</span> Spider</div><div class="line"><span class="keyword">from</span> scrapy.http <span class="keyword">import</span> Request</div><div class="line"><span class="keyword">from</span> scrapy.selector <span class="keyword">import</span> Selector</div><div class="line"></div><div class="line"><span class="keyword">from</span> movie.items <span class="keyword">import</span> MovieItem</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MovieSpider</span><span class="params">(Spider)</span>:</span></div><div class="line">    name = <span class="string">'movie'</span></div><div class="line">    url = <span class="string">'https://movie.douban.com/top250'</span></div><div class="line">    start_urls = [<span class="string">'https://movie.douban.com/top250'</span>]</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></div><div class="line">        item = MovieItem()</div><div class="line">        selector = Selector(response)</div><div class="line">        movies = selector.xpath(<span class="string">'//div[@class="info"]'</span>)</div><div class="line">        <span class="keyword">for</span> movie <span class="keyword">in</span> movies:</div><div class="line">            title = movie.xpath(<span class="string">'div[@class="hd"]/a/span/text()'</span>).extract()</div><div class="line">            fullTitle = <span class="string">''</span></div><div class="line">            <span class="keyword">for</span> each <span class="keyword">in</span> title:</div><div class="line">                fullTitle += each</div><div class="line">            movieInfo = movie.xpath(<span class="string">'div[@class="bd"]/p/text()'</span>).extract()</div><div class="line">            star = movie.xpath(<span class="string">'div[@class="bd"]/div[@class="star"]/span[@class="rating_num"]/text()'</span>).extract()[<span class="number">0</span>]</div><div class="line">            quote = movie.xpath(<span class="string">'div[@class="bd"]/p/span/text()'</span>).extract()</div><div class="line">            <span class="keyword">if</span> quote:</div><div class="line">                quote = quote[<span class="number">0</span>]</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                quote = <span class="string">''</span></div><div class="line">            item[<span class="string">'title'</span>] = fullTitle</div><div class="line">            item[<span class="string">'movieInfo'</span>] = <span class="string">';'</span>.join(movieInfo).replace(<span class="string">' '</span>, <span class="string">''</span>).replace(<span class="string">'\n'</span>, <span class="string">''</span>)</div><div class="line">            item[<span class="string">'star'</span>] = star[<span class="number">0</span>]</div><div class="line">            item[<span class="string">'quote'</span>] = quote</div><div class="line">            <span class="keyword">yield</span> item</div><div class="line">        nextPage = selector.xpath(<span class="string">'//span[@class="next"]/link/@href'</span>).extract()</div><div class="line">        <span class="keyword">if</span> nextPage:</div><div class="line">            nextPage = nextPage[<span class="number">0</span>]</div><div class="line">            print(self.url + str(nextPage))</div><div class="line">            <span class="keyword">yield</span> Request(self.url + str(nextPage), callback=self.parse)</div></pre></td></tr></table></figure></p>
+<p><strong>数据存储到 mysql 数据库</strong><br>首先，要在本地数据库建立 Movie 表，建表语句如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE Movie (</div><div class="line">  id         INT           NOT NULL PRIMARY KEY AUTO_INCREMENT</div><div class="line">  COMMENT <span class="string">'自增 id'</span>,</div><div class="line">  name       VARCHAR(<span class="number">1024</span>) NOT NULL</div><div class="line">  COMMENT <span class="string">'电影名称'</span>,</div><div class="line">  movieInfo  VARCHAR(<span class="number">1024</span>) NOT NULL</div><div class="line">  COMMENT <span class="string">'电影详情'</span>,</div><div class="line">  star       VARCHAR(<span class="number">16</span>)                        DEFAULT NULL</div><div class="line">  COMMENT <span class="string">'豆瓣评分'</span>,</div><div class="line">  quote      VARCHAR(<span class="number">1024</span>)                      DEFAULT NULL</div><div class="line">  COMMENT <span class="string">'经典台词'</span>,</div><div class="line">  createtime DATETIME                           DEFAULT CURRENT_TIMESTAMP</div><div class="line">  COMMENT <span class="string">'添加时间'</span></div><div class="line">)</div><div class="line">  ENGINE = InnoDB</div><div class="line">  DEFAULT CHARSET = utf8;</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;接着，可以对数据库进行连接和存储了。这个过程可在pipeline.py完成，代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pymysql</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MoviePipeline</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self.conn = pymysql.connect(host=<span class="string">'127.0.0.1'</span>, port=<span class="number">3306</span>, user=***, passwd=***, db=***,</div><div class="line">                                    charset=<span class="string">'utf8'</span>)</div><div class="line">        self.cursor = self.conn.cursor()</div><div class="line">        self.cursor.execute(<span class="string">"truncate table Movie"</span>)</div><div class="line">        self.conn.commit()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            self.cursor.execute(<span class="string">"insert into Movie (name,movieInfo,star,quote) VALUES (%s,%s,%s,%s)"</span>, (</div><div class="line">                item[<span class="string">'title'</span>], item[<span class="string">'movieInfo'</span>], item[<span class="string">'star'</span>], item[<span class="string">'quote'</span>]))</div><div class="line">            self.conn.commit()</div><div class="line">        <span class="keyword">except</span> pymysql.Error:</div><div class="line">            print(<span class="string">"Error%s,%s,%s,%s"</span> % (item[<span class="string">'title'</span>], item[<span class="string">'movieInfo'</span>], item[<span class="string">'star'</span>], item[<span class="string">'quote'</span>]))</div><div class="line">        <span class="keyword">return</span> item</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;到此，爬虫程序就写完了，来看下结果，<br><img src="http://onm4pqoqp.bkt.clouddn.com/%E7%94%B5%E5%BD%B1%E6%95%B0%E7%9B%AE.png" alt="" title="豆瓣电影数目"><br>&emsp;&emsp;有250条数据，和网站电影数目一致，再来看下内容，<br><img src="http://onm4pqoqp.bkt.clouddn.com/%E7%88%AC%E5%8F%96%E7%BB%93%E6%9E%9C.png" alt="" title="豆瓣电影爬取结果"></p>
+<font color="red">注意:在使用 mypysql 连接数据库时，数据库的表字段属性要定义成字符串类型，pymysql 无法插入整形和浮点型到 mysql 表中，这里面有个坑，弄了好久，都没搞定。</font>
+
+
+
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/06/04/机器学习算法系列之K近邻算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/04/机器学习算法系列之K近邻算法/" itemprop="url">
+                  机器学习算法系列之K近邻算法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-04T20:21:04+08:00">
+                2017-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/分类/" itemprop="url" rel="index">
+                    <span itemprop="name">分类</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/04/机器学习算法系列之K近邻算法/" class="leancloud_visitors" data-flag-title="机器学习算法系列之K近邻算法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>&emsp;&emsp;K 近邻算法（KNN）是一种常用的监督学习方法，它的工作机制十分简单：给定测试样本，基于某种距离度量（比较常用的是欧式距离）找出训练集中与其最靠近的 k 个训练样本，然后根据这 k 个邻居的信息来进行预测。它既可以用来进行分类，也可以用来进行回归。通常，在分类任务中会采用投票的方法，即选择这k 个样本中出现最多的类别标记作为预测结果；在回归任务重可使用“平均法”，即将这个 k个样本的实值输出标记的平均值作为预测结果；还可以基于距离远近进行加权平均或加权投票，距离越近的权重越大。本篇博文讲着重介绍使用 k 近邻算法来进行分类。</p>
+<p>&emsp;&emsp;<strong>KNN 算法过程</strong></p>
+<ol>
+<li>计算已知类别数据集中的点到当前节点的距离（欧氏距离等）；</li>
+<li>按照距离递增次序排序；</li>
+<li>选取与当前距离最近的 K 个点；</li>
+<li>统计这 k个点每个类别的出现频率；</li>
+<li>选取出现频率最高的类别作为当前点的预测结果。</li>
+</ol>
+<p>&emsp;&emsp;K近邻算法最简单的实现方法是线性扫描，这时要计算输入实例与每一个训练实例的距离。当训练的数据集特别大时，这种做法特别耗时，不可取。此时，就可以使用的特殊的数据结构来存储训练数据集，以减少计算距离的次数，本篇博文将使用常用的 kd树来存储训练集。<br>&emsp;&emsp;kd 树是一种对k维空间的实例点进行存储以便对其进行快速检索的属性数据结构。kd 树是二叉树，表示对 k 维空间的一个划分。构造 kd 树相当于不断地用垂直于坐标轴的超平面将 k 维空间切分，构造一系列的 k 维超矩形区域。</p>
+<p>&emsp;&emsp;构造 kd 树的方法如下</p>
+<ol>
+<li>构造根节点，使根节点对应于 k 维空间中包含所有实例点的超矩形区域；</li>
+<li>通过</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> math</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MathUtils</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sigmod</span><span class="params">(self, x)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="number">1.0</span> / (<span class="number">1.0</span> + math.exp(-x))</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sigmoid_derivative</span><span class="params">(self, x)</span>:</span></div><div class="line">        <span class="keyword">return</span> x * (<span class="number">1</span> - x)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">compute_distance</span><span class="params">(self, a, b)</span>:</span></div><div class="line">        sum = <span class="number">0.0</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(a)):</div><div class="line">            sum += (a[i] - b[i]) * (a[i] - b[i])</div><div class="line">        <span class="keyword">return</span> sum</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line"><span class="keyword">from</span> src.MathUtils <span class="keyword">import</span> MathUtils</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">KDTreeNode</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, point=None, split=None, left=None, right=None)</span>:</span></div><div class="line">        self.point = point</div><div class="line">        self.split = split</div><div class="line">        self.left = left</div><div class="line">        self.right = right</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">KDTree</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, root=None)</span>:</span></div><div class="line">        self.root = root</div><div class="line">        <span class="keyword">pass</span></div><div class="line">    <span class="string">'''</span></div><div class="line">        构造 kd 树</div><div class="line">    '''</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create_tree</span><span class="params">(self, data_file)</span>:</span></div><div class="line">        <span class="keyword">if</span> len(data_file) == <span class="number">0</span>:</div><div class="line">            <span class="keyword">return</span> <span class="keyword">None</span></div><div class="line">        data_list = np.array(data_file)</div><div class="line">        m, n = np.shape(data_list)</div><div class="line"></div><div class="line">        <span class="comment"># 方差</span></div><div class="line">        max_var = <span class="number">0.0</span></div><div class="line"></div><div class="line">        <span class="comment"># 划分区域</span></div><div class="line">        split = <span class="number">0</span></div><div class="line">        <span class="keyword">if</span> m == <span class="number">1</span>:</div><div class="line">            root = KDTreeNode(data_file[<span class="number">0</span>], split)</div><div class="line">            <span class="keyword">return</span> root</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</div><div class="line">            array_list = data_list[:, i]</div><div class="line">            tmp_var = np.var(array_list).item()</div><div class="line">            <span class="keyword">if</span> max_var &lt; tmp_var:</div><div class="line">                max_var = tmp_var</div><div class="line">                split = i</div><div class="line">        data_file.sort(key=<span class="keyword">lambda</span> x: x[split])</div><div class="line">        index = int(m / <span class="number">2</span>)</div><div class="line">        point = data_file[index]</div><div class="line">        root = KDTreeNode(point, split)</div><div class="line">        root.left = self.create_tree(data_file[<span class="number">0</span>:index])</div><div class="line">        root.right = self.create_tree(data_file[index + <span class="number">1</span>: m])</div><div class="line">        <span class="keyword">return</span> root</div><div class="line"></div><div class="line">    <span class="string">'''</span></div><div class="line">        中序遍历 kd 树</div><div class="line">    '''</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tree_traverse</span><span class="params">(self, root)</span>:</span></div><div class="line">        <span class="keyword">if</span> root <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">return</span></div><div class="line">        self.tree_traverse(root.left)</div><div class="line">        print(root.point, root.split)</div><div class="line">        self.tree_traverse(root.right)</div><div class="line">        <span class="keyword">pass</span></div><div class="line">    <span class="string">'''</span></div><div class="line">        搜索 kd 树</div><div class="line">    '''</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">query</span><span class="params">(self, root, x)</span>:</span></div><div class="line">        mathUtils = MathUtils()</div><div class="line">        node_list = []</div><div class="line">        tmp_root = root</div><div class="line">        point = root.point</div><div class="line">        nearest = root</div><div class="line">        <span class="keyword">while</span> tmp_root:</div><div class="line">            node_list.append(tmp_root)</div><div class="line">            split = tmp_root.split</div><div class="line">            point = tmp_root.point</div><div class="line">            nearest = tmp_root</div><div class="line"></div><div class="line">            <span class="keyword">if</span> x[split] &lt;= tmp_root.point[split]:</div><div class="line">                tmp_root = tmp_root.left</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                tmp_root = tmp_root.right</div><div class="line">        min_distance = mathUtils.compute_distance(x, point)</div><div class="line">        <span class="keyword">while</span> node_list:</div><div class="line">            back_point = node_list.pop()</div><div class="line">            split = back_point.split</div><div class="line">            <span class="keyword">if</span> mathUtils.compute_distance(x, back_point.point) &lt; min_distance:</div><div class="line">                min_distance = mathUtils.compute_distance(x, back_point.point)</div><div class="line">                nearest = back_point</div><div class="line">                <span class="keyword">if</span> x[split] &lt;= back_point.point[split]:</div><div class="line">                    tmp_root = back_point.right</div><div class="line">                <span class="keyword">else</span>:</div><div class="line">                    tmp_root = back_point.left</div><div class="line">                    <span class="keyword">pass</span></div><div class="line">                <span class="keyword">if</span> tmp_root:</div><div class="line">                    node_list.append(tmp_root)</div><div class="line">                    current_distance = mathUtils.compute_distance(x, tmp_root.point)</div><div class="line">                    <span class="keyword">if</span> min_distance &gt; current_distance:</div><div class="line">                        min_distance = current_distance</div><div class="line">                        nearest = tmp_root</div><div class="line">                <span class="keyword">pass</span></div><div class="line">            <span class="keyword">pass</span></div><div class="line"></div><div class="line">        <span class="keyword">return</span> nearest.point, min_distance</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    array = [[<span class="number">7</span>, <span class="number">2</span>], [<span class="number">5</span>, <span class="number">4</span>], [<span class="number">9</span>, <span class="number">6</span>], [<span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">7</span>], [<span class="number">8</span>, <span class="number">1</span>]]</div><div class="line">    kd_tree = KDTree()</div><div class="line">    kd_tree.root = kd_tree.create_tree(array)</div><div class="line">    mathUtils = MathUtils()</div><div class="line">    x = [<span class="number">2.0</span>, <span class="number">4.5</span>]</div><div class="line">    print(kd_tree.query(kd_tree.root, x))</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/06/04/机器学习算法系列之决策树算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/04/机器学习算法系列之决策树算法/" itemprop="url">
+                  机器学习算法系列之决策树算法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-04T20:19:08+08:00">
+                2017-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/分类/" itemprop="url" rel="index">
+                    <span itemprop="name">分类</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/04/机器学习算法系列之决策树算法/" class="leancloud_visitors" data-flag-title="机器学习算法系列之决策树算法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/06/04/数据结构之三分搜索树-ternary-search-tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/04/数据结构之三分搜索树-ternary-search-tree/" itemprop="url">
+                  数据结构之三分搜索树(ternary search tree)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-04T20:16:38+08:00">
+                2017-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/04/数据结构之三分搜索树-ternary-search-tree/" class="leancloud_visitors" data-flag-title="数据结构之三分搜索树(ternary search tree)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>&emsp;&emsp;上一篇博文介绍了字典树（Tire Tree），它的结构简单、实现也很容易，但是，它也有自己的缺点，就是空间效率低，占用内存大。英文有26个字母，每个节点保存26个指向字母的指针（其中很大部分会是空指针），全部存下要<script type="math/tex">26^{26}</script>，占用空间之大可想而知。中文的汉字有5万多，要是存储起来，内存耗用会更加严重，以至于不可行。所以需要考虑用另外一种数据结构来进行存储，三分搜索树(ternary search tree)可以很好的解决Trie Tree的内存问题。</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;三分搜索树的每个节点可以存储一个字符、一个对象，以及指向三个孩子节点的指针，三个孩子节点分别称作 equal kid, lo kid and hi kid ，也可以叫做 middle (child), lower (child) and higher (child)。树节点还有一个指向父节点的指针用来标识此节点是否是一个词语的末尾。lo kid 指向的是一个节点小于当前节点的值。hi kid 指向的一个节点大于当前节点的值;equal kid 指向的一个节点等于当前节点的值;下图是字符串 “as”, “at”, “cup”, “cute”, “he”, “i” and “us”构成的三元搜索树。<br><img src="http://onm4pqoqp.bkt.clouddn.com/%E4%B8%89%E5%88%86%E6%90%9C%E7%B4%A2%E6%A0%91.png" alt=""></p>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p>&emsp;&emsp;三分搜索树常用的操作有新增、查询操作，修改、删除的操作用的会比较少。</p>
+<h3 id="新增"><a href="#新增" class="headerlink" title="新增"></a>新增</h3><p>&emsp;&emsp;同样，以”as”, “at”, “cup”, “cute”, “he”, “i” and “us”字符串为示例，首先插入 cute，接着插入 cup，由于 cute 和 cup 有相同的前缀 cu，而 p在字母表中的顺序在 t 的前面，所以 p 应该插入到 t的 lo child，即 t节点的左边，接着插入 as，由于 a在字母表中的顺序在c的前面，所以 a应该插入到 c的 lo child，即c节点的左边，t 直接插入 a 的 equal kid即可，同理，插入剩下的节点，即可得到上图。</p>
+<h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><p>&emsp;&emsp;以查询 us 为例，先找 u， u 大于 c，从 c的hi kid 往下查询找到h，c 大于 h，继续从 h的hi kid 往下查询找到u，相同，继续找 s，由于 s 与 u的 mid kid s 相同，并且 s 标记为单词的末尾，到此，查找结束。</p>
+<h2 id="java-实现"><a href="#java-实现" class="headerlink" title="java 实现"></a>java 实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.feng.nlp.algorithm;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by lionel on 17/5/16.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TernarySearchTree</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> TSTNode root;</div><div class="line">    <span class="keyword">private</span> ArrayList&lt;String&gt; al;</div><div class="line"></div><div class="line">    <span class="comment">/** 构造器 **/</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TernarySearchTree</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        root = <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/** 检查是否为空 **/</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">return</span> root == <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/** 清空树**/</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">makeEmpty</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        root = <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/** 插入操作**/</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(String word)</span></span></div><div class="line">    &#123;</div><div class="line">        root = insert(root, word.toCharArray(), <span class="number">0</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/** 插入一个单词**/</span></div><div class="line">    <span class="function"><span class="keyword">public</span> TSTNode <span class="title">insert</span><span class="params">(TSTNode r, <span class="keyword">char</span>[] word, <span class="keyword">int</span> ptr)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> (r == <span class="keyword">null</span>)</div><div class="line">            r = <span class="keyword">new</span> TSTNode(word[ptr]);</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (word[ptr] &lt; r.data)</div><div class="line">            r.left = insert(r.left, word, ptr);</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (word[ptr] &gt; r.data)</div><div class="line">            r.right = insert(r.right, word, ptr);</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span> (ptr + <span class="number">1</span> &lt; word.length)</div><div class="line">                r.middle = insert(r.middle, word, ptr + <span class="number">1</span>);</div><div class="line">            <span class="keyword">else</span></div><div class="line">                r.isEnd = <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> r;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/** 查找操作 **/</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">search</span><span class="params">(String word)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">return</span> search(root, word.toCharArray(), <span class="number">0</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/** 查找单词 **/</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">search</span><span class="params">(TSTNode r, <span class="keyword">char</span>[] word, <span class="keyword">int</span> ptr)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> (r == <span class="keyword">null</span>)</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (word[ptr] &lt; r.data)</div><div class="line">            <span class="keyword">return</span> search(r.left, word, ptr);</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (word[ptr] &gt; r.data)</div><div class="line">            <span class="keyword">return</span> search(r.right, word, ptr);</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span> (r.isEnd &amp;&amp; ptr == word.length - <span class="number">1</span>)</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (ptr == word.length - <span class="number">1</span>)</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            <span class="keyword">else</span></div><div class="line">                <span class="keyword">return</span> search(r.middle, word, ptr + <span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/** 打印树 **/</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        al = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">        traverse(root, <span class="string">""</span>);</div><div class="line">        <span class="keyword">return</span> <span class="string">"\nTernary Search Tree : "</span>+ al;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/** 树的遍历 **/</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">traverse</span><span class="params">(TSTNode r, String str)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> (r != <span class="keyword">null</span>)</div><div class="line">        &#123;</div><div class="line">            traverse(r.left, str);</div><div class="line"></div><div class="line">            str = str + r.data;</div><div class="line">            <span class="keyword">if</span> (r.isEnd)</div><div class="line">                al.add(str);</div><div class="line"></div><div class="line">            traverse(r.middle, str);</div><div class="line">            str = str.substring(<span class="number">0</span>, str.length() - <span class="number">1</span>);</div><div class="line"></div><div class="line">            traverse(r.right, str);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/06/04/数据结构之字典树-tire-tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/04/数据结构之字典树-tire-tree/" itemprop="url">
+                  数据结构之字典树(tire tree)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-04T20:15:40+08:00">
+                2017-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/04/数据结构之字典树-tire-tree/" class="leancloud_visitors" data-flag-title="数据结构之字典树(tire tree)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>&emsp;&emsp;Tire Tree，又名字典树，是一种树形结构。常用于统计、排序和保存大量的字符串，比如说，在自然语言处理中，常用来统计词频。优点是查询效率高。</p>
+<p>&emsp;&emsp;Trie Tree 具有以下三个性质：</p>
+<ol>
+<li>根节点不包含字符，除根节点意外每个节点只包含一个字符；</li>
+<li>从根节点到某一个节点，路径上经过的字符连接起来，为该节点对应的字符串；</li>
+<li>每个节点的所有子节点包含的字符串不相同。</li>
+</ol>
+<ul>
+<li>Tire Tree 的基本实现</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.feng.nlp.changedalgorithm;</div><div class="line"></div><div class="line"><span class="keyword">import</span> lombok.Data;</div><div class="line"><span class="keyword">import</span> org.apache.commons.lang3.StringUtils;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.HashMap;</div><div class="line"><span class="keyword">import</span> java.util.Map;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * TrieTree 字典树实现</div><div class="line"> * &lt;p/&gt;</div><div class="line"> * Created by lionel on 17/4/15.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TrieTree</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> TrieNode root;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TrieTree</span><span class="params">()</span> </span>&#123;</div><div class="line">        root = <span class="keyword">new</span> TrieNode();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 往字典树插入单词</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> word 单词</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(String word)</span> </span>&#123;</div><div class="line">        insert(root, word);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(TrieNode root, String word)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (StringUtils.isBlank(word)) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        word = word.toLowerCase();</div><div class="line">        <span class="keyword">char</span>[] characters = word.toCharArray();</div><div class="line">        <span class="keyword">int</span> length = characters.length;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">            <span class="keyword">int</span> index = characters[i] - <span class="string">'0'</span>;</div><div class="line">            <span class="keyword">if</span> (root.childs[index] != <span class="keyword">null</span>) &#123;</div><div class="line">                root.childs[index].prefixNum++;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                root.childs[index] = <span class="keyword">new</span> TrieNode(characters[i]);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (i == length - <span class="number">1</span>) &#123;</div><div class="line">                root.childs[index].isleaf = <span class="keyword">true</span>;</div><div class="line">                root.childs[index].num++;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            root = root.childs[index];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 遍历字典树 ，找出所有单词及其词频</div><div class="line">     *</div><div class="line">     * <span class="doctag">@return</span> 所有单词及其词频</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> HashMap&lt;String, Integer&gt; <span class="title">getAllWords</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> preOrderTraversal(<span class="keyword">this</span>.root, <span class="string">""</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> HashMap&lt;String, Integer&gt; <span class="title">preOrderTraversal</span><span class="params">(TrieNode root, String prefixs)</span> </span>&#123;</div><div class="line">        HashMap&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;String, Integer&gt;();</div><div class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> map;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (root.isleaf) &#123;</div><div class="line">            map.put(prefixs, root.getNum());</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; root.childs.length; i++) &#123;</div><div class="line">            <span class="keyword">if</span> (root.childs[i] != <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">char</span> ch = root.childs[i].getCharacter();</div><div class="line">                String tmpStr = prefixs + ch;</div><div class="line">                map.putAll(preOrderTraversal(root.childs[i], tmpStr));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> map;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 查询某字符串是否在字典树种</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> word 单词</div><div class="line">     * <span class="doctag">@return</span> 在，返回 true；不在，返回 false</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isExist</span><span class="params">(String word)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> isExist(<span class="keyword">this</span>.root, word);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isExist</span><span class="params">(TrieNode root, String word)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (StringUtils.isBlank(word)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">char</span>[] characters = word.toLowerCase().toCharArray();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">char</span> character : characters) &#123;</div><div class="line">            <span class="keyword">int</span> index = character - <span class="string">'0'</span>;</div><div class="line">            <span class="keyword">if</span> (root.childs[index] == <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line">            root = root.childs[index];</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 得到以某字串为前缀的字串集，包括字串本身！ 类似单词输入法的联想功能</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> prefix 字串前缀</div><div class="line">     * <span class="doctag">@return</span> 串集以及出现次数</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, Integer&gt; <span class="title">getWordsFroPrefix</span><span class="params">(String prefix)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> getWordsFroPrefix(<span class="keyword">this</span>.root, prefix);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> Map&lt;String, Integer&gt; <span class="title">getWordsFroPrefix</span><span class="params">(TrieNode root, String prefix)</span> </span>&#123;</div><div class="line">        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;String, Integer&gt;();</div><div class="line">        <span class="keyword">if</span> (StringUtils.isBlank(prefix)) &#123;</div><div class="line">            <span class="keyword">return</span> map;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">char</span>[] characters = prefix.toLowerCase().toCharArray();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">char</span> character : characters) &#123;</div><div class="line">            <span class="keyword">int</span> index = character - <span class="string">'0'</span>;</div><div class="line">            <span class="keyword">if</span> (root.childs[index] == <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">            &#125;</div><div class="line">            root = root.childs[index];</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> preOrderTraversal(root, prefix);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Data</span></div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">TrieNode</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">char</span> character;<span class="comment">//节点存储字符</span></div><div class="line">        <span class="keyword">private</span> <span class="keyword">int</span> num;<span class="comment">//该词的出现次数</span></div><div class="line">        <span class="keyword">private</span> <span class="keyword">int</span> prefixNum;<span class="comment">//以该字串为前缀的字串数， 应该包括该字串本身</span></div><div class="line">        <span class="keyword">private</span> TrieNode[] childs;<span class="comment">//节点孩子</span></div><div class="line">        <span class="keyword">private</span> <span class="keyword">boolean</span> isleaf;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">TrieNode</span><span class="params">()</span> </span>&#123;</div><div class="line">            character = <span class="string">'~'</span>;</div><div class="line">            num = <span class="number">0</span>;</div><div class="line">            prefixNum = <span class="number">0</span>;</div><div class="line">            isleaf = <span class="keyword">false</span>;</div><div class="line">            childs = <span class="keyword">new</span> TrieNode[<span class="number">40911</span>];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">TrieNode</span><span class="params">(<span class="keyword">char</span> character)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.character = character;</div><div class="line">            num = <span class="number">0</span>;</div><div class="line">            prefixNum = <span class="number">1</span>;</div><div class="line">            isleaf = <span class="keyword">false</span>;</div><div class="line">            childs = <span class="keyword">new</span> TrieNode[<span class="number">40911</span>];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/04/16/Viterbi算法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -579,1247 +1871,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/30/逻辑回归/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Feng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="江峰的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/30/逻辑回归/" itemprop="url">
-                  逻辑回归
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-30T00:09:19+08:00">
-                2017-03-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/回归/" itemprop="url" rel="index">
-                    <span itemprop="name">回归</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/30/逻辑回归/" class="leancloud_visitors" data-flag-title="逻辑回归">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>前一篇博客介绍了线性回归，纵使可以撇开 y 是离散值得事实，给定 x, 使用线性回归对 y 进行预测，可以找到很多示例说明这种预测结果不会很好，比如说，房价不可能随着面积大小线性增长。并且当我们知道 y 的取值范围在{0，1}时，预测结果大于 1 或者小于 0 已经没有了意义。怎样解决这个问题？可以使用逻辑回归。</p>
-<p>逻辑回归于线性回归有很多相似之处，最大的不同在于他们的因变量不同。线性回归用来预测连续变量的值，而逻辑回归是用来求分类的，可以用来解决二分类问题，也可以用于解决多分类问题，但是解决二分类问题更为常见。</p>
-<script type="math/tex; mode=display">g(z)=\frac{1}{1+e^{-z}}</script><p>称为logistic 函数或者 sigmod 函数。函数图像如下所示：<br><img src="http://onm4pqoqp.bkt.clouddn.com/sigmodfunction.png" alt=""><br>$g(z)$的导数$g′(z)$为:<br>\begin{align}<br>g′(z) &amp;= \frac{d}{dz}\frac{1}{1+e^{-z}}\\<br>&amp;= \frac{1}{(1+e^{-z})^2})(e^{-z}) \\<br>&amp;= \frac{1}{(1+e^{-z})}\cdot(1-\frac{1}{(1+e^{-z})})\\<br>&amp;= g(z)(1-g(z)).<br>\end{align}</p>
-<script type="math/tex; mode=display">h_\theta(x)=g(\theta^Tx)=\frac{1}{1+e^{-\theta^Tx}}</script><p>假设有:</p>
-<script type="math/tex; mode=display">P(y=1 | x;\theta) = h_{\theta}(x)</script><script type="math/tex; mode=display">P(y=0 | x;\theta) = 1 - h_{\theta}(x)</script><p>更为一般的形式 :</p>
-<script type="math/tex; mode=display">P(y|x;\theta) = (h_{\theta}(x))^y((1 - h_{\theta}(x)))^{1-y}</script><p>最大似然函数为：</p>
-<p>\begin{align}<br>L(\theta) &amp;= p(\vec{y}|X;\theta)\\<br>&amp;= \prod_{i=1}^mp(y^{(i)} | x^{(i)};\theta)\\<br>&amp;= \prod_{i=1}^m(h_{\theta}(x^{(i)}))^{y^{(i)}} (1-h_{\theta}(x^{(i)}))^{1-y^{(i)}}<br>\end{align}</p>
-<p>上式求对数得：<br>\begin{align}<br>l(\theta) &amp;= \log{L(\theta)}\\<br>&amp;= \sum_{i=1}^my^{(i)}\log h(x^{(i)})+(1-y^{(i)})\log(1-h(x^{(i)})))<br>\end{align}</p>
-<p>对$l(\theta)$求导得:</p>
-<p>\begin{align}<br>\frac{\partial}{\partial\theta_j}l(\theta) &amp;= \left(y\frac{1}{g(\theta^Tx)}-(1-y)\frac{1}{1-g(\theta^Tx)}\right)\frac{\partial}{\partial\theta_j}g(\theta^Tx)\\<br>&amp;= \left(y\frac{1}{g(\theta^Tx)}-(1-y)\frac{1}{1-g(\theta^Tx)}\right)g(\theta^Tx)(1-g(\theta^Tx))\frac{\partial}{\partial\theta_j}\theta^Tx\\<br>&amp;= \left(y(1-g(\theta^Tx)-(1-y)g(\theta^Tx)x_j\right) \\<br>&amp;= (y-h_{\theta}(x))x_j<br>\end{align}</p>
-<p>所以随机梯度下降规则为 :</p>
-<script type="math/tex; mode=display">\theta_j := \theta_j(y^{(i)}-h_{\theta}(x^{(i)}))(x_j)^{(i)}</script><p>实验代码如下 :<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># encoding=utf-8</span></div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">gradAscent</span><span class="params">(dataMatIn, classLabels)</span>:</span></div><div class="line">    dataMatrix = np.mat(dataMatIn)  <span class="comment"># 数据列表转换成矩阵</span></div><div class="line">    labelMat = np.mat(classLabels).transpose()  <span class="comment"># 类标签列表转换成矩阵</span></div><div class="line">    m, n = np.shape(dataMatrix)  <span class="comment"># 得到dataMatrix矩阵大小</span></div><div class="line">    alpha = <span class="number">0.001</span>  <span class="comment"># 每次上升的步长</span></div><div class="line">    maxCycles = <span class="number">500</span>  <span class="comment"># 迭代次数</span></div><div class="line">    weights = np.ones((n, <span class="number">1</span>))</div><div class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(maxCycles):</div><div class="line">        h = sigmoid(dataMatrix * weights)  <span class="comment"># 计算假设函数h（列向量）</span></div><div class="line">        error = (labelMat - h)  <span class="comment"># 类标签和假设函数的误差</span></div><div class="line">        weights = weights + alpha * dataMatrix.transpose() * error  <span class="comment"># 对weights进行迭代更新</span></div><div class="line">    <span class="keyword">return</span> weights</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">sigmoid</span><span class="params">(inX)</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="number">1.0</span> / (<span class="number">1</span> + np.exp(-inX))</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadDataSet</span><span class="params">()</span>:</span></div><div class="line">    dataMat = []</div><div class="line">    labelMat = []</div><div class="line">    fr = open(<span class="string">'../resources/lr.txt'</span>)</div><div class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> fr.readlines():</div><div class="line">        lineArr = line.strip().split()</div><div class="line">        dataMat.append([<span class="number">1.0</span>, float(lineArr[<span class="number">0</span>]), float(lineArr[<span class="number">1</span>])])  <span class="comment"># 得到数据列表</span></div><div class="line">        labelMat.append(int(lineArr[<span class="number">2</span>]))  <span class="comment"># 类标签</span></div><div class="line">    <span class="keyword">return</span> dataMat, labelMat</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    data, lable = loadDataSet()</div><div class="line">    weights = gradAscent(data, lable)</div><div class="line">    print(weights)</div></pre></td></tr></table></figure></p>
-<p>源代码以及实验数据存储在<a href="https://github.com/JiangFeng07/JF-ML-python/tree/master/src/python/ml" target="_blank" rel="external">github</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/25/线性回归/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Feng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="江峰的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/25/线性回归/" itemprop="url">
-                  线性回归
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-25T16:31:14+08:00">
-                2017-03-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/回归/" itemprop="url" rel="index">
-                    <span itemprop="name">回归</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/25/线性回归/" class="leancloud_visitors" data-flag-title="线性回归">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="一元线性回归"><a href="#一元线性回归" class="headerlink" title="一元线性回归"></a>一元线性回归</h2><p>在机器学习中，线性回归被用来对连续型数据进行预测，来确定两种或者两种以上变量间的相互关系。本篇博客介绍线性回归的最简单的一种情况——一元线性回归。如下图，现在我们在图上画一系列的点，然后打算花一条线，这些点到这条线的距离尽可能的短。那么该怎么找到这条线了？线性回归就是很好的解决方法。<br><img src="http://onm4pqoqp.bkt.clouddn.com/LinearRegression.png" alt="" title="原始数据分布图"><br>首先，假设 y 和 x 满足下面的一元线性关系：</p>
-<script type="math/tex; mode=display">y=\theta_0 + \theta_1x</script><p>这称为线性回归方程，其中$\theta_i$是回归系数。</p>
-<p>使用 python 机器学习库 <a href="http://scikit-learn.org/stable/auto_examples/linear_model/plot_ols.html#sphx-glr-auto-examples-linear-model-plot-ols-py" target="_blank" rel="external">sklearn</a> 来进行一元线性回归实验，实验代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python3</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"></div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    array = []</div><div class="line">    <span class="keyword">with</span> open(<span class="string">'../resources/lg.txt'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> file:</div><div class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> file.readlines():</div><div class="line">            array.append(np.array(line.strip().split(<span class="string">"\t"</span>)).astype(np.float))</div><div class="line">    tmp = np.array(array)</div><div class="line">    x = tmp[<span class="number">0</span>:, <span class="number">0</span>:<span class="number">2</span>]</div><div class="line">    y = tmp[<span class="number">0</span>:, <span class="number">2</span>:<span class="number">3</span>]</div><div class="line">    linear = linear_model.LinearRegression()</div><div class="line">    linear.fit(x, y)</div><div class="line">    plt.plot(x, y, <span class="string">'b.'</span>)</div><div class="line">    y = linear.coef_ * x + linear.intercept_</div><div class="line">    plt.plot(x, y, <span class="string">'r'</span>)</div><div class="line">    plt.legend()</div><div class="line">    plt.show()</div><div class="line">    <span class="comment">#进行预测</span></div><div class="line">    x = np.array([<span class="number">1.0</span>, <span class="number">1.2</span>])</div><div class="line">    print(lr.predict(x))</div></pre></td></tr></table></figure></p>
-<p>实验结果图形如下：<br><img src="http://onm4pqoqp.bkt.clouddn.com/LinearRegression2.png" alt="" title="线性回归实验结果图"><br>可以得出：</p>
-<script type="math/tex; mode=display">y = 3.00774324 + 1.69532264x</script><p>此时预测 x=1.2时的值得 : 5.04213041.<br>源码和实验数据可以去我的 <a href="https://github.com/JiangFeng07/JF-ML-python/tree/master/src/python/ml" target="_blank" rel="external">github</a> 上进行下载。</p>
-<h2 id="多元线性回归"><a href="#多元线性回归" class="headerlink" title="多元线性回归"></a>多元线性回归</h2><p>日常生活中，一个因变量是和多个自变量有关的，比如房价会和房子大小、房子面积、房子的地理位置等因素有关，一元线性关系不足以解决这样的问题，可以使用多元线性来解决。<br>现有方程：</p>
-<script type="math/tex; mode=display">Y=X\beta</script><p>当 X 可逆时，会有</p>
-<script type="math/tex; mode=display">\beta = X^{-1}Y</script><p>当 X 不可逆时，上述公式就不成立了。<br>这是就需要对上式进行转化了:</p>
-<p>\begin{align}<br>Y=X\beta=&gt; X^TY=X^TX\beta \\<br>\end{align}<br>由于$X^TX$是可逆的,得</p>
-<script type="math/tex; mode=display">\beta=(X^TX)^{-1}X^TY</script><p>现有示例方程：$y=2+3x_1+4x_2$<br>X=[[1,1,1],[1,1,2],[1,2,1]]<br>y=[[9],[13],[12]]<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</div><div class="line"></div><div class="line">X = [[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>]]</div><div class="line">y = [[<span class="number">9</span>], [<span class="number">13</span>], [<span class="number">12</span>]]</div><div class="line"></div><div class="line">model = LinearRegression()</div><div class="line">model.fit(X, y)</div><div class="line"></div><div class="line">x2 = [[<span class="number">1</span>, <span class="number">4</span>, <span class="number">5</span>]]</div><div class="line">y2 = model.predict(x2)</div><div class="line">print(y2)</div></pre></td></tr></table></figure></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[[ <span class="number">34.</span>]]</div></pre></td></tr></table></figure>
-<p>带入函数，得y=2+3x4+4x5=34, 验证正确。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/25/tensorflow-入门/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Feng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="江峰的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/25/tensorflow-入门/" itemprop="url">
-                  tensorflow 入门
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-25T12:31:44+08:00">
-                2017-03-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/25/tensorflow-入门/" class="leancloud_visitors" data-flag-title="tensorflow 入门">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/25/编辑距离/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Feng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="江峰的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/25/编辑距离/" itemprop="url">
-                  编辑距离
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-25T12:10:33+08:00">
-                2017-03-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/25/编辑距离/" class="leancloud_visitors" data-flag-title="编辑距离">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>什么是编辑距离？<br>看下百度百科的介绍：编辑距离（Edit Distance），又称Levenshtein距离，是指两个字串之间，由一个转成另一个所需的最少编辑操作次数。许可的编辑操作包括将<font color="ff000">一个字符替换成另一个字符</font>，<font color="ff000">插入一个字符</font>，<font color="ff000">删除一个字符</font>。一般来说，<font color="ff000">编辑距离越小，两个串的相似度越大</font>。<br>比如说:<br>    kitten-&gt;sitten （k→s）<br>    sitten-&gt;sittin （e→i）<br>    sittin-&gt;sitting （插入g）</p>
-<p>找出字符串s1和字符串s2的编辑距离，就是求出字符串s1变成字符串s2的最小操作步骤，主要操作步骤有三种：交换、删除、插入。可以利用动态规划的思想来求解字符转 s1和字符串s2的编辑距离。</p>
-<p>动态规划公式如下所示：</p>
-<p><img src="http://img.blog.csdn.net/20160222115529695" alt="编辑距离公式"></p>
-<ul>
-<li>代码示例</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.myapp.ml.nlp;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.commons.lang3.StringUtils;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by lionel on 16/12/21.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EditDistance</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">editDistance</span><span class="params">(String A, String B)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (StringUtils.isBlank(A + B)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> lengthA = A.length();</div><div class="line">        <span class="keyword">int</span> lengthB = B.length();</div><div class="line">        <span class="keyword">int</span>[][] distance = <span class="keyword">new</span> <span class="keyword">int</span>[lengthA + <span class="number">1</span>][lengthB + <span class="number">1</span>];</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; lengthA; i++) &#123;</div><div class="line">            distance[i][<span class="number">0</span>] = i;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; lengthB; i++) &#123;</div><div class="line">            distance[<span class="number">0</span>][i] = i;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; lengthA; i++) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; lengthB; j++) &#123;</div><div class="line">                <span class="keyword">int</span> cost = A.charAt(i - <span class="number">1</span>) == B.charAt(j - <span class="number">1</span>) ? <span class="number">0</span> : <span class="number">1</span>;</div><div class="line">                <span class="keyword">int</span> deletion = distance[i - <span class="number">1</span>][j] + <span class="number">1</span>;</div><div class="line">                <span class="keyword">int</span> insertion = distance[i][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">                <span class="keyword">int</span> exchange = distance[i - <span class="number">1</span>][j - <span class="number">1</span>] + cost;</div><div class="line">                distance[i][j] = Math.min(exchange, Math.min(insertion, deletion));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> distance[lengthA - <span class="number">1</span>][lengthB - <span class="number">1</span>];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        EditDistance editDistance = <span class="keyword">new</span> EditDistance();</div><div class="line">        String str2 = <span class="string">"kitten"</span>;</div><div class="line">        String str1 = <span class="string">"sitting"</span>;</div><div class="line">        System.out.println(editDistance.editDistance(str1, str2));<span class="comment">//3</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/25/终端常用快捷键/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Feng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="江峰的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/25/终端常用快捷键/" itemprop="url">
-                  终端常用快捷键
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-25T10:56:48+08:00">
-                2017-03-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/25/终端常用快捷键/" class="leancloud_visitors" data-flag-title="终端常用快捷键">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>终端常用快捷键<br>⌘ + r = clear，而且只是换到新一屏，不会像 clear 一样创建一个空屏<br>ctrl + u 清空当前行，无论光标在什么位置<br>新建窗口：command + t<br>垂直分屏：command + d<br>水平分屏：command + shift + d<br>切换屏幕：command + option + 方向键 command + [ 或 command + ]<br>删除光标之前的字符：ctrl + h<br>删除光标之前的单词：ctrl + w<br>删除到文本末尾：ctrl + k<br>定位当前行首部：control + a<br>定位当前行尾部：contorl + e<br>清屏：command + r  或者 ctrl + l</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/24/Hexo博客使用MathJax数学公式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Feng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="江峰的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/24/Hexo博客使用MathJax数学公式/" itemprop="url">
-                  Hexo博客使用MathJax数学公式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-24T19:29:15+08:00">
-                2017-03-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/24/Hexo博客使用MathJax数学公式/" class="leancloud_visitors" data-flag-title="Hexo博客使用MathJax数学公式">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本篇博文介绍在 Hexo 博客使用 MathJax 数学公式。</p>
-<ol>
-<li><p>更改 Hexo 的 markdown 渲染引擎，安装 hexo-renderer-kramed</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm uninstall hexo-renderer-marked --save</div><div class="line">npm install hexo-renderer-kramed --save</div></pre></td></tr></table></figure>
-</li>
-<li><p>修改 hexo 博客站点目录（node_modules\kramed\lib\rules\）下的 inline.js 文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//  escape: /^\\([\\`*&#123;&#125;\[\]()<span class="comment">#$+\-.!_&gt;])/,</span></div><div class="line">escape: /^\\([`*\[\]()<span class="comment">#$+\-.!_&gt;])/,</span></div><div class="line"></div><div class="line">//  em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</div><div class="line">em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</div></pre></td></tr></table></figure>
-</li>
-<li><p>重新启动hexo</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo clean &amp;&amp; hexo generate &amp;&amp; hexo server</div></pre></td></tr></table></figure>
-<p> 如果还不行，查看你的主题目录下_config.yml是否开启 mathjax，开启如下：</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># MathJax Support</span></div><div class="line">mathjax:</div><div class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></div><div class="line">  per_page: <span class="literal">true</span></div></pre></td></tr></table></figure>
-<p> 还有就是在你写的博客文章的Front-matter里打开mathjax开关，如下：</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: 文章名</div><div class="line">date: 2017-03-23 19:01:30</div><div class="line">tags:</div><div class="line">mathjax: <span class="literal">true</span></div><div class="line">--</div></pre></td></tr></table></figure>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/24/朴素贝叶斯/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Feng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="江峰的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/24/朴素贝叶斯/" itemprop="url">
-                  朴素贝叶斯算法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-24T18:28:43+08:00">
-                2017-03-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/24/朴素贝叶斯/" class="leancloud_visitors" data-flag-title="朴素贝叶斯算法">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>贝叶斯定理想必大家很早就已经了解，朴素贝叶斯算法就是基于贝叶斯定理提出的一种监督机器学习算法。为什么叫“朴素”了？那是因为朴素贝叶斯分类器基于一个简单的假定：给定目标值时属性之间相互条件独立。给定类变量 y (这里一个样本仅属于一类) 和一个相互独立的特征向量 $x_1$ 到 $x_n$，贝叶斯定理可得到如下关系：</p>
-<script type="math/tex; mode=display">P(y \mid x_1, \dots, x_n) = \frac{P(y) P(x_1, \dots x_n \mid y)}
-                                 {P(x_1, \dots, x_n)}</script><p>使用朴素（naive）的假设：每个特征之间相互独立：</p>
-<script type="math/tex; mode=display">P(x_i | y, x_1, \dots, x_{i-1}, x_{i+1}, \dots, x_n) = P(x_i | y)</script><p>对于所有的$i$,这个关系可以简化为：</p>
-<script type="math/tex; mode=display">P(y \mid x_1, \dots, x_n) = \frac{P(y) \prod_{i=1}^{n} P(x_i \mid y)}
-                                 {P(x_1, \dots, x_n)}</script><p>由于${P(x_1, \dots, x_n)}$的值当给定的特征不变式是固定的，所以可以得到以下分类规则：</p>
-<script type="math/tex; mode=display">P(y \mid x_1, \dots, x_n) \propto P(y) \prod_{i=1}^{n} P(x_i \mid y)</script><script type="math/tex; mode=display">\Downarrow</script><script type="math/tex; mode=display">\hat{y} = \arg\max_y P(y) \prod_{i=1}^{n} P(x_i \mid y)</script><p>并且我们可以使用最大后验概率（MAP）估计来估计$P(y) $ ,$P(x_i \mid y)$;<br>不同的朴素贝叶斯分类器的不同之处在于：它们对$P(x_i \mid y)$的分布的认识和假设不同。目前常用的有高斯模型、多项式模型和伯努利模型这三种模型。本文主要介绍高斯模型以及对应的 python 实现。</p>
-<h2 id="朴素贝叶斯算法-高斯模型"><a href="#朴素贝叶斯算法-高斯模型" class="headerlink" title="朴素贝叶斯算法 高斯模型"></a>朴素贝叶斯算法 高斯模型</h2><p>高斯模型假设这些一个特征的所有属于某个类别的观测值符合高斯分布:</p>
-<script type="math/tex; mode=display">P(x_i \mid y) = \frac{1}{\sqrt{2\pi\sigma^2_y}} \exp\left(-\frac{(x_i - \mu_y)^2}{2\sigma^2_y}\right)</script><h2 id="python代码实现"><a href="#python代码实现" class="headerlink" title="python代码实现"></a>python代码实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python3</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> random</div><div class="line"><span class="keyword">import</span> math</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 根据文件路径加载数据</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_data</span><span class="params">(file_name)</span>:</span></div><div class="line">    file = open(file_name)</div><div class="line">    data = []</div><div class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> file.readlines():</div><div class="line">        tmpline = line.split(<span class="string">' '</span>)</div><div class="line">        tmp = []</div><div class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> tmpline:</div><div class="line">            tmp.append(float(x))</div><div class="line">        data.append(tmp)</div><div class="line">    <span class="keyword">return</span> data</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 数据分为训练数据 train_set 和测试数据 test_set</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">split_data</span><span class="params">(data, split_ratio)</span>:</span></div><div class="line">    train_size = int(len(data) * split_ratio)</div><div class="line">    train_set = []</div><div class="line">    test_set = list(data)</div><div class="line">    <span class="keyword">while</span> len(train_set) &lt; train_size:</div><div class="line">        index = random.randrange(len(test_set))</div><div class="line">        train_set.append(test_set.pop(index))</div><div class="line">    <span class="keyword">return</span> [train_set, test_set]</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 根据结果分类</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">separate_by_class</span><span class="params">(data)</span>:</span></div><div class="line">    y = &#123;&#125;</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(data)):</div><div class="line">        vector = data[i]</div><div class="line">        <span class="keyword">if</span> vector[<span class="number">-1</span>] <span class="keyword">not</span> <span class="keyword">in</span> y:</div><div class="line">            y[vector[<span class="number">-1</span>]] = []</div><div class="line">        y[vector[<span class="number">-1</span>]].append(vector)</div><div class="line">    <span class="keyword">return</span> y</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 计算平均值</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">average</span><span class="params">(numbers)</span>:</span></div><div class="line">    <span class="keyword">return</span> sum(numbers) / float(len(numbers))</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 计算样本方差</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">stdev</span><span class="params">(numbers)</span>:</span></div><div class="line">    avg = average(numbers)</div><div class="line">    variance = sum([pow(x - avg, <span class="number">2</span>) <span class="keyword">for</span> x <span class="keyword">in</span> numbers]) / float(len(numbers) - <span class="number">1</span>)</div><div class="line">    <span class="keyword">return</span> math.sqrt(variance)</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 计算每个属性的平均值和样本方差</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">summarize</span><span class="params">(data)</span>:</span></div><div class="line">    summaries = [(average(attribute), stdev(attribute)) <span class="keyword">for</span> attribute <span class="keyword">in</span> zip(*data)]</div><div class="line">    <span class="keyword">del</span> summaries[<span class="number">-1</span>]</div><div class="line">    <span class="keyword">return</span> summaries</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">summaries_by_class</span><span class="params">(data)</span>:</span></div><div class="line">    y = separate_by_class(data)</div><div class="line">    summaries = &#123;&#125;</div><div class="line">    <span class="keyword">for</span> classValue, instances <span class="keyword">in</span> y.items():</div><div class="line">        summaries[classValue] = summarize(instances)</div><div class="line">    <span class="keyword">return</span> summaries</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 计算高斯分布</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculate_Probability</span><span class="params">(x, avg, stdev)</span>:</span></div><div class="line">    exponent = math.exp((<span class="number">-1</span>) * (math.pow(x - avg, <span class="number">2</span>) / (<span class="number">2</span> * math.pow(stdev, <span class="number">2</span>))))</div><div class="line">    <span class="keyword">return</span> (<span class="number">1</span> / (math.sqrt(<span class="number">2</span> * math.pi) * stdev)) * exponent</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 计算输入向量的贝叶斯概率</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculateClassProbabilities</span><span class="params">(summaries, inputVector)</span>:</span></div><div class="line">    probabilities = &#123;&#125;</div><div class="line">    <span class="keyword">for</span> classValue, classSummaries <span class="keyword">in</span> summaries.items():</div><div class="line">        probabilities[classValue] = <span class="number">1</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(classSummaries)):</div><div class="line">            avg, stdev = classSummaries[i]</div><div class="line">            x = inputVector[i]</div><div class="line">            probabilities[classValue] *= calculate_Probability(x, avg, stdev)</div><div class="line">    <span class="keyword">return</span> probabilities</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 找到最大的值</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">predict</span><span class="params">(summaries, inputVector)</span>:</span></div><div class="line">    probabilities = calculateClassProbabilities(summaries, inputVector)</div><div class="line">    bestLabel, bestProb = <span class="keyword">None</span>, <span class="number">-1</span></div><div class="line">    <span class="keyword">for</span> classValue, probability <span class="keyword">in</span> probabilities.items():</div><div class="line">        <span class="keyword">if</span> bestLabel <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">or</span> probability &gt; bestProb:</div><div class="line">            bestProb = probability</div><div class="line">            bestLabel = classValue</div><div class="line">    <span class="keyword">return</span> bestLabel</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getPredictions</span><span class="params">(summaries, testSet)</span>:</span></div><div class="line">    predictions = []</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(testSet)):</div><div class="line">        result = predict(summaries, testSet[i])</div><div class="line">        predictions.append(result)</div><div class="line">    <span class="keyword">return</span> predictions</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 计算预测正确率</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getAccuracy</span><span class="params">(testSet, predictions)</span>:</span></div><div class="line">    correct = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(testSet)):</div><div class="line">        <span class="keyword">if</span> testSet[i][<span class="number">-1</span>] == predictions[i]:</div><div class="line">            correct += <span class="number">1</span></div><div class="line">    <span class="keyword">return</span> (correct / float(len(testSet))) * <span class="number">100.0</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    data = load_data(<span class="string">"/tmp/pima-indians-diabetes.txt"</span>)</div><div class="line">    trainSet, testSet = split_data(data, <span class="number">0.8</span>)</div><div class="line">    summaries = summaries_by_class(trainSet)</div><div class="line">    print(</div><div class="line">        <span class="string">'split &#123;0&#125; rows data into &#123;1&#125; rows trainData and &#123;2&#125; rows testData'</span>.format(len(data), len(trainSet), len(testSet)))</div><div class="line">    predictions = getPredictions(summaries, testSet)</div><div class="line">    accuracy = getAccuracy(testSet, predictions)</div><div class="line">    print(<span class="string">'Accuracy:&#123;0&#125;%'</span>.format(accuracy))</div></pre></td></tr></table></figure>
-<p>本实验进行了10次测试，得到的平均正确率为74.42%。</p>
-<ul>
-<li>参考资料：<ul>
-<li><a href="http://sklearn.lzjqsdd.com/modules/naive_bayes.html#gaussian-naive-bayes" target="_blank" rel="external">朴素贝叶斯</a></li>
-<li><a href="http://python.jobbole.com/81019/" target="_blank" rel="external">机器学习之用Python从零实现贝叶斯分类器</a></li>
-</ul>
-</li>
-<li>数据集<ul>
-<li><a href="http://archive.ics.uci.edu/ml/machine-learning-databases/pima-indians-diabetes/pima-indians-diabetes.data" target="_blank" rel="external">数据集地址</a></li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/24/梯度下降法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Feng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="江峰的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/24/梯度下降法/" itemprop="url">
-                  梯度下降法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-24T18:09:15+08:00">
-                2017-03-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/24/梯度下降法/" class="leancloud_visitors" data-flag-title="梯度下降法">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>梯度下降法，又叫最速下降法，是一种最优化算法。它用负梯度方向为搜索方向的，最速下降法越接近目标值，步长越小，前进越慢。<br>梯度下降法的计算过程就是沿着梯度下降的方向求解极小值。（亦可以沿着梯度上升的方向求解极大值）。它的迭代公式为:</p>
-<script type="math/tex; mode=display">a_{k+1}=a_{k}+\gamma_ks^{-(k)}(式1-1)</script><p>其中，$s^{-(k)}$代表的是梯度的负方向，$\gamma_k$表示梯度方向上的搜索步长。梯度方向可以通过求导得到，步长的设定则比较麻烦，太大的容易发散，找不到极小值的点，太小的话则收敛的速度比较慢。</p>
-<ul>
-<li>示例<br>现有函数$f(x)=x^4-3x^3+2$,则利用梯度下降方法解题的步骤如下：<br>1.求梯度，即对函数求导，$f(x)=4x^3-9x^2$；<br>2.根据式1-1，向梯度相反的方向移动 $x$；<br>3.循环迭代步骤2，直到x的值变化到使得$f(x)$在两次迭代之间的差值足够小，比如0.00000001，也就是说，直到两次迭代计算出来的$f(x)$基本没有变化，则说明此时$f(x)$已经达到局部最小值了。<br>4.此时，输出 $x$，此时求得的 $x$ 就是使得$f(x)$取得最小值的 x 的值。</li>
-<li>代码</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#python 代码</span></div><div class="line"><span class="comment"># encoding=utf-8</span></div><div class="line"></div><div class="line">x_old = <span class="number">0</span></div><div class="line">x_new = <span class="number">6</span></div><div class="line">gamma = <span class="number">0.01</span></div><div class="line">precision = <span class="number">0.00000001</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># x = Symbol("x")</span></div><div class="line"><span class="comment"># f = (x ** 4) - (3 * (x ** 3)) + 2</span></div><div class="line"></div><div class="line"><span class="comment">#梯度下降算法</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">df</span><span class="params">(x)</span>:</span></div><div class="line">    y = <span class="number">4</span> * x**<span class="number">3</span> - <span class="number">9</span> * x**<span class="number">2</span></div><div class="line">    <span class="keyword">return</span> y</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">while</span> abs(x_new - x_old) &gt; precision:</div><div class="line">    x_old = x_new</div><div class="line">    x_new += -gamma * df(x_old)</div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">"The local minimum occurs at"</span>, x_new//The local minimum occurs at <span class="number">2.24999996819</span></div></pre></td></tr></table></figure>
-<p>利用数学知识可以求得函数$f(x)=x^4-3x^3+2$的极小值在$\frac{9}{4}$取得，即2.25，代码求得的结果是2.24999996819，已经满足小于0.00000001的条件，代码有效。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1864,7 +1920,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1873,7 +1929,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1882,7 +1938,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

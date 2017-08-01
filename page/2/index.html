@@ -259,6 +259,1242 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/30/逻辑回归/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/30/逻辑回归/" itemprop="url">
+                  逻辑回归
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-30T00:09:19+08:00">
+                2017-03-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/回归/" itemprop="url" rel="index">
+                    <span itemprop="name">回归</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/30/逻辑回归/" class="leancloud_visitors" data-flag-title="逻辑回归">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>前一篇博客介绍了线性回归，纵使可以撇开 y 是离散值得事实，给定 x, 使用线性回归对 y 进行预测，可以找到很多示例说明这种预测结果不会很好，比如说，房价不可能随着面积大小线性增长。并且当我们知道 y 的取值范围在{0，1}时，预测结果大于 1 或者小于 0 已经没有了意义。怎样解决这个问题？可以使用逻辑回归。</p>
+<p>逻辑回归于线性回归有很多相似之处，最大的不同在于他们的因变量不同。线性回归用来预测连续变量的值，而逻辑回归是用来求分类的，可以用来解决二分类问题，也可以用于解决多分类问题，但是解决二分类问题更为常见。</p>
+<script type="math/tex; mode=display">g(z)=\frac{1}{1+e^{-z}}</script><p>称为logistic 函数或者 sigmod 函数。函数图像如下所示：<br><img src="http://onm4pqoqp.bkt.clouddn.com/sigmodfunction.png" alt=""><br>$g(z)$的导数$g′(z)$为:<br>\begin{align}<br>g′(z) &amp;= \frac{d}{dz}\frac{1}{1+e^{-z}}\\<br>&amp;= \frac{1}{(1+e^{-z})^2})(e^{-z}) \\<br>&amp;= \frac{1}{(1+e^{-z})}\cdot(1-\frac{1}{(1+e^{-z})})\\<br>&amp;= g(z)(1-g(z)).<br>\end{align}</p>
+<script type="math/tex; mode=display">h_\theta(x)=g(\theta^Tx)=\frac{1}{1+e^{-\theta^Tx}}</script><p>假设有:</p>
+<script type="math/tex; mode=display">P(y=1 | x;\theta) = h_{\theta}(x)</script><script type="math/tex; mode=display">P(y=0 | x;\theta) = 1 - h_{\theta}(x)</script><p>更为一般的形式 :</p>
+<script type="math/tex; mode=display">P(y|x;\theta) = (h_{\theta}(x))^y((1 - h_{\theta}(x)))^{1-y}</script><p>最大似然函数为：</p>
+<p>\begin{align}<br>L(\theta) &amp;= p(\vec{y}|X;\theta)\\<br>&amp;= \prod_{i=1}^mp(y^{(i)} | x^{(i)};\theta)\\<br>&amp;= \prod_{i=1}^m(h_{\theta}(x^{(i)}))^{y^{(i)}} (1-h_{\theta}(x^{(i)}))^{1-y^{(i)}}<br>\end{align}</p>
+<p>上式求对数得：<br>\begin{align}<br>l(\theta) &amp;= \log{L(\theta)}\\<br>&amp;= \sum_{i=1}^my^{(i)}\log h(x^{(i)})+(1-y^{(i)})\log(1-h(x^{(i)})))<br>\end{align}</p>
+<p>对$l(\theta)$求导得:</p>
+<p>\begin{align}<br>\frac{\partial}{\partial\theta_j}l(\theta) &amp;= \left(y\frac{1}{g(\theta^Tx)}-(1-y)\frac{1}{1-g(\theta^Tx)}\right)\frac{\partial}{\partial\theta_j}g(\theta^Tx)\\<br>&amp;= \left(y\frac{1}{g(\theta^Tx)}-(1-y)\frac{1}{1-g(\theta^Tx)}\right)g(\theta^Tx)(1-g(\theta^Tx))\frac{\partial}{\partial\theta_j}\theta^Tx\\<br>&amp;= \left(y(1-g(\theta^Tx)-(1-y)g(\theta^Tx)x_j\right) \\<br>&amp;= (y-h_{\theta}(x))x_j<br>\end{align}</p>
+<p>所以随机梯度下降规则为 :</p>
+<script type="math/tex; mode=display">\theta_j := \theta_j(y^{(i)}-h_{\theta}(x^{(i)}))(x_j)^{(i)}</script><p>实验代码如下 :<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># encoding=utf-8</span></div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">gradAscent</span><span class="params">(dataMatIn, classLabels)</span>:</span></div><div class="line">    dataMatrix = np.mat(dataMatIn)  <span class="comment"># 数据列表转换成矩阵</span></div><div class="line">    labelMat = np.mat(classLabels).transpose()  <span class="comment"># 类标签列表转换成矩阵</span></div><div class="line">    m, n = np.shape(dataMatrix)  <span class="comment"># 得到dataMatrix矩阵大小</span></div><div class="line">    alpha = <span class="number">0.001</span>  <span class="comment"># 每次上升的步长</span></div><div class="line">    maxCycles = <span class="number">500</span>  <span class="comment"># 迭代次数</span></div><div class="line">    weights = np.ones((n, <span class="number">1</span>))</div><div class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(maxCycles):</div><div class="line">        h = sigmoid(dataMatrix * weights)  <span class="comment"># 计算假设函数h（列向量）</span></div><div class="line">        error = (labelMat - h)  <span class="comment"># 类标签和假设函数的误差</span></div><div class="line">        weights = weights + alpha * dataMatrix.transpose() * error  <span class="comment"># 对weights进行迭代更新</span></div><div class="line">    <span class="keyword">return</span> weights</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">sigmoid</span><span class="params">(inX)</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="number">1.0</span> / (<span class="number">1</span> + np.exp(-inX))</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadDataSet</span><span class="params">()</span>:</span></div><div class="line">    dataMat = []</div><div class="line">    labelMat = []</div><div class="line">    fr = open(<span class="string">'../resources/lr.txt'</span>)</div><div class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> fr.readlines():</div><div class="line">        lineArr = line.strip().split()</div><div class="line">        dataMat.append([<span class="number">1.0</span>, float(lineArr[<span class="number">0</span>]), float(lineArr[<span class="number">1</span>])])  <span class="comment"># 得到数据列表</span></div><div class="line">        labelMat.append(int(lineArr[<span class="number">2</span>]))  <span class="comment"># 类标签</span></div><div class="line">    <span class="keyword">return</span> dataMat, labelMat</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    data, lable = loadDataSet()</div><div class="line">    weights = gradAscent(data, lable)</div><div class="line">    print(weights)</div></pre></td></tr></table></figure></p>
+<p>源代码以及实验数据存储在<a href="https://github.com/JiangFeng07/JF-ML-python/tree/master/src/python/ml" target="_blank" rel="external">github</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/25/线性回归/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/25/线性回归/" itemprop="url">
+                  线性回归
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-25T16:31:14+08:00">
+                2017-03-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/回归/" itemprop="url" rel="index">
+                    <span itemprop="name">回归</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/25/线性回归/" class="leancloud_visitors" data-flag-title="线性回归">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="一元线性回归"><a href="#一元线性回归" class="headerlink" title="一元线性回归"></a>一元线性回归</h2><p>在机器学习中，线性回归被用来对连续型数据进行预测，来确定两种或者两种以上变量间的相互关系。本篇博客介绍线性回归的最简单的一种情况——一元线性回归。如下图，现在我们在图上画一系列的点，然后打算花一条线，这些点到这条线的距离尽可能的短。那么该怎么找到这条线了？线性回归就是很好的解决方法。<br><img src="http://onm4pqoqp.bkt.clouddn.com/LinearRegression.png" alt="" title="原始数据分布图"><br>首先，假设 y 和 x 满足下面的一元线性关系：</p>
+<script type="math/tex; mode=display">y=\theta_0 + \theta_1x</script><p>这称为线性回归方程，其中$\theta_i$是回归系数。</p>
+<p>使用 python 机器学习库 <a href="http://scikit-learn.org/stable/auto_examples/linear_model/plot_ols.html#sphx-glr-auto-examples-linear-model-plot-ols-py" target="_blank" rel="external">sklearn</a> 来进行一元线性回归实验，实验代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python3</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"></div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    array = []</div><div class="line">    <span class="keyword">with</span> open(<span class="string">'../resources/lg.txt'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> file:</div><div class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> file.readlines():</div><div class="line">            array.append(np.array(line.strip().split(<span class="string">"\t"</span>)).astype(np.float))</div><div class="line">    tmp = np.array(array)</div><div class="line">    x = tmp[<span class="number">0</span>:, <span class="number">0</span>:<span class="number">2</span>]</div><div class="line">    y = tmp[<span class="number">0</span>:, <span class="number">2</span>:<span class="number">3</span>]</div><div class="line">    linear = linear_model.LinearRegression()</div><div class="line">    linear.fit(x, y)</div><div class="line">    plt.plot(x, y, <span class="string">'b.'</span>)</div><div class="line">    y = linear.coef_ * x + linear.intercept_</div><div class="line">    plt.plot(x, y, <span class="string">'r'</span>)</div><div class="line">    plt.legend()</div><div class="line">    plt.show()</div><div class="line">    <span class="comment">#进行预测</span></div><div class="line">    x = np.array([<span class="number">1.0</span>, <span class="number">1.2</span>])</div><div class="line">    print(lr.predict(x))</div></pre></td></tr></table></figure></p>
+<p>实验结果图形如下：<br><img src="http://onm4pqoqp.bkt.clouddn.com/LinearRegression2.png" alt="" title="线性回归实验结果图"><br>可以得出：</p>
+<script type="math/tex; mode=display">y = 3.00774324 + 1.69532264x</script><p>此时预测 x=1.2时的值得 : 5.04213041.<br>源码和实验数据可以去我的 <a href="https://github.com/JiangFeng07/JF-ML-python/tree/master/src/python/ml" target="_blank" rel="external">github</a> 上进行下载。</p>
+<h2 id="多元线性回归"><a href="#多元线性回归" class="headerlink" title="多元线性回归"></a>多元线性回归</h2><p>日常生活中，一个因变量是和多个自变量有关的，比如房价会和房子大小、房子面积、房子的地理位置等因素有关，一元线性关系不足以解决这样的问题，可以使用多元线性来解决。<br>现有方程：</p>
+<script type="math/tex; mode=display">Y=X\beta</script><p>当 X 可逆时，会有</p>
+<script type="math/tex; mode=display">\beta = X^{-1}Y</script><p>当 X 不可逆时，上述公式就不成立了。<br>这是就需要对上式进行转化了:</p>
+<p>\begin{align}<br>Y=X\beta=&gt; X^TY=X^TX\beta \\<br>\end{align}<br>由于$X^TX$是可逆的,得</p>
+<script type="math/tex; mode=display">\beta=(X^TX)^{-1}X^TY</script><p>现有示例方程：$y=2+3x_1+4x_2$<br>X=[[1,1,1],[1,1,2],[1,2,1]]<br>y=[[9],[13],[12]]<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</div><div class="line"></div><div class="line">X = [[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>]]</div><div class="line">y = [[<span class="number">9</span>], [<span class="number">13</span>], [<span class="number">12</span>]]</div><div class="line"></div><div class="line">model = LinearRegression()</div><div class="line">model.fit(X, y)</div><div class="line"></div><div class="line">x2 = [[<span class="number">1</span>, <span class="number">4</span>, <span class="number">5</span>]]</div><div class="line">y2 = model.predict(x2)</div><div class="line">print(y2)</div></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[[ <span class="number">34.</span>]]</div></pre></td></tr></table></figure>
+<p>带入函数，得y=2+3x4+4x5=34, 验证正确。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/25/tensorflow-入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/25/tensorflow-入门/" itemprop="url">
+                  tensorflow 入门
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-25T12:31:44+08:00">
+                2017-03-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/25/tensorflow-入门/" class="leancloud_visitors" data-flag-title="tensorflow 入门">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/25/编辑距离/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/25/编辑距离/" itemprop="url">
+                  编辑距离
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-25T12:10:33+08:00">
+                2017-03-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/25/编辑距离/" class="leancloud_visitors" data-flag-title="编辑距离">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>什么是编辑距离？<br>看下百度百科的介绍：编辑距离（Edit Distance），又称Levenshtein距离，是指两个字串之间，由一个转成另一个所需的最少编辑操作次数。许可的编辑操作包括将<font color="ff000">一个字符替换成另一个字符</font>，<font color="ff000">插入一个字符</font>，<font color="ff000">删除一个字符</font>。一般来说，<font color="ff000">编辑距离越小，两个串的相似度越大</font>。<br>比如说:<br>    kitten-&gt;sitten （k→s）<br>    sitten-&gt;sittin （e→i）<br>    sittin-&gt;sitting （插入g）</p>
+<p>找出字符串s1和字符串s2的编辑距离，就是求出字符串s1变成字符串s2的最小操作步骤，主要操作步骤有三种：交换、删除、插入。可以利用动态规划的思想来求解字符转 s1和字符串s2的编辑距离。</p>
+<p>动态规划公式如下所示：</p>
+<p><img src="http://img.blog.csdn.net/20160222115529695" alt="编辑距离公式"></p>
+<ul>
+<li>代码示例</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.myapp.ml.nlp;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.commons.lang3.StringUtils;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by lionel on 16/12/21.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EditDistance</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">editDistance</span><span class="params">(String A, String B)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (StringUtils.isBlank(A + B)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> lengthA = A.length();</div><div class="line">        <span class="keyword">int</span> lengthB = B.length();</div><div class="line">        <span class="keyword">int</span>[][] distance = <span class="keyword">new</span> <span class="keyword">int</span>[lengthA + <span class="number">1</span>][lengthB + <span class="number">1</span>];</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; lengthA; i++) &#123;</div><div class="line">            distance[i][<span class="number">0</span>] = i;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; lengthB; i++) &#123;</div><div class="line">            distance[<span class="number">0</span>][i] = i;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; lengthA; i++) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; lengthB; j++) &#123;</div><div class="line">                <span class="keyword">int</span> cost = A.charAt(i - <span class="number">1</span>) == B.charAt(j - <span class="number">1</span>) ? <span class="number">0</span> : <span class="number">1</span>;</div><div class="line">                <span class="keyword">int</span> deletion = distance[i - <span class="number">1</span>][j] + <span class="number">1</span>;</div><div class="line">                <span class="keyword">int</span> insertion = distance[i][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">                <span class="keyword">int</span> exchange = distance[i - <span class="number">1</span>][j - <span class="number">1</span>] + cost;</div><div class="line">                distance[i][j] = Math.min(exchange, Math.min(insertion, deletion));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> distance[lengthA - <span class="number">1</span>][lengthB - <span class="number">1</span>];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        EditDistance editDistance = <span class="keyword">new</span> EditDistance();</div><div class="line">        String str2 = <span class="string">"kitten"</span>;</div><div class="line">        String str1 = <span class="string">"sitting"</span>;</div><div class="line">        System.out.println(editDistance.editDistance(str1, str2));<span class="comment">//3</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/25/终端常用快捷键/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/25/终端常用快捷键/" itemprop="url">
+                  终端常用快捷键
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-25T10:56:48+08:00">
+                2017-03-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/25/终端常用快捷键/" class="leancloud_visitors" data-flag-title="终端常用快捷键">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>终端常用快捷键<br>⌘ + r = clear，而且只是换到新一屏，不会像 clear 一样创建一个空屏<br>ctrl + u 清空当前行，无论光标在什么位置<br>新建窗口：command + t<br>垂直分屏：command + d<br>水平分屏：command + shift + d<br>切换屏幕：command + option + 方向键 command + [ 或 command + ]<br>删除光标之前的字符：ctrl + h<br>删除光标之前的单词：ctrl + w<br>删除到文本末尾：ctrl + k<br>定位当前行首部：control + a<br>定位当前行尾部：contorl + e<br>清屏：command + r  或者 ctrl + l</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/24/Hexo博客使用MathJax数学公式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/24/Hexo博客使用MathJax数学公式/" itemprop="url">
+                  Hexo博客使用MathJax数学公式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-24T19:29:15+08:00">
+                2017-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/24/Hexo博客使用MathJax数学公式/" class="leancloud_visitors" data-flag-title="Hexo博客使用MathJax数学公式">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本篇博文介绍在 Hexo 博客使用 MathJax 数学公式。</p>
+<ol>
+<li><p>更改 Hexo 的 markdown 渲染引擎，安装 hexo-renderer-kramed</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm uninstall hexo-renderer-marked --save</div><div class="line">npm install hexo-renderer-kramed --save</div></pre></td></tr></table></figure>
+</li>
+<li><p>修改 hexo 博客站点目录（node_modules\kramed\lib\rules\）下的 inline.js 文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//  escape: /^\\([\\`*&#123;&#125;\[\]()<span class="comment">#$+\-.!_&gt;])/,</span></div><div class="line">escape: /^\\([`*\[\]()<span class="comment">#$+\-.!_&gt;])/,</span></div><div class="line"></div><div class="line">//  em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</div><div class="line">em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</div></pre></td></tr></table></figure>
+</li>
+<li><p>重新启动hexo</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo clean &amp;&amp; hexo generate &amp;&amp; hexo server</div></pre></td></tr></table></figure>
+<p> 如果还不行，查看你的主题目录下_config.yml是否开启 mathjax，开启如下：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># MathJax Support</span></div><div class="line">mathjax:</div><div class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></div><div class="line">  per_page: <span class="literal">true</span></div></pre></td></tr></table></figure>
+<p> 还有就是在你写的博客文章的Front-matter里打开mathjax开关，如下：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: 文章名</div><div class="line">date: 2017-03-23 19:01:30</div><div class="line">tags:</div><div class="line">mathjax: <span class="literal">true</span></div><div class="line">--</div></pre></td></tr></table></figure>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/24/朴素贝叶斯/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/24/朴素贝叶斯/" itemprop="url">
+                  朴素贝叶斯算法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-24T18:28:43+08:00">
+                2017-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/24/朴素贝叶斯/" class="leancloud_visitors" data-flag-title="朴素贝叶斯算法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>贝叶斯定理想必大家很早就已经了解，朴素贝叶斯算法就是基于贝叶斯定理提出的一种监督机器学习算法。为什么叫“朴素”了？那是因为朴素贝叶斯分类器基于一个简单的假定：给定目标值时属性之间相互条件独立。给定类变量 y (这里一个样本仅属于一类) 和一个相互独立的特征向量 $x_1$ 到 $x_n$，贝叶斯定理可得到如下关系：</p>
+<script type="math/tex; mode=display">P(y \mid x_1, \dots, x_n) = \frac{P(y) P(x_1, \dots x_n \mid y)}
+                                 {P(x_1, \dots, x_n)}</script><p>使用朴素（naive）的假设：每个特征之间相互独立：</p>
+<script type="math/tex; mode=display">P(x_i | y, x_1, \dots, x_{i-1}, x_{i+1}, \dots, x_n) = P(x_i | y)</script><p>对于所有的$i$,这个关系可以简化为：</p>
+<script type="math/tex; mode=display">P(y \mid x_1, \dots, x_n) = \frac{P(y) \prod_{i=1}^{n} P(x_i \mid y)}
+                                 {P(x_1, \dots, x_n)}</script><p>由于${P(x_1, \dots, x_n)}$的值当给定的特征不变式是固定的，所以可以得到以下分类规则：</p>
+<script type="math/tex; mode=display">P(y \mid x_1, \dots, x_n) \propto P(y) \prod_{i=1}^{n} P(x_i \mid y)</script><script type="math/tex; mode=display">\Downarrow</script><script type="math/tex; mode=display">\hat{y} = \arg\max_y P(y) \prod_{i=1}^{n} P(x_i \mid y)</script><p>并且我们可以使用最大后验概率（MAP）估计来估计$P(y) $ ,$P(x_i \mid y)$;<br>不同的朴素贝叶斯分类器的不同之处在于：它们对$P(x_i \mid y)$的分布的认识和假设不同。目前常用的有高斯模型、多项式模型和伯努利模型这三种模型。本文主要介绍高斯模型以及对应的 python 实现。</p>
+<h2 id="朴素贝叶斯算法-高斯模型"><a href="#朴素贝叶斯算法-高斯模型" class="headerlink" title="朴素贝叶斯算法 高斯模型"></a>朴素贝叶斯算法 高斯模型</h2><p>高斯模型假设这些一个特征的所有属于某个类别的观测值符合高斯分布:</p>
+<script type="math/tex; mode=display">P(x_i \mid y) = \frac{1}{\sqrt{2\pi\sigma^2_y}} \exp\left(-\frac{(x_i - \mu_y)^2}{2\sigma^2_y}\right)</script><h2 id="python代码实现"><a href="#python代码实现" class="headerlink" title="python代码实现"></a>python代码实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python3</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> random</div><div class="line"><span class="keyword">import</span> math</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 根据文件路径加载数据</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_data</span><span class="params">(file_name)</span>:</span></div><div class="line">    file = open(file_name)</div><div class="line">    data = []</div><div class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> file.readlines():</div><div class="line">        tmpline = line.split(<span class="string">' '</span>)</div><div class="line">        tmp = []</div><div class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> tmpline:</div><div class="line">            tmp.append(float(x))</div><div class="line">        data.append(tmp)</div><div class="line">    <span class="keyword">return</span> data</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 数据分为训练数据 train_set 和测试数据 test_set</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">split_data</span><span class="params">(data, split_ratio)</span>:</span></div><div class="line">    train_size = int(len(data) * split_ratio)</div><div class="line">    train_set = []</div><div class="line">    test_set = list(data)</div><div class="line">    <span class="keyword">while</span> len(train_set) &lt; train_size:</div><div class="line">        index = random.randrange(len(test_set))</div><div class="line">        train_set.append(test_set.pop(index))</div><div class="line">    <span class="keyword">return</span> [train_set, test_set]</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 根据结果分类</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">separate_by_class</span><span class="params">(data)</span>:</span></div><div class="line">    y = &#123;&#125;</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(data)):</div><div class="line">        vector = data[i]</div><div class="line">        <span class="keyword">if</span> vector[<span class="number">-1</span>] <span class="keyword">not</span> <span class="keyword">in</span> y:</div><div class="line">            y[vector[<span class="number">-1</span>]] = []</div><div class="line">        y[vector[<span class="number">-1</span>]].append(vector)</div><div class="line">    <span class="keyword">return</span> y</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 计算平均值</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">average</span><span class="params">(numbers)</span>:</span></div><div class="line">    <span class="keyword">return</span> sum(numbers) / float(len(numbers))</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 计算样本方差</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">stdev</span><span class="params">(numbers)</span>:</span></div><div class="line">    avg = average(numbers)</div><div class="line">    variance = sum([pow(x - avg, <span class="number">2</span>) <span class="keyword">for</span> x <span class="keyword">in</span> numbers]) / float(len(numbers) - <span class="number">1</span>)</div><div class="line">    <span class="keyword">return</span> math.sqrt(variance)</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 计算每个属性的平均值和样本方差</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">summarize</span><span class="params">(data)</span>:</span></div><div class="line">    summaries = [(average(attribute), stdev(attribute)) <span class="keyword">for</span> attribute <span class="keyword">in</span> zip(*data)]</div><div class="line">    <span class="keyword">del</span> summaries[<span class="number">-1</span>]</div><div class="line">    <span class="keyword">return</span> summaries</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">summaries_by_class</span><span class="params">(data)</span>:</span></div><div class="line">    y = separate_by_class(data)</div><div class="line">    summaries = &#123;&#125;</div><div class="line">    <span class="keyword">for</span> classValue, instances <span class="keyword">in</span> y.items():</div><div class="line">        summaries[classValue] = summarize(instances)</div><div class="line">    <span class="keyword">return</span> summaries</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 计算高斯分布</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculate_Probability</span><span class="params">(x, avg, stdev)</span>:</span></div><div class="line">    exponent = math.exp((<span class="number">-1</span>) * (math.pow(x - avg, <span class="number">2</span>) / (<span class="number">2</span> * math.pow(stdev, <span class="number">2</span>))))</div><div class="line">    <span class="keyword">return</span> (<span class="number">1</span> / (math.sqrt(<span class="number">2</span> * math.pi) * stdev)) * exponent</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 计算输入向量的贝叶斯概率</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculateClassProbabilities</span><span class="params">(summaries, inputVector)</span>:</span></div><div class="line">    probabilities = &#123;&#125;</div><div class="line">    <span class="keyword">for</span> classValue, classSummaries <span class="keyword">in</span> summaries.items():</div><div class="line">        probabilities[classValue] = <span class="number">1</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(classSummaries)):</div><div class="line">            avg, stdev = classSummaries[i]</div><div class="line">            x = inputVector[i]</div><div class="line">            probabilities[classValue] *= calculate_Probability(x, avg, stdev)</div><div class="line">    <span class="keyword">return</span> probabilities</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 找到最大的值</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">predict</span><span class="params">(summaries, inputVector)</span>:</span></div><div class="line">    probabilities = calculateClassProbabilities(summaries, inputVector)</div><div class="line">    bestLabel, bestProb = <span class="keyword">None</span>, <span class="number">-1</span></div><div class="line">    <span class="keyword">for</span> classValue, probability <span class="keyword">in</span> probabilities.items():</div><div class="line">        <span class="keyword">if</span> bestLabel <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">or</span> probability &gt; bestProb:</div><div class="line">            bestProb = probability</div><div class="line">            bestLabel = classValue</div><div class="line">    <span class="keyword">return</span> bestLabel</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getPredictions</span><span class="params">(summaries, testSet)</span>:</span></div><div class="line">    predictions = []</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(testSet)):</div><div class="line">        result = predict(summaries, testSet[i])</div><div class="line">        predictions.append(result)</div><div class="line">    <span class="keyword">return</span> predictions</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 计算预测正确率</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getAccuracy</span><span class="params">(testSet, predictions)</span>:</span></div><div class="line">    correct = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(testSet)):</div><div class="line">        <span class="keyword">if</span> testSet[i][<span class="number">-1</span>] == predictions[i]:</div><div class="line">            correct += <span class="number">1</span></div><div class="line">    <span class="keyword">return</span> (correct / float(len(testSet))) * <span class="number">100.0</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    data = load_data(<span class="string">"/tmp/pima-indians-diabetes.txt"</span>)</div><div class="line">    trainSet, testSet = split_data(data, <span class="number">0.8</span>)</div><div class="line">    summaries = summaries_by_class(trainSet)</div><div class="line">    print(</div><div class="line">        <span class="string">'split &#123;0&#125; rows data into &#123;1&#125; rows trainData and &#123;2&#125; rows testData'</span>.format(len(data), len(trainSet), len(testSet)))</div><div class="line">    predictions = getPredictions(summaries, testSet)</div><div class="line">    accuracy = getAccuracy(testSet, predictions)</div><div class="line">    print(<span class="string">'Accuracy:&#123;0&#125;%'</span>.format(accuracy))</div></pre></td></tr></table></figure>
+<p>本实验进行了10次测试，得到的平均正确率为74.42%。</p>
+<ul>
+<li>参考资料：<ul>
+<li><a href="http://sklearn.lzjqsdd.com/modules/naive_bayes.html#gaussian-naive-bayes" target="_blank" rel="external">朴素贝叶斯</a></li>
+<li><a href="http://python.jobbole.com/81019/" target="_blank" rel="external">机器学习之用Python从零实现贝叶斯分类器</a></li>
+</ul>
+</li>
+<li>数据集<ul>
+<li><a href="http://archive.ics.uci.edu/ml/machine-learning-databases/pima-indians-diabetes/pima-indians-diabetes.data" target="_blank" rel="external">数据集地址</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/24/梯度下降法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/24/梯度下降法/" itemprop="url">
+                  梯度下降法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-24T18:09:15+08:00">
+                2017-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/24/梯度下降法/" class="leancloud_visitors" data-flag-title="梯度下降法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>梯度下降法，又叫最速下降法，是一种最优化算法。它用负梯度方向为搜索方向的，最速下降法越接近目标值，步长越小，前进越慢。<br>梯度下降法的计算过程就是沿着梯度下降的方向求解极小值。（亦可以沿着梯度上升的方向求解极大值）。它的迭代公式为:</p>
+<script type="math/tex; mode=display">a_{k+1}=a_{k}+\gamma_ks^{-(k)}(式1-1)</script><p>其中，$s^{-(k)}$代表的是梯度的负方向，$\gamma_k$表示梯度方向上的搜索步长。梯度方向可以通过求导得到，步长的设定则比较麻烦，太大的容易发散，找不到极小值的点，太小的话则收敛的速度比较慢。</p>
+<ul>
+<li>示例<br>现有函数$f(x)=x^4-3x^3+2$,则利用梯度下降方法解题的步骤如下：<br>1.求梯度，即对函数求导，$f(x)=4x^3-9x^2$；<br>2.根据式1-1，向梯度相反的方向移动 $x$；<br>3.循环迭代步骤2，直到x的值变化到使得$f(x)$在两次迭代之间的差值足够小，比如0.00000001，也就是说，直到两次迭代计算出来的$f(x)$基本没有变化，则说明此时$f(x)$已经达到局部最小值了。<br>4.此时，输出 $x$，此时求得的 $x$ 就是使得$f(x)$取得最小值的 x 的值。</li>
+<li>代码</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#python 代码</span></div><div class="line"><span class="comment"># encoding=utf-8</span></div><div class="line"></div><div class="line">x_old = <span class="number">0</span></div><div class="line">x_new = <span class="number">6</span></div><div class="line">gamma = <span class="number">0.01</span></div><div class="line">precision = <span class="number">0.00000001</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># x = Symbol("x")</span></div><div class="line"><span class="comment"># f = (x ** 4) - (3 * (x ** 3)) + 2</span></div><div class="line"></div><div class="line"><span class="comment">#梯度下降算法</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">df</span><span class="params">(x)</span>:</span></div><div class="line">    y = <span class="number">4</span> * x**<span class="number">3</span> - <span class="number">9</span> * x**<span class="number">2</span></div><div class="line">    <span class="keyword">return</span> y</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">while</span> abs(x_new - x_old) &gt; precision:</div><div class="line">    x_old = x_new</div><div class="line">    x_new += -gamma * df(x_old)</div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">"The local minimum occurs at"</span>, x_new//The local minimum occurs at <span class="number">2.24999996819</span></div></pre></td></tr></table></figure>
+<p>利用数学知识可以求得函数$f(x)=x^4-3x^3+2$的极小值在$\frac{9}{4}$取得，即2.25，代码求得的结果是2.24999996819，已经满足小于0.00000001的条件，代码有效。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/24/ansj分词简单案例/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -552,625 +1788,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/21/doc2vct算法实现/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Feng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="江峰的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/21/doc2vct算法实现/" itemprop="url">
-                  doc2vct算法实现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-21T18:03:56+08:00">
-                2017-03-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/NLP/" itemprop="url" rel="index">
-                    <span itemprop="name">NLP</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/21/doc2vct算法实现/" class="leancloud_visitors" data-flag-title="doc2vct算法实现">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本篇文章主要是实现Python 自然语言处理包 gensim 中用于长文本向量建模的 doc2vec算法。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python3</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> logging</div><div class="line"><span class="keyword">import</span> multiprocessing</div><div class="line"><span class="keyword">import</span> os.path</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">from</span> gensim <span class="keyword">import</span> utils</div><div class="line"><span class="keyword">from</span> gensim.models.doc2vec <span class="keyword">import</span> TaggedDocument, Doc2Vec</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyDocs</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, filename)</span>:</span></div><div class="line">        self.filename = filename</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> open(self.filename, <span class="string">'rb'</span>):</div><div class="line">                pieces = utils.to_unicode(line).split()</div><div class="line">                tag = pieces[<span class="number">0</span>]</div><div class="line">                words = pieces[<span class="number">1</span>].split(<span class="string">','</span>)</div><div class="line">                <span class="keyword">yield</span> TaggedDocument(words, [tag])</div><div class="line">        <span class="keyword">except</span>:</div><div class="line">            logging.info(<span class="string">'e'</span>)</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    program = os.path.basename(sys.argv[<span class="number">0</span>])</div><div class="line">    logger = logging.getLogger(program)</div><div class="line"></div><div class="line">    logging.basicConfig(format=<span class="string">'%(asctime)s: %(levelname)s: %(message)s'</span>)</div><div class="line">    logging.root.setLevel(level=logging.INFO)</div><div class="line">    logger.info(<span class="string">"running %s"</span> % <span class="string">' '</span>.join(sys.argv))</div><div class="line"></div><div class="line">    <span class="comment"># check and process input arguments</span></div><div class="line">    <span class="keyword">if</span> len(sys.argv) &lt; <span class="number">4</span>:</div><div class="line">        sys.exit(<span class="number">1</span>)</div><div class="line">    inp, outp1, outp2 = sys.argv[<span class="number">1</span>:<span class="number">4</span>]</div><div class="line"></div><div class="line">    documents = MyDocs(inp)</div><div class="line">    <span class="comment">#建立模型</span></div><div class="line">    model = Doc2Vec(documents, size=<span class="number">200</span>, window=<span class="number">5</span>, min_count=<span class="number">20</span>, workers=multiprocessing.cpu_count())</div><div class="line"></div><div class="line">    <span class="comment"># trim unneeded model memory = use(much) less RAM</span></div><div class="line">    <span class="comment"># model.init_sims(replace=True)</span></div><div class="line">    <span class="comment">#保存模型</span></div><div class="line">    model.save(outp1)</div><div class="line">    model.save_word2vec_format(outp2, binary=<span class="keyword">False</span>)</div></pre></td></tr></table></figure>
-<p>说明一下：在MyDocs这个类中，我自定义了一个逐步读取文件的方法，因为在试验中我们发现，一个4个G 左右大小的文件在一个服务器内存为64G 的服务器上是不够用的，内存消耗非常之快，所以就看了一下源码中TaggedLineDocument和LineSentence这个类的源码，发现使用 yield这个关键字能很好的解决这个问题，便有了MyDocs类，实验结果表明，效果大大提高。有兴趣的同学可以看看 yield的用法。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#测试模型</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">from</span> gensim.models <span class="keyword">import</span> Doc2Vec</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="comment"># check and process input arguments</span></div><div class="line">    <span class="keyword">if</span> len(sys.argv) &lt; <span class="number">3</span>:</div><div class="line">        sys.exit(<span class="number">1</span>)</div><div class="line">    file, word = sys.argv[<span class="number">1</span>:<span class="number">3</span>]</div><div class="line"></div><div class="line">    <span class="comment">#加载模型</span></div><div class="line">    docvecs = Doc2Vec.load(file).docvecs</div><div class="line">    print(docvecs.most_similar(word))</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/21/word2vct算法实现/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Feng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="江峰的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/21/word2vct算法实现/" itemprop="url">
-                  word2vct算法实现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-21T17:50:51+08:00">
-                2017-03-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/NLP/" itemprop="url" rel="index">
-                    <span itemprop="name">NLP</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/21/word2vct算法实现/" class="leancloud_visitors" data-flag-title="word2vct算法实现">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本篇文章主要是实现Python 自然语言处理包 gensim 中用于词向量建模的 word2vec算法。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># encoding=utf-8</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> logging</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">from</span> gensim.models <span class="keyword">import</span> Word2Vec</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    logging.basicConfig(format=<span class="string">'%(asctime)s : %(levelname)s : %(message)s'</span>, level=logging.INFO)</div><div class="line"></div><div class="line">    <span class="keyword">if</span> len(sys.argv) &lt; <span class="number">3</span>:</div><div class="line">        sys.exit(<span class="number">1</span>)</div><div class="line"></div><div class="line">    outputFile1, outputFile2 = sys.argv[<span class="number">1</span>:<span class="number">3</span>]</div><div class="line"></div><div class="line">    sentences = [</div><div class="line">        <span class="string">"I think that most of us know by now that water is essential to our survival We’ve probably also all heard doctors say that drinking roughly eight glasses a day is ideal"</span>,</div><div class="line">        <span class="string">"yoyoyo you go home now to sleep"</span>]</div><div class="line"></div><div class="line">    vocab = [s.encode(<span class="string">'utf-8'</span>).decode().split() <span class="keyword">for</span> s <span class="keyword">in</span> sentences]</div><div class="line">    <span class="comment">#建立模型</span></div><div class="line">    model = Word2Vec(sentences, size=<span class="number">100</span>, window=<span class="number">5</span>, min_count=<span class="number">5</span>, workers=<span class="number">4</span>)</div><div class="line">    <span class="comment">#保存模型</span></div><div class="line">    model.save(outputFile1)</div><div class="line">    model.save_word2vec_format(outputFile2, binary=<span class="keyword">False</span>)</div></pre></td></tr></table></figure></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#测试模型</span></div><div class="line"><span class="comment"># encoding='utf-8'</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> logging</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">from</span> gensim.models <span class="keyword">import</span> Word2Vec</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    logging.basicConfig(format=<span class="string">'%(asctime)s : %(levelname)s : %(message)s'</span>, level=logging.INFO)</div><div class="line"></div><div class="line">    <span class="keyword">if</span> len(sys.argv) &lt; <span class="number">3</span>:</div><div class="line">        sys.exit(<span class="number">1</span>)</div><div class="line"></div><div class="line">    file, word = sys.argv[<span class="number">1</span>:<span class="number">3</span>]</div><div class="line">    <span class="comment">#从磁盘文件 file 加载模型</span></div><div class="line">    model = Word2Vec.load_word2vec_format(file, binary=<span class="keyword">False</span>)</div><div class="line">    print(model.most_similar(word))</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/21/tensorflow-安装和卸载/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Feng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="江峰的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/21/tensorflow-安装和卸载/" itemprop="url">
-                  tensorflow 安装和卸载
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-21T17:07:31+08:00">
-                2017-03-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/深度学习/" itemprop="url" rel="index">
-                    <span itemprop="name">深度学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/21/tensorflow-安装和卸载/" class="leancloud_visitors" data-flag-title="tensorflow 安装和卸载">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="基于-virtualenv-安装"><a href="#基于-virtualenv-安装" class="headerlink" title="基于 virtualenv 安装"></a>基于 virtualenv 安装</h2><p>安装步骤如下：</p>
-<ol>
-<li>打开终端（a shell）;</li>
-<li><p>安装 pip（如果之前没有安装的话） 和 virtualenv :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo easy_install pip</div><div class="line">$ sudo pip install --upgrade virtualenv</div></pre></td></tr></table></figure>
-</li>
-<li><p>建立一个新的 virtualenv 环境 :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ virtualenv --system-site-packages ~/tensorflow</div></pre></td></tr></table></figure>
-</li>
-<li><p>激活 virtualenv :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ cd ~/tensorflow</div><div class="line">$ source bin/activate # 如果使用 bash, sh, ksh, 或者 zsh</div><div class="line">$ source bin/activate.csh # 如果使用 csh 或者 tcsh</div><div class="line">终端发生变化:</div><div class="line">(tensorflow)$</div></pre></td></tr></table></figure>
-</li>
-<li><p>安装 tensorflow :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pip install --upgrade tensorflow # for python 2.7</div><div class="line">pip3 install --upgrade tensorflow # for python 3.n</div></pre></td></tr></table></figure>
-</li>
-<li><p>测试是否安装成功 :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">(tensorflow) $ bin python</div><div class="line">Python 3.5.2 (default, Jul 28 2016, 21:28:00)</div><div class="line">[GCC 4.2.1 Compatible Apple LLVM 7.3.0 (clang-703.0.31)] on darwin</div><div class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</div><div class="line">&gt;&gt;&gt; import tensorflow as tf</div><div class="line">&gt;&gt;&gt; hello = tf.constant(&apos;Hello, TensorFlow!&apos;)</div><div class="line">&gt;&gt;&gt; sess = tf.Session()</div><div class="line">&gt;&gt;&gt; print(sess.run(hello))</div><div class="line">b&apos;Hello, TensorFlow!&apos; # 安装成功</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="tensorflow-卸载"><a href="#tensorflow-卸载" class="headerlink" title="tensorflow 卸载"></a>tensorflow 卸载</h2><ol>
-<li>执行卸载很简单，直接删除目录即可：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rm -r ~/tensorflow</div></pre></td></tr></table></figure></li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/21/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Feng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="江峰的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/21/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-21T16:56:25+08:00">
-                2017-03-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/21/hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1215,7 +1837,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1224,7 +1846,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1233,7 +1855,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
