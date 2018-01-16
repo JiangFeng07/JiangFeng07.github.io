@@ -259,6 +259,325 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/24/梯度下降法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/24/梯度下降法/" itemprop="url">
+                  梯度下降法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-24T18:09:15+08:00">
+                2017-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/24/梯度下降法/" class="leancloud_visitors" data-flag-title="梯度下降法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>梯度下降法，又叫最速下降法，是一种最优化算法。它用负梯度方向为搜索方向的，最速下降法越接近目标值，步长越小，前进越慢。<br>梯度下降法的计算过程就是沿着梯度下降的方向求解极小值。（亦可以沿着梯度上升的方向求解极大值）。它的迭代公式为:</p>
+<script type="math/tex; mode=display">a_{k+1}=a_{k}+\gamma_ks^{-(k)}(式1-1)</script><p>其中，$s^{-(k)}$代表的是梯度的负方向，$\gamma_k$表示梯度方向上的搜索步长。梯度方向可以通过求导得到，步长的设定则比较麻烦，太大的容易发散，找不到极小值的点，太小的话则收敛的速度比较慢。</p>
+<ul>
+<li>示例<br>现有函数$f(x)=x^4-3x^3+2$,则利用梯度下降方法解题的步骤如下：<br>1.求梯度，即对函数求导，$f(x)=4x^3-9x^2$；<br>2.根据式1-1，向梯度相反的方向移动 $x$；<br>3.循环迭代步骤2，直到x的值变化到使得$f(x)$在两次迭代之间的差值足够小，比如0.00000001，也就是说，直到两次迭代计算出来的$f(x)$基本没有变化，则说明此时$f(x)$已经达到局部最小值了。<br>4.此时，输出 $x$，此时求得的 $x$ 就是使得$f(x)$取得最小值的 x 的值。</li>
+<li>代码</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#python 代码</span></div><div class="line"><span class="comment"># encoding=utf-8</span></div><div class="line"></div><div class="line">x_old = <span class="number">0</span></div><div class="line">x_new = <span class="number">6</span></div><div class="line">gamma = <span class="number">0.01</span></div><div class="line">precision = <span class="number">0.00000001</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># x = Symbol("x")</span></div><div class="line"><span class="comment"># f = (x ** 4) - (3 * (x ** 3)) + 2</span></div><div class="line"></div><div class="line"><span class="comment">#梯度下降算法</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">df</span><span class="params">(x)</span>:</span></div><div class="line">    y = <span class="number">4</span> * x**<span class="number">3</span> - <span class="number">9</span> * x**<span class="number">2</span></div><div class="line">    <span class="keyword">return</span> y</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">while</span> abs(x_new - x_old) &gt; precision:</div><div class="line">    x_old = x_new</div><div class="line">    x_new += -gamma * df(x_old)</div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">"The local minimum occurs at"</span>, x_new//The local minimum occurs at <span class="number">2.24999996819</span></div></pre></td></tr></table></figure>
+<p>利用数学知识可以求得函数$f(x)=x^4-3x^3+2$的极小值在$\frac{9}{4}$取得，即2.25，代码求得的结果是2.24999996819，已经满足小于0.00000001的条件，代码有效。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/24/ansj分词简单案例/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/24/ansj分词简单案例/" itemprop="url">
+                  ansj分词简单案例
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-24T16:35:52+08:00">
+                2017-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/24/ansj分词简单案例/" class="leancloud_visitors" data-flag-title="ansj分词简单案例">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>如今，自然语言处理技术越来越成熟，越来越得到大家关注。许多互联网公司，如京东，阿里，新美大等互联网公司都有大量的文本评论数据，如何从这些文本中挖掘出有效的信息成为关键，这就需要应用自然语言处理技术，而对文本分词是自然语言处理的第一步，很关键。分词工具有很多<a href="http://ictclas.nlpir.org/" target="_blank" rel="external">NLPIR</a>、<a href="http://code.google.com/p/ik-analyzer/" target="_blank" rel="external">IKAnalyzer</a>、<a href="https://www.baidu.com/link?url=Bv6PmRepvb8vA06WGOUleDBM6Yd-fvmNnTkGOZGDRXrmaMTU2DVEJ7Mt2HAPrZi-&amp;wd=&amp;eqid=b847872c0002fb5400000004582d599d" target="_blank" rel="external">stanford nlp</a>等等，本篇博文将介绍我所使用的分词工具 <a href="https://github.com/NLPchina/ansj_seg" target="_blank" rel="external">Ansj</a> 的使用。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+<li><p>下载 jar</p>
+<p>访问<a href="http://maven.nlpcn.org/org/ansj/" target="_blank" rel="external">http://maven.nlpcn.org/org/ansj/ </a>下载ansj-seg，倒入自己的 IDE，就可以了。如果你使用 maven，可以添加以下依赖：</p>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 增加新的maven源 --&gt;</div><div class="line">&lt;repositories&gt;</div><div class="line">    &lt;repository&gt;</div><div class="line">        &lt;id&gt;mvn-repo&lt;/id&gt;</div><div class="line">        &lt;url&gt;http://maven.nlpcn.org/&lt;/url&gt;</div><div class="line">    &lt;/repository&gt;</div><div class="line">&lt;/repositories&gt;</div><div class="line"></div><div class="line"></div><div class="line">&lt;dependencies&gt;</div><div class="line">    ....</div><div class="line"></div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;org.ansj&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;ansj_seg&lt;/artifactId&gt;</div><div class="line">        &lt;version&gt;5.0.1&lt;/version&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">    ....</div><div class="line">&lt;/dependencies&gt;</div></pre></td></tr></table></figure>
+<h2 id="示例演示"><a href="#示例演示" class="headerlink" title="示例演示"></a>示例演示</h2><p>先来看一个简单的的 demo 演示。</p>
+<ul>
+<li>Demo</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.ansj.splitWord.analysis.ToAnalysis;</div><div class="line"><span class="keyword">import</span> org.junit.Test;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by lionel on 16/11/17.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AnsjTest</span> </span>&#123;</div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</div><div class="line">        String text=<span class="string">"中新网11月17日电 据外媒报道，日本首相安倍晋三称，有机会在唐纳德•特朗普获得美国大选胜利后，成为第一个与他会晤的外国领导人是“莫大的荣幸”，并表示希望在他们之间建立信任关系。报道称，特朗普与安倍或将于当地时间17日傍晚在纽约会谈。"</span>;</div><div class="line">        System.out.println(ToAnalysis.parse(text));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>分词结果</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">中/f,新/a,网/n,11月/m,17日/m,电/n, ,据/p,外/f,媒/ng,报道/v,，/w,日本/ns,首相/n,安倍/nr,晋/j,三/m,称/v,，</div><div class="line">/w,有/v,机会/n,在/p,唐纳德/nr,•,特朗普/nr,获得/v,美国/ns,大选/vn,胜利/vn,后/f,，/w,成为/v,第一个/m,与/p,</div><div class="line">他/r,会晤/v,的/uj,外国/n,领导人/n,是/v,“/w,莫大/b,的/uj,荣幸/a,”/w,，/w,并/c,表示/v,希望/v,在/p,他们/r,</div><div class="line">之间/f,建立/v,信任/v,关系/n,。/w,报道/v,称/v,，/w,特朗普/nr,与/p,安倍/nr,或/c,将/d,于/p,当地/s,时间/n,</div><div class="line">17日/m,傍晚/t,在/p,纽约/ns,会谈/v,。/w</div></pre></td></tr></table></figure>
+<p> 可以发现，文本已经分好词了，但是有些分词就不是很满意，如“中新网”就是一个网站名，应该就是一个词，又比如说安倍晋三是一个人名，应该就是一个词。要想解决这个问题就要加入自己的词库。</p>
+<ul>
+<li>自定义词库<br>现有以下词库：</li>
+</ul>
+<p>名字词库(name.dic)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">李连杰</div><div class="line">刘德华</div><div class="line">安倍晋三</div><div class="line">唐纳德.特兰普</div></pre></td></tr></table></figure></p>
+<p>媒体词库(media.dic)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">中新网</div><div class="line">新华网</div></pre></td></tr></table></figure>
+<p>以上两个词库我直接放在 <font color="ff0000">resources 文件夹</font>下。<br>通过UserDefineLibrary类中的静态方法 insertWord()来加载自己的词库。</p>
+<ul>
+<li>示例代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.ansj.domain.Term;</div><div class="line"><span class="keyword">import</span> org.ansj.library.UserDefineLibrary;</div><div class="line"><span class="keyword">import</span> org.ansj.splitWord.analysis.ToAnalysis;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.BufferedReader;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.io.InputStreamReader;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by lionel on 16/11/17.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TextSegment</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> &#123;</div><div class="line">        loadDictionary(<span class="string">"/media.dic"</span>, <span class="string">"media"</span>);</div><div class="line">        loadDictionary(<span class="string">"/name.dic"</span>, <span class="string">"name"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     *  从本地文件加载词库，并打上对应的标签，名字词库对应的词性是 name；媒体词库对应的词性是 media</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> dic    本地词库路径</div><div class="line">     * <span class="doctag">@param</span> speech 词性</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">loadDictionary</span><span class="params">(String dic, String speech)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            InputStream is = TextSegment.class.getResourceAsStream(dic);</div><div class="line">            BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(is));</div><div class="line">            String line;</div><div class="line">            <span class="keyword">while</span> ((line = reader.readLine()) != <span class="keyword">null</span>) &#123;</div><div class="line">                String token = line.replaceAll(<span class="string">"[\\r\\n]"</span>, <span class="string">""</span>).trim();</div><div class="line">                UserDefineLibrary.insertWord(token, speech, <span class="number">1000</span>);</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 实现分词</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> text 文本</div><div class="line">     * <span class="doctag">@return</span> 分词后的文本</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;Term&gt; <span class="title">parse</span><span class="params">(String text)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (text == <span class="keyword">null</span> || text.length() == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> ToAnalysis.parse(text);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>分词结果：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">中新网/media,11月/m,17日/m,电/n, ,据/p,外/f,媒/ng,报道/v,，/w,日本/ns,首相/n,安倍晋三/name,称/v,，</div><div class="line">/w,有/v,机会/n,在/p,唐纳德•特朗普/name,获得/v,美国/ns,大选/vn,胜利/vn,后/f,，/w,成为/v,第一个/m,</div><div class="line">与/p,他/r,会晤/v,的/uj,外国/n,领导人/n,是/v,“/w,莫大/b,的/uj,荣幸/a,”/w,，/w,并/c,表示/v,希望/v,</div><div class="line">在/p,他们/r,之间/f,建立/v,信任/v,关系/n,。/w,报道/v,称/v,，/w,特朗普/nr,与/p,安倍/nr,或/c,将/d,</div><div class="line">于/p,当地/s,时间/n,17日/m,傍晚/t,在/p,纽约/ns,会谈/v,。/w</div></pre></td></tr></table></figure>
+<p>从两次的分词结果比较结果可以看出，我们的词库已经起到了作用，对应的姓名和媒体都已经是单独的一个词了，而且词性也是自定义的词性。如，中新网/media，唐纳德•特朗普/name等等。这样就可以根据词性获取需要的信息了。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/21/Mysql-分页查询优化/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1005,6 +1324,278 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2016/02/03/本地执行-spark-程序/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/02/03/本地执行-spark-程序/" itemprop="url">
+                  本地执行 spark 程序
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-03T17:25:40+08:00">
+                2016-02-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2016/02/03/本地执行-spark-程序/" class="leancloud_visitors" data-flag-title="本地执行 spark 程序">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Scala IDE,eclipse（去官网下载） 开发基于本地的spark程序<br>下载完成后，在写代码之前，需要对IDE做以下修改</p>
+<ol>
+<li>Scala IDE的默认Scala版本是2.11.7,  需要修改为2.10.x</li>
+<li>加入spark1.6.0的jar包依赖</li>
+</ol>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.jiang.spark</div><div class="line"><span class="keyword">import</span> org.apache.spark.<span class="type">SparkConf</span></div><div class="line"><span class="keyword">import</span> org.apache.spark.<span class="type">SparkContext</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">WordCount</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>])&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 第一步：创建Spark的配置对象SparkConf，设置Spark程序的运行时的配置信息，</div><div class="line">     * 例如说通过setMaster来设置程序要链接的Spark集群的Master的URL，如果设置为</div><div class="line">     * local，则代表Spark程序在在本地运行</div><div class="line">     */</div><div class="line">    <span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>;<span class="comment">//创建SparkConf对象</span></div><div class="line"></div><div class="line">    conf.setAppName(<span class="string">"Wow"</span>)<span class="comment">//设置应用程序的名称，在程序运行的监控界面可以看到名称</span></div><div class="line">    conf.setMaster(<span class="string">"local"</span>)<span class="comment">//此时，程序在本地运行，不需要Spark集群</span></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 第二步：创建SparkContext对象</div><div class="line">     * SparkContext是Spark程序所有功能的唯一入口，无论是采用Scala、Java、Python、R等都必须有一个SparkContext</div><div class="line">     * SparkContext 的核心作用：初始化Spark应用程序运行所需要的核心组件，包括DAGScheduler、TaskScheduler、SchedulerBackend</div><div class="line">     * 同时还会负责Spark程序往Master注册程序等</div><div class="line">     * SparkContext是整个Spark应用程序中最为至关重要的一个对象</div><div class="line">     */</div><div class="line">    <span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)<span class="comment">//创建SparkContext对象，通过传入SparkConf实例来定制Spark运行的具体参数和配置信息</span></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 第三步：根据具体的数据来源（HDFS、HBase、Local、FS、DB、S3等）通过SparkContext来创建RDD</div><div class="line">     * RDD的创建基本有三种方式：根据外部的数据来源、根据Scala集合、有其它的RDD操作</div><div class="line">     * 数据会根据RDD划分为一系列的Partitions，分配到每个Partition的数据属于一个Task的处理范畴</div><div class="line">     */</div><div class="line">    <span class="keyword">val</span> lines = sc.textFile(<span class="string">"README.md"</span>,<span class="number">1</span> )</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 第四步：对初始的RDD进行Transformation级别的处理，例如map、filter等高阶函数等的编程，来进行具体的数据计算</div><div class="line">     * 4.1步；将每一行的字符串拆分为当个的单词</div><div class="line">     *</div><div class="line">     */</div><div class="line">    <span class="keyword">val</span> words = lines.flatMap &#123; line =&gt; line.split(<span class="string">" "</span>) &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 4.2步：在单词拆分的基础上对每个单词实例计数为1，也就是 word=&gt; (word,1)</div><div class="line">     */</div><div class="line">    <span class="keyword">val</span> pairs = words.map &#123; word=&gt; (word,<span class="number">1</span>) &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 4.3步：在每个单词实例计数为1的基础上统计每个单词在文件中出现分的总次数</div><div class="line">     */</div><div class="line">    <span class="keyword">val</span> wordCounts = pairs.reduceByKey(_+_)</div><div class="line"></div><div class="line">    wordCounts.foreach(wordNumberPair =&gt; println((wordNumberPair._1) +<span class="string">" : "</span>+ (wordNumberPair._2)))</div><div class="line"></div><div class="line">    sc.stop()</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2016/01/12/机器学习系列之FPGrowth算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/01/12/机器学习系列之FPGrowth算法/" itemprop="url">
+                  机器学习系列之FPGrowth算法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-12T15:49:16+08:00">
+                2016-01-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2016/01/12/机器学习系列之FPGrowth算法/" class="leancloud_visitors" data-flag-title="机器学习系列之FPGrowth算法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li><p>首先构建FP树所需要的数据结构</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.jiang.fpGrowth;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.swing.tree.TreeNode;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> *类说明</div><div class="line"> * <span class="doctag">@author</span> jiangfeng</div><div class="line"> * <span class="doctag">@since</span> 2016年1月11日</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FP_TreeNode</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">FP_TreeNode</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">private</span> String nodeName;<span class="comment">//节点名称</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count;<span class="comment">//计数</span></div><div class="line">    <span class="keyword">private</span> FP_TreeNode parent;<span class="comment">//父节点</span></div><div class="line">    <span class="keyword">private</span> List&lt;FP_TreeNode&gt; children;</div><div class="line">    <span class="keyword">private</span> FP_TreeNode nextNode;<span class="comment">//下一个同名节点</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FP_TreeNode</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FP_TreeNode</span><span class="params">(String name)</span></span>&#123;</div><div class="line">    nodeName=name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getNodeName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> nodeName;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNodeName</span><span class="params">(String nodeName)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.nodeName = nodeName;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCount</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.count = count;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> FP_TreeNode <span class="title">getParent</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> parent;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setParent</span><span class="params">(FP_TreeNode parent)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.parent = parent;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;FP_TreeNode&gt; <span class="title">getChildren</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> children;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setChildren</span><span class="params">(List&lt;FP_TreeNode&gt; children)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.children = children;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> FP_TreeNode <span class="title">getNextNode</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> nextNode;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNextNode</span><span class="params">(FP_TreeNode nextNode)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.nextNode = nextNode;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//添加孩子节点</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addChild</span><span class="params">(FP_TreeNode child)</span></span>&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.getChildren()==<span class="keyword">null</span>)&#123;<span class="comment">//孩子节点为空，新建链表，加入孩子节点，再作为该节点的孩子结合</span></div><div class="line">        List&lt;FP_TreeNode&gt; list=<span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        list.add(child);</div><div class="line">        <span class="keyword">this</span>.setChildren(list);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">this</span>.getChildren().add(child);</div><div class="line">    &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//查找孩子节点</span></div><div class="line">    <span class="function"><span class="keyword">public</span> FP_TreeNode <span class="title">findChild</span><span class="params">(String name)</span></span>&#123;</div><div class="line">    List&lt;FP_TreeNode&gt; children=<span class="keyword">this</span>.getChildren();</div><div class="line">    <span class="keyword">if</span>(children!=<span class="keyword">null</span>)&#123;</div><div class="line">        <span class="keyword">for</span>(FP_TreeNode child:children)&#123;</div><div class="line">        <span class="keyword">if</span>(child.getNodeName().equals(name))&#123;</div><div class="line">            <span class="keyword">return</span> child;</div><div class="line">        &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//打印孩子节点的名称</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printChildrenName</span><span class="params">()</span></span>&#123;</div><div class="line">    List&lt;FP_TreeNode&gt; children=<span class="keyword">this</span>.getChildren();</div><div class="line">    <span class="keyword">if</span>(children!=<span class="keyword">null</span>)&#123;</div><div class="line">        <span class="keyword">for</span>(FP_TreeNode child : children)&#123;</div><div class="line">        System.out.print(child.getNodeName()+<span class="string">" "</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">        System.out.println(<span class="string">"null"</span>);</div><div class="line">    &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">countCreament</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</div><div class="line">    <span class="keyword">this</span>.count+=n;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//使得Arrays.sort()按照降序排列</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(FP_TreeNode node)</span></span>&#123;</div><div class="line">    <span class="keyword">int</span> count=node.getCount();</div><div class="line">    <span class="keyword">return</span> count-<span class="keyword">this</span>.count;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>实现FPGrowth算法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.jiang.fpGrowth;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.Collections;</div><div class="line"><span class="keyword">import</span> java.util.Comparator;</div><div class="line"><span class="keyword">import</span> java.util.HashMap;</div><div class="line"><span class="keyword">import</span> java.util.LinkedList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.Map;</div><div class="line"><span class="keyword">import</span> java.util.Map.Entry;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.swing.tree.TreeNode;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Set;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FPGrowth</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> minSupport;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMinSupport</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> minSupport;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMinSupport</span><span class="params">(<span class="keyword">int</span> minSupport)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.minSupport = minSupport;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//FPGrowth算法</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">FPGrowth</span><span class="params">(List&lt;List&lt;String&gt;&gt; transRecords,List&lt;String&gt; postPattern)</span></span>&#123;</div><div class="line">    ArrayList&lt;FP_TreeNode&gt; headerTable=buildHeaderTable(transRecords);</div><div class="line"></div><div class="line">    FP_TreeNode treeRoot=buildFPTree(transRecords, headerTable);</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(treeRoot.getChildren()==<span class="keyword">null</span>||treeRoot.getChildren().size()==<span class="number">0</span>)&#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(postPattern!=<span class="keyword">null</span>)&#123;</div><div class="line">        <span class="keyword">for</span>(FP_TreeNode header:headerTable)&#123;</div><div class="line">        System.out.print(header.getCount()+<span class="string">"\t"</span>+header.getNodeName());</div><div class="line">        <span class="keyword">for</span>(String ele:postPattern)&#123;</div><div class="line">            System.out.print(<span class="string">"\t"</span>+ele);</div><div class="line">        &#125;</div><div class="line">        System.out.println();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(FP_TreeNode header:headerTable)&#123;</div><div class="line">        List&lt;String&gt; newPostPattern =<span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line"></div><div class="line">        newPostPattern.add(header.getNodeName());</div><div class="line">        <span class="keyword">if</span>(postPattern!=<span class="keyword">null</span>)&#123;</div><div class="line">        newPostPattern.addAll(postPattern);</div><div class="line">        &#125;</div><div class="line">        List&lt;List&lt;String&gt;&gt; newTransRecords =<span class="keyword">new</span> LinkedList&lt;List&lt;String&gt;&gt;();</div><div class="line">        FP_TreeNode backNode=header.getNextNode();</div><div class="line">        <span class="keyword">while</span>(backNode!=<span class="keyword">null</span>)&#123;</div><div class="line">        <span class="keyword">int</span> counter =backNode.getCount();</div><div class="line">        List&lt;String&gt; preNodes=<span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        FP_TreeNode parent=backNode;</div><div class="line">        <span class="keyword">while</span>((parent=parent.getParent()).getNodeName()!=<span class="keyword">null</span>)&#123;</div><div class="line">            preNodes.add(parent.getNodeName());</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(counter--&gt;<span class="number">0</span>)&#123;</div><div class="line">            newTransRecords.add(preNodes);</div><div class="line">        &#125;</div><div class="line">        backNode=backNode.getNextNode();</div><div class="line">        &#125;</div><div class="line">        FPGrowth(newTransRecords, newPostPattern);</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line">     * @transRecords:交易记录</div><div class="line">     * @ return: 频繁1项集</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> ArrayList&lt;FP_TreeNode&gt; <span class="title">buildHeaderTable</span><span class="params">(List&lt;List&lt;String&gt;&gt; transRecords)</span></span>&#123;</div><div class="line">    ArrayList&lt;FP_TreeNode&gt; F1=<span class="keyword">null</span>;</div><div class="line">    <span class="keyword">if</span>(transRecords.size()&gt;<span class="number">0</span>)&#123;</div><div class="line">        F1=<span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        Map&lt;String, FP_TreeNode&gt; map=<span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line"></div><div class="line">        <span class="keyword">for</span>(List&lt;String&gt; record:transRecords)&#123;</div><div class="line">        <span class="keyword">for</span>(String item:record)&#123;</div><div class="line">            <span class="keyword">if</span>(map.keySet().contains(item))&#123;</div><div class="line">            map.get(item).countCreament(<span class="number">1</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span>&#123;</div><div class="line">            FP_TreeNode node =<span class="keyword">new</span> FP_TreeNode(item);</div><div class="line">            node.setCount(<span class="number">1</span>);</div><div class="line">            map.put(item, node);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//支持度大于minSupport的放入F1中</span></div><div class="line">        Set&lt;String&gt; names=map.keySet();</div><div class="line">        <span class="keyword">for</span>(String name:names)&#123;</div><div class="line">        FP_TreeNode tmpNode=map.get(name);</div><div class="line">        <span class="keyword">if</span>(tmpNode.getCount()&gt;=minSupport)&#123;</div><div class="line">            F1.add(tmpNode);</div><div class="line">        &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Collections.sort(F1);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> F1;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    <span class="comment">//构建FP-Tree</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> FP_TreeNode <span class="title">buildFPTree</span><span class="params">(List&lt;List&lt;String&gt;&gt; transRecords,ArrayList&lt;FP_TreeNode&gt; F1)</span></span>&#123;</div><div class="line">    FP_TreeNode root=<span class="keyword">new</span> FP_TreeNode();<span class="comment">//创建树的根节点</span></div><div class="line"></div><div class="line">    <span class="keyword">for</span>(List&lt;String&gt; transRecord:transRecords)&#123;</div><div class="line"></div><div class="line">        LinkedList&lt;String&gt;  record=sortByF1(transRecord, F1);<span class="comment">//根据F1频繁项集对每条记录排序</span></div><div class="line">        FP_TreeNode subTreeRoot=root;</div><div class="line">        FP_TreeNode tmpRoot=<span class="keyword">null</span>;</div><div class="line"></div><div class="line">        <span class="keyword">if</span>(root.getChildren()!=<span class="keyword">null</span>)&#123;</div><div class="line">        <span class="keyword">while</span>(!record.isEmpty()&amp;&amp;(tmpRoot=subTreeRoot.findChild(record.peek()))!=<span class="keyword">null</span>)&#123;</div><div class="line">            tmpRoot.countCreament(<span class="number">1</span>);</div><div class="line">            subTreeRoot=tmpRoot;</div><div class="line">            record.poll();</div><div class="line"></div><div class="line">        &#125;</div><div class="line">        &#125;</div><div class="line">        addNodes(subTreeRoot,record,F1);</div><div class="line"></div><div class="line"></div><div class="line">     &#125;</div><div class="line">    <span class="keyword">return</span> root;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addNodes</span><span class="params">(FP_TreeNode subTreeRoot, LinkedList&lt;String&gt; record, ArrayList&lt;FP_TreeNode&gt; F1)</span> </span>&#123;</div><div class="line">    <span class="comment">// TODO Auto-generated method stub</span></div><div class="line"></div><div class="line">    <span class="keyword">if</span>(record.size()&gt;<span class="number">0</span>)&#123;</div><div class="line">        <span class="keyword">while</span>(record.size()&gt;<span class="number">0</span>)&#123;</div><div class="line">        String item=record.poll();</div><div class="line">        FP_TreeNode leafNode=<span class="keyword">new</span> FP_TreeNode(item);</div><div class="line">        leafNode.setCount(<span class="number">1</span>);</div><div class="line">        leafNode.setParent(subTreeRoot);</div><div class="line">        subTreeRoot.addChild(leafNode);</div><div class="line"></div><div class="line">        <span class="keyword">for</span>(FP_TreeNode f1:F1)&#123;</div><div class="line">            <span class="keyword">if</span>(f1.getNodeName().equals(item))&#123;</div><div class="line">            <span class="keyword">while</span>(f1.getNextNode()!=<span class="keyword">null</span>)&#123;</div><div class="line">                f1=f1.getNextNode();</div><div class="line">            &#125;</div><div class="line">            f1.setNextNode(leafNode);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        addNodes(leafNode, record, F1);</div><div class="line"></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//把交易记录按照项的频繁程度降序排列</span></div><div class="line">   <span class="function"><span class="keyword">public</span> LinkedList&lt;String&gt; <span class="title">sortByF1</span><span class="params">(List&lt;String&gt; transRecord,ArrayList&lt;FP_TreeNode&gt; F1)</span></span>&#123;</div><div class="line">       Map&lt;String,Integer&gt; map=<span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">       <span class="keyword">for</span>(String item:transRecord)&#123;</div><div class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;F1.size();i++)&#123;</div><div class="line">           FP_TreeNode tmpNode=F1.get(i);</div><div class="line">           <span class="keyword">if</span> (tmpNode.getNodeName().equals(item)) &#123;</div><div class="line">           map.put(item, i);</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line">       &#125;</div><div class="line">       ArrayList&lt;Entry&lt;String, Integer&gt;&gt; al=<span class="keyword">new</span> ArrayList&lt;Entry&lt;String, Integer&gt;&gt;(map.entrySet());</div><div class="line">       Collections.sort(al,<span class="keyword">new</span> Comparator&lt;Map.Entry&lt;String, Integer&gt;&gt;()&#123;</div><div class="line">       <span class="meta">@Override</span></div><div class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Entry&lt;String, Integer&gt; et,Entry&lt;String, Integer&gt; et1)</span></span>&#123;</div><div class="line">           <span class="comment">//降序排列</span></div><div class="line">          <span class="keyword">return</span> et.getValue()- et1.getValue();</div><div class="line">       &#125;</div><div class="line">       &#125;);</div><div class="line">       LinkedList&lt;String&gt; res =<span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">       <span class="keyword">for</span>(Entry&lt;String, Integer&gt; entry:al)&#123;</div><div class="line">       res.add(entry.getKey());</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="keyword">return</span> res;</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>运行FPGrowth算法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.jiang.fpGrowth;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.BufferedReader;</div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"><span class="keyword">import</span> java.io.FileReader;</div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.LinkedList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestFPGrowth</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; readTransRecords(String file)&#123;</div><div class="line">    List&lt;List&lt;String&gt;&gt; transRecord=<span class="keyword">new</span> LinkedList&lt;List&lt;String&gt;&gt;();</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">       BufferedReader bf=<span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader(file));</div><div class="line">        String line;</div><div class="line">        List&lt;String&gt; record;</div><div class="line">        <span class="keyword">while</span>((line=bf.readLine())!=<span class="keyword">null</span>)&#123;</div><div class="line">        <span class="keyword">if</span>(line.trim().length()&gt;<span class="number">0</span>)&#123;</div><div class="line">           <span class="comment">// System.out.println(line);</span></div><div class="line">            String[] str=line.split(<span class="string">" "</span>);</div><div class="line"><span class="comment">//          for(int i=0;i&lt;str.length;i++)&#123;</span></div><div class="line"><span class="comment">//          System.out.print(str[i]+" ");</span></div><div class="line"><span class="comment">//          &#125;</span></div><div class="line">            record = <span class="keyword">new</span> LinkedList&lt;String&gt;();</div><div class="line">            <span class="keyword">for</span>(String string:str)&#123;</div><div class="line">            record.add(string);</div><div class="line">            &#125;</div><div class="line">            transRecord.add(record);</div><div class="line">        &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">        <span class="comment">// <span class="doctag">TODO:</span> handle exception</span></div><div class="line">        e.printStackTrace();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> transRecord;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    FPGrowth fpGrowth=<span class="keyword">new</span> FPGrowth();</div><div class="line">    fpGrowth.setMinSupport(<span class="number">3</span>);</div><div class="line">    TestFPGrowth res=<span class="keyword">new</span> TestFPGrowth();</div><div class="line">    String file=<span class="string">"F:\\FPGrowth\\record.txt"</span>;</div><div class="line">    List&lt;List&lt;String&gt;&gt; transRecords=res.readTransRecords(file);</div><div class="line">    <span class="comment">/*for(int i=0;i&lt;transRecords.size();i++)&#123;</span></div><div class="line">        for(int j=0;j&lt;transRecords.get(i).size();j++)&#123;</div><div class="line">        System.out.print(transRecords.get(i).get(j)+" ");</div><div class="line">        &#125;</div><div class="line">        System.out.println();</div><div class="line">    &#125;*/</div><div class="line">    ArrayList&lt;FP_TreeNode&gt; list=fpGrowth.buildHeaderTable(transRecords);</div><div class="line"></div><div class="line">    <span class="comment">/*for(int i=0;i&lt;list.size();i++)&#123;</span></div><div class="line">        System.out.print(list.get(i).getNodeName()+" ");</div><div class="line">    &#125;*/</div><div class="line">    fpGrowth.FPGrowth(transRecords, <span class="keyword">null</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1054,7 +1645,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">29</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1072,7 +1663,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1141,7 +1732,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
