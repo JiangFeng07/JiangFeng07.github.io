@@ -89,19 +89,18 @@
 
 
 
-<meta name="description" content="梯度下降法，又叫最速下降法，是一种最优化算法。它用负梯度方向为搜索方向的，最速下降法越接近目标值，步长越小，前进越慢。梯度下降法的计算过程就是沿着梯度下降的方向求解极小值。（亦可以沿着梯度上升的方向求解极大值）。它的迭代公式为:
-a_{k+1}=a_{k}+\gamma_ks^{-(k)}(式1-1)其中，$s^{-(k)}$代表的是梯度的负方向，$\gamma_k$表示梯度方向上的搜索步长。梯度">
+<meta name="description" content="梯度下降法，又叫最速下降法，是一种最优化算法。它用负梯度方向为搜索方向的，最速下降法越接近目标值，步长越小，前进越慢。梯度下降法的计算过程就是沿着梯度下降的方向求解极小值。（亦可以沿着梯度上升的方向求解极大值）。它的迭代公式为: a_{k+1}=a_{k}+\gamma_ks^{-(k)}(式1-1)其中，$s^{-(k)}$代表的是梯度的负方向，$\gamma_k$表示梯度方向上的搜索步长。梯度">
+<meta name="keywords" content="机器学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="梯度下降法">
 <meta property="og:url" content="http://JiangFeng07.github.com/2017/03/24/梯度下降法/index.html">
 <meta property="og:site_name" content="江峰的技术博客">
-<meta property="og:description" content="梯度下降法，又叫最速下降法，是一种最优化算法。它用负梯度方向为搜索方向的，最速下降法越接近目标值，步长越小，前进越慢。梯度下降法的计算过程就是沿着梯度下降的方向求解极小值。（亦可以沿着梯度上升的方向求解极大值）。它的迭代公式为:
-a_{k+1}=a_{k}+\gamma_ks^{-(k)}(式1-1)其中，$s^{-(k)}$代表的是梯度的负方向，$\gamma_k$表示梯度方向上的搜索步长。梯度">
+<meta property="og:description" content="梯度下降法，又叫最速下降法，是一种最优化算法。它用负梯度方向为搜索方向的，最速下降法越接近目标值，步长越小，前进越慢。梯度下降法的计算过程就是沿着梯度下降的方向求解极小值。（亦可以沿着梯度上升的方向求解极大值）。它的迭代公式为: a_{k+1}=a_{k}+\gamma_ks^{-(k)}(式1-1)其中，$s^{-(k)}$代表的是梯度的负方向，$\gamma_k$表示梯度方向上的搜索步长。梯度">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-03-31T12:59:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="梯度下降法">
-<meta name="twitter:description" content="梯度下降法，又叫最速下降法，是一种最优化算法。它用负梯度方向为搜索方向的，最速下降法越接近目标值，步长越小，前进越慢。梯度下降法的计算过程就是沿着梯度下降的方向求解极小值。（亦可以沿着梯度上升的方向求解极大值）。它的迭代公式为:
-a_{k+1}=a_{k}+\gamma_ks^{-(k)}(式1-1)其中，$s^{-(k)}$代表的是梯度的负方向，$\gamma_k$表示梯度方向上的搜索步长。梯度">
+<meta name="twitter:description" content="梯度下降法，又叫最速下降法，是一种最优化算法。它用负梯度方向为搜索方向的，最速下降法越接近目标值，步长越小，前进越慢。梯度下降法的计算过程就是沿着梯度下降的方向求解极小值。（亦可以沿着梯度上升的方向求解极大值）。它的迭代公式为: a_{k+1}=a_{k}+\gamma_ks^{-(k)}(式1-1)其中，$s^{-(k)}$代表的是梯度的负方向，$\gamma_k$表示梯度方向上的搜索步长。梯度">
 
 
 
@@ -375,7 +374,7 @@ a_{k+1}=a_{k}+\gamma_ks^{-(k)}(式1-1)其中，$s^{-(k)}$代表的是梯度的�
 <li>示例<br>现有函数$f(x)=x^4-3x^3+2$,则利用梯度下降方法解题的步骤如下：<br>1.求梯度，即对函数求导，$f(x)=4x^3-9x^2$；<br>2.根据式1-1，向梯度相反的方向移动 $x$；<br>3.循环迭代步骤2，直到x的值变化到使得$f(x)$在两次迭代之间的差值足够小，比如0.00000001，也就是说，直到两次迭代计算出来的$f(x)$基本没有变化，则说明此时$f(x)$已经达到局部最小值了。<br>4.此时，输出 $x$，此时求得的 $x$ 就是使得$f(x)$取得最小值的 x 的值。</li>
 <li>代码</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#python 代码</span></div><div class="line"><span class="comment"># encoding=utf-8</span></div><div class="line"></div><div class="line">x_old = <span class="number">0</span></div><div class="line">x_new = <span class="number">6</span></div><div class="line">gamma = <span class="number">0.01</span></div><div class="line">precision = <span class="number">0.00000001</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># x = Symbol("x")</span></div><div class="line"><span class="comment"># f = (x ** 4) - (3 * (x ** 3)) + 2</span></div><div class="line"></div><div class="line"><span class="comment">#梯度下降算法</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">df</span><span class="params">(x)</span>:</span></div><div class="line">    y = <span class="number">4</span> * x**<span class="number">3</span> - <span class="number">9</span> * x**<span class="number">2</span></div><div class="line">    <span class="keyword">return</span> y</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">while</span> abs(x_new - x_old) &gt; precision:</div><div class="line">    x_old = x_new</div><div class="line">    x_new += -gamma * df(x_old)</div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">"The local minimum occurs at"</span>, x_new//The local minimum occurs at <span class="number">2.24999996819</span></div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#python 代码</span></span><br><span class="line"><span class="comment"># encoding=utf-8</span></span><br><span class="line"></span><br><span class="line">x_old = <span class="number">0</span></span><br><span class="line">x_new = <span class="number">6</span></span><br><span class="line">gamma = <span class="number">0.01</span></span><br><span class="line">precision = <span class="number">0.00000001</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># x = Symbol("x")</span></span><br><span class="line"><span class="comment"># f = (x ** 4) - (3 * (x ** 3)) + 2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#梯度下降算法</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">df</span><span class="params">(x)</span>:</span></span><br><span class="line">    y = <span class="number">4</span> * x**<span class="number">3</span> - <span class="number">9</span> * x**<span class="number">2</span></span><br><span class="line">    <span class="keyword">return</span> y</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> abs(x_new - x_old) &gt; precision:</span><br><span class="line">    x_old = x_new</span><br><span class="line">    x_new += -gamma * df(x_old)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">"The local minimum occurs at"</span>, x_new//The local minimum occurs at <span class="number">2.24999996819</span></span><br></pre></td></tr></table></figure>
 <p>利用数学知识可以求得函数$f(x)=x^4-3x^3+2$的极小值在$\frac{9}{4}$取得，即2.25，代码求得的结果是2.24999996819，已经满足小于0.00000001的条件，代码有效。</p>
 
       
@@ -494,7 +493,7 @@ a_{k+1}=a_{k}+\gamma_ks^{-(k)}(式1-1)其中，$s^{-(k)}$代表的是梯度的�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -503,7 +502,7 @@ a_{k+1}=a_{k}+\gamma_ks^{-(k)}(式1-1)其中，$s^{-(k)}$代表的是梯度的�
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -512,7 +511,7 @@ a_{k+1}=a_{k}+\gamma_ks^{-(k)}(式1-1)其中，$s^{-(k)}$代表的是梯度的�
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

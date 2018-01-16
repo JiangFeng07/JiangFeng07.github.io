@@ -89,31 +89,18 @@
 
 
 
-<meta name="description" content="本篇博文介绍在 Hexo 博客使用 MathJax 数学公式。
-
-更改 Hexo 的 markdown 渲染引擎，安装 hexo-renderer-kramed
-12npm uninstall hexo-renderer-marked --savenpm install hexo-renderer-kramed --save
-
-修改 hexo 博客站点目录（node_modules\kramed\">
+<meta name="description" content="本篇博文介绍在 Hexo 博客使用 MathJax 数学公式。  更改 Hexo 的 markdown 渲染引擎，安装 hexo-renderer-kramed 12npm uninstall hexo-renderer-marked --savenpm install hexo-renderer-kramed --save  修改 hexo 博客站点目录（node_modules\kramed\">
+<meta name="keywords" content="工具">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo博客使用MathJax数学公式">
 <meta property="og:url" content="http://JiangFeng07.github.com/2017/03/24/Hexo博客使用MathJax数学公式/index.html">
 <meta property="og:site_name" content="江峰的技术博客">
-<meta property="og:description" content="本篇博文介绍在 Hexo 博客使用 MathJax 数学公式。
-
-更改 Hexo 的 markdown 渲染引擎，安装 hexo-renderer-kramed
-12npm uninstall hexo-renderer-marked --savenpm install hexo-renderer-kramed --save
-
-修改 hexo 博客站点目录（node_modules\kramed\">
+<meta property="og:description" content="本篇博文介绍在 Hexo 博客使用 MathJax 数学公式。  更改 Hexo 的 markdown 渲染引擎，安装 hexo-renderer-kramed 12npm uninstall hexo-renderer-marked --savenpm install hexo-renderer-kramed --save  修改 hexo 博客站点目录（node_modules\kramed\">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-03-31T12:57:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo博客使用MathJax数学公式">
-<meta name="twitter:description" content="本篇博文介绍在 Hexo 博客使用 MathJax 数学公式。
-
-更改 Hexo 的 markdown 渲染引擎，安装 hexo-renderer-kramed
-12npm uninstall hexo-renderer-marked --savenpm install hexo-renderer-kramed --save
-
-修改 hexo 博客站点目录（node_modules\kramed\">
+<meta name="twitter:description" content="本篇博文介绍在 Hexo 博客使用 MathJax 数学公式。  更改 Hexo 的 markdown 渲染引擎，安装 hexo-renderer-kramed 12npm uninstall hexo-renderer-marked --savenpm install hexo-renderer-kramed --save  修改 hexo 博客站点目录（node_modules\kramed\">
 
 
 
@@ -384,17 +371,17 @@
         <p>本篇博文介绍在 Hexo 博客使用 MathJax 数学公式。</p>
 <ol>
 <li><p>更改 Hexo 的 markdown 渲染引擎，安装 hexo-renderer-kramed</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm uninstall hexo-renderer-marked --save</div><div class="line">npm install hexo-renderer-kramed --save</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save</span><br><span class="line">npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>修改 hexo 博客站点目录（node_modules\kramed\lib\rules\）下的 inline.js 文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//  escape: /^\\([\\`*&#123;&#125;\[\]()<span class="comment">#$+\-.!_&gt;])/,</span></div><div class="line">escape: /^\\([`*\[\]()<span class="comment">#$+\-.!_&gt;])/,</span></div><div class="line"></div><div class="line">//  em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</div><div class="line">em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//  escape: /^\\([\\`*&#123;&#125;\[\]()<span class="comment">#$+\-.!_&gt;])/,</span></span><br><span class="line">escape: /^\\([`*\[\]()<span class="comment">#$+\-.!_&gt;])/,</span></span><br><span class="line"></span><br><span class="line">//  em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br><span class="line">em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>重新启动hexo</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo clean &amp;&amp; hexo generate &amp;&amp; hexo server</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo generate &amp;&amp; hexo server</span><br></pre></td></tr></table></figure>
 <p> 如果还不行，查看你的主题目录下_config.yml是否开启 mathjax，开启如下：</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># MathJax Support</span></div><div class="line">mathjax:</div><div class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></div><div class="line">  per_page: <span class="literal">true</span></div></pre></td></tr></table></figure>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># MathJax Support</span></span><br><span class="line">mathjax:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  per_page: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 <p> 还有就是在你写的博客文章的Front-matter里打开mathjax开关，如下：</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: 文章名</div><div class="line">date: 2017-03-23 19:01:30</div><div class="line">tags:</div><div class="line">mathjax: <span class="literal">true</span></div><div class="line">--</div></pre></td></tr></table></figure>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 文章名</span><br><span class="line">date: 2017-03-23 19:01:30</span><br><span class="line">tags:</span><br><span class="line">mathjax: <span class="literal">true</span></span><br><span class="line">--</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 
@@ -514,7 +501,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -523,7 +510,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -532,7 +519,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

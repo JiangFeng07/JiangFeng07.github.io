@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="深度学习," />
+  <meta name="keywords" content="ES," />
 
 
 
@@ -89,37 +89,18 @@
 
 
 
-<meta name="description" content="基于 virtualenv 安装安装步骤如下：
-
-打开终端（a shell）;
-安装 pip（如果之前没有安装的话） 和 virtualenv :
-12$ sudo easy_install pip$ sudo pip install --upgrade virtualenv
-
-建立一个新的 virtualenv 环境 :
-1$ virtualenv --system-site-packages">
+<meta name="description" content="在 ES2.x 版本字符串数据是没有 keyword 和 text 类型的，只有string类型，ES更新到5版本后，取消了 string  数据类型，代替它的是 keyword 和 text 数据类型，那么 keyword 和 text 有什么区别了？Text 数据类型被用来索引长文本，比如说电子邮件的主体部分或者一款产品的介绍。这些文本会被分析，在建立索引前会将这些文本进行分词，转化为词的组合">
+<meta name="keywords" content="ES">
 <meta property="og:type" content="article">
-<meta property="og:title" content="tensorflow 安装和卸载">
-<meta property="og:url" content="http://JiangFeng07.github.com/2017/03/21/tensorflow-安装和卸载/index.html">
+<meta property="og:title" content="ElasticSearch数据keyword和text的区别">
+<meta property="og:url" content="http://JiangFeng07.github.com/2017/11/01/ElasticSearch数据keyword和text的区别/index.html">
 <meta property="og:site_name" content="江峰的技术博客">
-<meta property="og:description" content="基于 virtualenv 安装安装步骤如下：
-
-打开终端（a shell）;
-安装 pip（如果之前没有安装的话） 和 virtualenv :
-12$ sudo easy_install pip$ sudo pip install --upgrade virtualenv
-
-建立一个新的 virtualenv 环境 :
-1$ virtualenv --system-site-packages">
-<meta property="og:updated_time" content="2017-03-21T11:00:54.000Z">
+<meta property="og:description" content="在 ES2.x 版本字符串数据是没有 keyword 和 text 类型的，只有string类型，ES更新到5版本后，取消了 string  数据类型，代替它的是 keyword 和 text 数据类型，那么 keyword 和 text 有什么区别了？Text 数据类型被用来索引长文本，比如说电子邮件的主体部分或者一款产品的介绍。这些文本会被分析，在建立索引前会将这些文本进行分词，转化为词的组合">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-16T11:24:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tensorflow 安装和卸载">
-<meta name="twitter:description" content="基于 virtualenv 安装安装步骤如下：
-
-打开终端（a shell）;
-安装 pip（如果之前没有安装的话） 和 virtualenv :
-12$ sudo easy_install pip$ sudo pip install --upgrade virtualenv
-
-建立一个新的 virtualenv 环境 :
-1$ virtualenv --system-site-packages">
+<meta name="twitter:title" content="ElasticSearch数据keyword和text的区别">
+<meta name="twitter:description" content="在 ES2.x 版本字符串数据是没有 keyword 和 text 类型的，只有string类型，ES更新到5版本后，取消了 string  数据类型，代替它的是 keyword 和 text 数据类型，那么 keyword 和 text 有什么区别了？Text 数据类型被用来索引长文本，比如说电子邮件的主体部分或者一款产品的介绍。这些文本会被分析，在建立索引前会将这些文本进行分词，转化为词的组合">
 
 
 
@@ -147,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://JiangFeng07.github.com/2017/03/21/tensorflow-安装和卸载/"/>
+  <link rel="canonical" href="http://JiangFeng07.github.com/2017/11/01/ElasticSearch数据keyword和text的区别/"/>
 
 
 
 
 
-  <title> tensorflow 安装和卸载 | 江峰的技术博客 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> ElasticSearch数据keyword和text的区别 | 江峰的技术博客 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -282,7 +263,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/03/21/tensorflow-安装和卸载/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng07.github.com/2017/11/01/ElasticSearch数据keyword和text的区别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -303,7 +284,7 @@
             
             
               
-                tensorflow 安装和卸载
+                ElasticSearch数据keyword和text的区别
               
             
           </h1>
@@ -318,8 +299,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-21T17:07:31+08:00">
-                2017-03-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-01T19:19:36+08:00">
+                2017-11-01
               </time>
             
 
@@ -341,8 +322,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/深度学习/" itemprop="url" rel="index">
-                    <span itemprop="name">深度学习</span>
+                  <a href="/categories/ES/" itemprop="url" rel="index">
+                    <span itemprop="name">ES</span>
                   </a>
                 </span>
 
@@ -358,7 +339,7 @@
 
           
           
-             <span id="/2017/03/21/tensorflow-安装和卸载/" class="leancloud_visitors" data-flag-title="tensorflow 安装和卸载">
+             <span id="/2017/11/01/ElasticSearch数据keyword和text的区别/" class="leancloud_visitors" data-flag-title="ElasticSearch数据keyword和text的区别">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -387,28 +368,9 @@
       
 
       
-        <h2 id="基于-virtualenv-安装"><a href="#基于-virtualenv-安装" class="headerlink" title="基于 virtualenv 安装"></a>基于 virtualenv 安装</h2><p>安装步骤如下：</p>
-<ol>
-<li>打开终端（a shell）;</li>
-<li><p>安装 pip（如果之前没有安装的话） 和 virtualenv :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo easy_install pip</div><div class="line">$ sudo pip install --upgrade virtualenv</div></pre></td></tr></table></figure>
-</li>
-<li><p>建立一个新的 virtualenv 环境 :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ virtualenv --system-site-packages ~/tensorflow</div></pre></td></tr></table></figure>
-</li>
-<li><p>激活 virtualenv :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ cd ~/tensorflow</div><div class="line">$ source bin/activate # 如果使用 bash, sh, ksh, 或者 zsh</div><div class="line">$ source bin/activate.csh # 如果使用 csh 或者 tcsh</div><div class="line">终端发生变化:</div><div class="line">(tensorflow)$</div></pre></td></tr></table></figure>
-</li>
-<li><p>安装 tensorflow :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pip install --upgrade tensorflow # for python 2.7</div><div class="line">pip3 install --upgrade tensorflow # for python 3.n</div></pre></td></tr></table></figure>
-</li>
-<li><p>测试是否安装成功 :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">(tensorflow) $ bin python</div><div class="line">Python 3.5.2 (default, Jul 28 2016, 21:28:00)</div><div class="line">[GCC 4.2.1 Compatible Apple LLVM 7.3.0 (clang-703.0.31)] on darwin</div><div class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</div><div class="line">&gt;&gt;&gt; import tensorflow as tf</div><div class="line">&gt;&gt;&gt; hello = tf.constant(&apos;Hello, TensorFlow!&apos;)</div><div class="line">&gt;&gt;&gt; sess = tf.Session()</div><div class="line">&gt;&gt;&gt; print(sess.run(hello))</div><div class="line">b&apos;Hello, TensorFlow!&apos; # 安装成功</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="tensorflow-卸载"><a href="#tensorflow-卸载" class="headerlink" title="tensorflow 卸载"></a>tensorflow 卸载</h2><ol>
-<li>执行卸载很简单，直接删除目录即可：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rm -r ~/tensorflow</div></pre></td></tr></table></figure></li>
-</ol>
+        <p>在 ES2.x 版本字符串数据是没有 keyword 和 text 类型的，只有string类型，ES更新到5版本后，取消了 string  数据类型，代替它的是 keyword 和 text 数据类型，那么 keyword 和 text 有什么区别了？<br>Text 数据类型被用来索引长文本，比如说电子邮件的主体部分或者一款产品的介绍。这些文本会被分析，在建立索引前会将这些文本进行分词，转化为词的组合，建立索引。允许 ES来检索这些词语。text 数据类型不能用来排序和聚合。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT &apos;localhost:9200/employees/&apos; -d &apos;</span><br><span class="line">&#123;</span><br><span class="line">    &quot;mappings&quot;:&#123;</span><br><span class="line">        &quot;employee&quot;:&#123;</span><br><span class="line">             &quot;properties&quot;: &#123;</span><br><span class="line">                 &quot;intro&quot;:&quot;text&quot;</span><br><span class="line">             &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&apos;</span><br></pre></td></tr></table></figure></p>
+<p>Keyword 数据类型用来建立电子邮箱地址、姓名、邮政编码和标签等数据，不需要进行分词。可以被用来检索过滤、排序和聚合。keyword 类型字段只能用本身来进行检索。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT &apos;localhost:9200/employees/&apos; -d &apos;</span><br><span class="line">&#123;</span><br><span class="line">    &quot;mappings&quot;:&#123;</span><br><span class="line">        &quot;employee&quot;:&#123;</span><br><span class="line">             &quot;properties&quot;: &#123;</span><br><span class="line">                 &quot;name&quot;:&quot;keyword&quot;</span><br><span class="line">             &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&apos;</span><br></pre></td></tr></table></figure></p>
+<p>注意，如果不像以上通过mapping 配置索引时，遇到字符串类型时候的字端，系统会默认为“text”类型。检索的时候对字符串进行分析。所以要想只通过字段本身来进行检索，还是需要按照上面把该字段改为“keyword”类型。</p>
 
       
     </div>
@@ -432,7 +394,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+            <a href="/tags/ES/" rel="tag"># ES</a>
           
         </div>
       
@@ -445,8 +407,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/21/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2017/11/01/ElasticSearch-java-api/" rel="next" title="ElasticSearch-java api">
+                <i class="fa fa-chevron-left"></i> ElasticSearch-java api
               </a>
             
           </div>
@@ -455,8 +417,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/21/word2vct算法实现/" rel="prev" title="word2vct算法实现">
-                word2vct算法实现 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/01/12/java并发编程-线程三要素/" rel="prev" title="java并发编程-线程三要素">
+                java并发编程-线程三要素 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -510,17 +472,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -535,7 +488,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -544,7 +497,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -553,7 +506,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -605,22 +558,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于-virtualenv-安装"><span class="nav-number">1.</span> <span class="nav-text">基于 virtualenv 安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tensorflow-卸载"><span class="nav-number">2.</span> <span class="nav-text">tensorflow 卸载</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

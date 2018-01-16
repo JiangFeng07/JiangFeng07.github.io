@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="ES," />
 
 
 
@@ -89,23 +89,19 @@
 
 
 
-<meta name="description" content="ElasticSearch5.x 安装
-java8，安装 ES5.x 版本必须要有 java 8的环境；
-下载 ElasticSearch5.x，使用以下命令进行下载。可以去官网进行下载，本篇文章安装的是5.6.3版本；1234curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.3.ta">
+<meta name="description" content="ElasticSearch5.x 安装 java8，安装 ES5.x 版本必须要有 java 8的环境； 下载 ElasticSearch5.x，使用以下命令进行下载。可以去官网进行下载，本篇文章安装的是5.6.3版本；1234curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.3.ta">
+<meta name="keywords" content="ES">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ElasticSearch5.x安装">
 <meta property="og:url" content="http://JiangFeng07.github.com/2017/10/24/ElasticSearch5-x安装/index.html">
 <meta property="og:site_name" content="江峰的技术博客">
-<meta property="og:description" content="ElasticSearch5.x 安装
-java8，安装 ES5.x 版本必须要有 java 8的环境；
-下载 ElasticSearch5.x，使用以下命令进行下载。可以去官网进行下载，本篇文章安装的是5.6.3版本；1234curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.3.ta">
+<meta property="og:description" content="ElasticSearch5.x 安装 java8，安装 ES5.x 版本必须要有 java 8的环境； 下载 ElasticSearch5.x，使用以下命令进行下载。可以去官网进行下载，本篇文章安装的是5.6.3版本；1234curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.3.ta">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://onm4pqoqp.bkt.clouddn.com/es.png">
-<meta property="og:updated_time" content="2017-10-24T10:50:48.000Z">
+<meta property="og:updated_time" content="2018-01-16T11:24:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ElasticSearch5.x安装">
-<meta name="twitter:description" content="ElasticSearch5.x 安装
-java8，安装 ES5.x 版本必须要有 java 8的环境；
-下载 ElasticSearch5.x，使用以下命令进行下载。可以去官网进行下载，本篇文章安装的是5.6.3版本；1234curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.3.ta">
+<meta name="twitter:description" content="ElasticSearch5.x 安装 java8，安装 ES5.x 版本必须要有 java 8的环境； 下载 ElasticSearch5.x，使用以下命令进行下载。可以去官网进行下载，本篇文章安装的是5.6.3版本；1234curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.3.ta">
 <meta name="twitter:image" content="http://onm4pqoqp.bkt.clouddn.com/es.png">
 
 
@@ -316,6 +312,28 @@ java8，安装 ES5.x 版本必须要有 java 8的环境；
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ES/" itemprop="url" rel="index">
+                    <span itemprop="name">ES</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -354,35 +372,35 @@ java8，安装 ES5.x 版本必须要有 java 8的环境；
       
         <h3 id="ElasticSearch5-x-安装"><a href="#ElasticSearch5-x-安装" class="headerlink" title="ElasticSearch5.x 安装"></a>ElasticSearch5.x 安装</h3><ol>
 <li>java8，安装 ES5.x 版本必须要有 java 8的环境；</li>
-<li>下载 ElasticSearch5.x，使用以下命令进行下载。可以去<a href="https://www.elastic.co/cn/products/elasticsearch" target="_blank" rel="external">官网</a>进行下载，本篇文章安装的是5.6.3版本；<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.3.tar.gz</div><div class="line">tar -xvf elasticsearch-5.6.3.tar.gz </div><div class="line">cd elasticsearch-5.6.3/bin</div><div class="line">./elasticsearch</div></pre></td></tr></table></figure>
+<li>下载 ElasticSearch5.x，使用以下命令进行下载。可以去<a href="https://www.elastic.co/cn/products/elasticsearch" target="_blank" rel="noopener">官网</a>进行下载，本篇文章安装的是5.6.3版本；<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.3.tar.gz</span><br><span class="line">tar -xvf elasticsearch-5.6.3.tar.gz</span><br><span class="line">cd elasticsearch-5.6.3/bin</span><br><span class="line">./elasticsearch</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>安装成功后会出现输入在浏览器输入localhost:9200，出现以下信息说明安装成功。<br><img src="http://onm4pqoqp.bkt.clouddn.com/es.png" alt=""></p>
 <p>现在有一个问题，现在在本地环境下可以对 ES 进行访问，但是我们怎样从其它机器来访问它了，修改两个地方:</p>
 <ol>
 <li>修改config/elasticsearch.yml,  network.host修改为0.0.0.0</li>
-<li>修改/etc/sysconfig/iptables,开启9200端口,重启防火墙(service iptables restart)<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 9200 -j ACCEPT</div></pre></td></tr></table></figure>
+<li>修改/etc/sysconfig/iptables,开启9200端口,重启防火墙(service iptables restart)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 9200 -j ACCEPT</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>这样，你就可以使用ip-address:9200进行访问了,ip-address指的是你电脑的 ip 地址。</p>
 <h4 id="安装过程遇见问题"><a href="#安装过程遇见问题" class="headerlink" title="安装过程遇见问题"></a>安装过程遇见问题</h4><ol>
 <li><p>max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]<br>root 用户编辑 vim /etc/security/limits.conf 文件, 添加以下内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">*   hard    nofile  65536</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*   hard    nofile  65536</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>max number of threads [1024] for user [henry] is too low, increase to at least [2048]</p>
 </li>
 </ol>
-<p>root 用户编辑 vim /etc/security/limits.d/90-nproc.conf 修改以下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">*          soft    nproc     2048</div></pre></td></tr></table></figure></p>
+<p>root 用户编辑 vim /etc/security/limits.d/90-nproc.conf 修改以下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*          soft    nproc     2048</span><br></pre></td></tr></table></figure></p>
 <ol>
 <li>max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</li>
 </ol>
-<p>root 用户编辑 vim /etc/sysctl.conf 添加以下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vm.max_map_count=262144</div></pre></td></tr></table></figure></p>
+<p>root 用户编辑 vim /etc/sysctl.conf 添加以下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm.max_map_count=262144</span><br></pre></td></tr></table></figure></p>
 <p>并执行命令 sysctl -p</p>
 <ol>
-<li>system call filters failed to install; check the logs and fix your configuration or disable system call filters at your own risk<br>henry 用户编辑 vim config/elasticsearch.yml 文件, 添加以下内容<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bootstrap.system_call_filter: false</div></pre></td></tr></table></figure>
+<li>system call filters failed to install; check the logs and fix your configuration or disable system call filters at your own risk<br>henry 用户编辑 vim config/elasticsearch.yml 文件, 添加以下内容<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bootstrap.system_call_filter: false</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>可能需要重启服务器, 然后重启 ES 服务. 在外部通过浏览器访问 <a href="http://ip-address:9200" target="_blank" rel="external">http://ip-address:9200</a>, 如果看到如上图图所示的输出, 那么说明你配置成功啦!</p>
+<p>可能需要重启服务器, 然后重启 ES 服务. 在外部通过浏览器访问 <a href="http://ip-address:9200" target="_blank" rel="noopener">http://ip-address:9200</a>, 如果看到如上图图所示的输出, 那么说明你配置成功啦!</p>
 
       
     </div>
@@ -404,6 +422,12 @@ java8，安装 ES5.x 版本必须要有 java 8的环境；
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/ES/" rel="tag"># ES</a>
+          
+        </div>
+      
 
       
         
@@ -413,8 +437,8 @@ java8，安装 ES5.x 版本必须要有 java 8的环境；
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/26/神经网络基础-逻辑回归/" rel="next" title="神经网络基础-逻辑回归">
-                <i class="fa fa-chevron-left"></i> 神经网络基础-逻辑回归
+              <a href="/2017/10/16/CNN实现手写数字识别/" rel="next" title="CNN实现手写数字识别">
+                <i class="fa fa-chevron-left"></i> CNN实现手写数字识别
               </a>
             
           </div>
@@ -422,6 +446,10 @@ java8，安装 ES5.x 版本必须要有 java 8的环境；
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/25/Kibana安装/" rel="prev" title="Kibana安装">
+                Kibana安装 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -499,7 +527,7 @@ java8，安装 ES5.x 版本必须要有 java 8的环境；
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -508,7 +536,7 @@ java8，安装 ES5.x 版本必须要有 java 8的环境；
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -517,7 +545,7 @@ java8，安装 ES5.x 版本必须要有 java 8的环境；
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
