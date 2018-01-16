@@ -91,7 +91,7 @@
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="江峰的技术博客">
-<meta property="og:url" content="http://leo.github.com/page/3/index.html">
+<meta property="og:url" content="http://JiangFeng.github.com/page/3/index.html">
 <meta property="og:site_name" content="江峰的技术博客">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -123,7 +123,7 @@
 
 
 
-  <link rel="canonical" href="http://leo.github.com/page/3/"/>
+  <link rel="canonical" href="http://JiangFeng.github.com/page/3/"/>
 
 
 
@@ -260,7 +260,184 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2017/06/04/机器学习算法系列之决策树算法/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/06/04/机器学习算法系列之K近邻算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/04/机器学习算法系列之K近邻算法/" itemprop="url">
+                  机器学习算法系列之K近邻算法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-04T20:21:04+08:00">
+                2017-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/分类/" itemprop="url" rel="index">
+                    <span itemprop="name">分类</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/04/机器学习算法系列之K近邻算法/" class="leancloud_visitors" data-flag-title="机器学习算法系列之K近邻算法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>&emsp;&emsp;K 近邻算法（KNN）是一种常用的监督学习方法，它的工作机制十分简单：给定测试样本，基于某种距离度量（比较常用的是欧式距离）找出训练集中与其最靠近的 k 个训练样本，然后根据这 k 个邻居的信息来进行预测。它既可以用来进行分类，也可以用来进行回归。通常，在分类任务中会采用投票的方法，即选择这k 个样本中出现最多的类别标记作为预测结果；在回归任务重可使用“平均法”，即将这个 k个样本的实值输出标记的平均值作为预测结果；还可以基于距离远近进行加权平均或加权投票，距离越近的权重越大。本篇博文讲着重介绍使用 k 近邻算法来进行分类。</p>
+<p>&emsp;&emsp;<strong>KNN 算法过程</strong></p>
+<ol>
+<li>计算已知类别数据集中的点到当前节点的距离（欧氏距离等）；</li>
+<li>按照距离递增次序排序；</li>
+<li>选取与当前距离最近的 K 个点；</li>
+<li>统计这 k个点每个类别的出现频率；</li>
+<li>选取出现频率最高的类别作为当前点的预测结果。</li>
+</ol>
+<p>&emsp;&emsp;K近邻算法最简单的实现方法是线性扫描，这时要计算输入实例与每一个训练实例的距离。当训练的数据集特别大时，这种做法特别耗时，不可取。此时，就可以使用的特殊的数据结构来存储训练数据集，以减少计算距离的次数，本篇博文将使用常用的 kd树来存储训练集。<br>&emsp;&emsp;kd 树是一种对k维空间的实例点进行存储以便对其进行快速检索的属性数据结构。kd 树是二叉树，表示对 k 维空间的一个划分。构造 kd 树相当于不断地用垂直于坐标轴的超平面将 k 维空间切分，构造一系列的 k 维超矩形区域。</p>
+<p>&emsp;&emsp;构造 kd 树的方法如下</p>
+<ol>
+<li>构造根节点，使根节点对应于 k 维空间中包含所有实例点的超矩形区域；</li>
+<li>通过</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MathUtils</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sigmod</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1.0</span> / (<span class="number">1.0</span> + math.exp(-x))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sigmoid_derivative</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> x * (<span class="number">1</span> - x)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">compute_distance</span><span class="params">(self, a, b)</span>:</span></span><br><span class="line">        sum = <span class="number">0.0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(a)):</span><br><span class="line">            sum += (a[i] - b[i]) * (a[i] - b[i])</span><br><span class="line">        <span class="keyword">return</span> sum</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> src.MathUtils <span class="keyword">import</span> MathUtils</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">KDTreeNode</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, point=None, split=None, left=None, right=None)</span>:</span></span><br><span class="line">        self.point = point</span><br><span class="line">        self.split = split</span><br><span class="line">        self.left = left</span><br><span class="line">        self.right = right</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">KDTree</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, root=None)</span>:</span></span><br><span class="line">        self.root = root</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">        构造 kd 树</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create_tree</span><span class="params">(self, data_file)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> len(data_file) == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">        data_list = np.array(data_file)</span><br><span class="line">        m, n = np.shape(data_list)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 方差</span></span><br><span class="line">        max_var = <span class="number">0.0</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 划分区域</span></span><br><span class="line">        split = <span class="number">0</span></span><br><span class="line">        <span class="keyword">if</span> m == <span class="number">1</span>:</span><br><span class="line">            root = KDTreeNode(data_file[<span class="number">0</span>], split)</span><br><span class="line">            <span class="keyword">return</span> root</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">            array_list = data_list[:, i]</span><br><span class="line">            tmp_var = np.var(array_list).item()</span><br><span class="line">            <span class="keyword">if</span> max_var &lt; tmp_var:</span><br><span class="line">                max_var = tmp_var</span><br><span class="line">                split = i</span><br><span class="line">        data_file.sort(key=<span class="keyword">lambda</span> x: x[split])</span><br><span class="line">        index = int(m / <span class="number">2</span>)</span><br><span class="line">        point = data_file[index]</span><br><span class="line">        root = KDTreeNode(point, split)</span><br><span class="line">        root.left = self.create_tree(data_file[<span class="number">0</span>:index])</span><br><span class="line">        root.right = self.create_tree(data_file[index + <span class="number">1</span>: m])</span><br><span class="line">        <span class="keyword">return</span> root</span><br><span class="line"></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">        中序遍历 kd 树</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tree_traverse</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> root <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        self.tree_traverse(root.left)</span><br><span class="line">        print(root.point, root.split)</span><br><span class="line">        self.tree_traverse(root.right)</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">        搜索 kd 树</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">query</span><span class="params">(self, root, x)</span>:</span></span><br><span class="line">        mathUtils = MathUtils()</span><br><span class="line">        node_list = []</span><br><span class="line">        tmp_root = root</span><br><span class="line">        point = root.point</span><br><span class="line">        nearest = root</span><br><span class="line">        <span class="keyword">while</span> tmp_root:</span><br><span class="line">            node_list.append(tmp_root)</span><br><span class="line">            split = tmp_root.split</span><br><span class="line">            point = tmp_root.point</span><br><span class="line">            nearest = tmp_root</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> x[split] &lt;= tmp_root.point[split]:</span><br><span class="line">                tmp_root = tmp_root.left</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                tmp_root = tmp_root.right</span><br><span class="line">        min_distance = mathUtils.compute_distance(x, point)</span><br><span class="line">        <span class="keyword">while</span> node_list:</span><br><span class="line">            back_point = node_list.pop()</span><br><span class="line">            split = back_point.split</span><br><span class="line">            <span class="keyword">if</span> mathUtils.compute_distance(x, back_point.point) &lt; min_distance:</span><br><span class="line">                min_distance = mathUtils.compute_distance(x, back_point.point)</span><br><span class="line">                nearest = back_point</span><br><span class="line">                <span class="keyword">if</span> x[split] &lt;= back_point.point[split]:</span><br><span class="line">                    tmp_root = back_point.right</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    tmp_root = back_point.left</span><br><span class="line">                    <span class="keyword">pass</span></span><br><span class="line">                <span class="keyword">if</span> tmp_root:</span><br><span class="line">                    node_list.append(tmp_root)</span><br><span class="line">                    current_distance = mathUtils.compute_distance(x, tmp_root.point)</span><br><span class="line">                    <span class="keyword">if</span> min_distance &gt; current_distance:</span><br><span class="line">                        min_distance = current_distance</span><br><span class="line">                        nearest = tmp_root</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> nearest.point, min_distance</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    array = [[<span class="number">7</span>, <span class="number">2</span>], [<span class="number">5</span>, <span class="number">4</span>], [<span class="number">9</span>, <span class="number">6</span>], [<span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">7</span>], [<span class="number">8</span>, <span class="number">1</span>]]</span><br><span class="line">    kd_tree = KDTree()</span><br><span class="line">    kd_tree.root = kd_tree.create_tree(array)</span><br><span class="line">    mathUtils = MathUtils()</span><br><span class="line">    x = [<span class="number">2.0</span>, <span class="number">4.5</span>]</span><br><span class="line">    print(kd_tree.query(kd_tree.root, x))</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/06/04/机器学习算法系列之决策树算法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -421,7 +598,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2017/06/04/数据结构之三分搜索树-ternary-search-tree/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/06/04/数据结构之三分搜索树-ternary-search-tree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -576,7 +753,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2017/06/04/数据结构之字典树-tire-tree/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/06/04/数据结构之字典树-tire-tree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -715,7 +892,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2017/04/16/Viterbi算法/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/04/16/Viterbi算法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -877,7 +1054,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2017/04/11/隐马尔科夫模型（HMM）/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/04/11/隐马尔科夫模型（HMM）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -1044,7 +1221,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2017/03/30/逻辑回归/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/03/30/逻辑回归/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -1218,7 +1395,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2017/03/25/线性回归/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/03/25/线性回归/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -1391,7 +1568,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2017/03/25/编辑距离/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/03/25/编辑距离/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -1526,7 +1703,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2017/03/25/终端常用快捷键/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/03/25/终端常用快捷键/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -1648,177 +1825,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2017/03/24/Hexo博客使用MathJax数学公式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Feng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="江峰的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/24/Hexo博客使用MathJax数学公式/" itemprop="url">
-                  Hexo博客使用MathJax数学公式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-24T19:29:15+08:00">
-                2017-03-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/24/Hexo博客使用MathJax数学公式/" class="leancloud_visitors" data-flag-title="Hexo博客使用MathJax数学公式">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本篇博文介绍在 Hexo 博客使用 MathJax 数学公式。</p>
-<ol>
-<li><p>更改 Hexo 的 markdown 渲染引擎，安装 hexo-renderer-kramed</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save</span><br><span class="line">npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改 hexo 博客站点目录（node_modules\kramed\lib\rules\）下的 inline.js 文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//  escape: /^\\([\\`*&#123;&#125;\[\]()<span class="comment">#$+\-.!_&gt;])/,</span></span><br><span class="line">escape: /^\\([`*\[\]()<span class="comment">#$+\-.!_&gt;])/,</span></span><br><span class="line"></span><br><span class="line">//  em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br><span class="line">em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重新启动hexo</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo generate &amp;&amp; hexo server</span><br></pre></td></tr></table></figure>
-<p> 如果还不行，查看你的主题目录下_config.yml是否开启 mathjax，开启如下：</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># MathJax Support</span></span><br><span class="line">mathjax:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  per_page: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p> 还有就是在你写的博客文章的Front-matter里打开mathjax开关，如下：</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 文章名</span><br><span class="line">date: 2017-03-23 19:01:30</span><br><span class="line">tags:</span><br><span class="line">mathjax: <span class="literal">true</span></span><br><span class="line">--</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1863,7 +1874,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

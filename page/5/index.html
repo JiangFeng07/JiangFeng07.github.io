@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="机器学习," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -89,18 +89,13 @@
 
 
 
-<meta name="description" content="首先构建FP树所需要的数据结构 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596">
-<meta name="keywords" content="机器学习">
-<meta property="og:type" content="article">
-<meta property="og:title" content="机器学习系列之FPGrowth算法">
-<meta property="og:url" content="http://JiangFeng.github.com/2016/01/12/机器学习系列之FPGrowth算法/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="江峰的技术博客">
+<meta property="og:url" content="http://JiangFeng.github.com/page/5/index.html">
 <meta property="og:site_name" content="江峰的技术博客">
-<meta property="og:description" content="首先构建FP树所需要的数据结构 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-16T09:36:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="机器学习系列之FPGrowth算法">
-<meta name="twitter:description" content="首先构建FP树所需要的数据结构 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596">
+<meta name="twitter:title" content="江峰的技术博客">
 
 
 
@@ -128,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://JiangFeng.github.com/2016/01/12/机器学习系列之FPGrowth算法/"/>
+  <link rel="canonical" href="http://JiangFeng.github.com/page/5/"/>
 
 
 
 
 
-  <title> 机器学习系列之FPGrowth算法 | 江峰的技术博客 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> 江峰的技术博客 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -159,7 +154,9 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -252,9 +249,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -284,7 +281,10 @@
             
             
               
-                机器学习系列之FPGrowth算法
+                
+                <a class="post-title-link" href="/2016/01/12/机器学习系列之FPGrowth算法/" itemprop="url">
+                  机器学习系列之FPGrowth算法
+                </a>
               
             
           </h1>
@@ -346,7 +346,9 @@
       
 
       
-        <ul>
+        
+          
+            <ul>
 <li><p>首先构建FP树所需要的数据结构</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.jiang.fpGrowth;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.swing.tree.TreeNode;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *类说明</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> jiangfeng</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 2016年1月11日</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FP_TreeNode</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">FP_TreeNode</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String nodeName;<span class="comment">//节点名称</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count;<span class="comment">//计数</span></span><br><span class="line">    <span class="keyword">private</span> FP_TreeNode parent;<span class="comment">//父节点</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;FP_TreeNode&gt; children;</span><br><span class="line">    <span class="keyword">private</span> FP_TreeNode nextNode;<span class="comment">//下一个同名节点</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FP_TreeNode</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FP_TreeNode</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">    nodeName=name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getNodeName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> nodeName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNodeName</span><span class="params">(String nodeName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.nodeName = nodeName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCount</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.count = count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> FP_TreeNode <span class="title">getParent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> parent;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setParent</span><span class="params">(FP_TreeNode parent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.parent = parent;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;FP_TreeNode&gt; <span class="title">getChildren</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> children;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setChildren</span><span class="params">(List&lt;FP_TreeNode&gt; children)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.children = children;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> FP_TreeNode <span class="title">getNextNode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> nextNode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNextNode</span><span class="params">(FP_TreeNode nextNode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.nextNode = nextNode;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//添加孩子节点</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addChild</span><span class="params">(FP_TreeNode child)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.getChildren()==<span class="keyword">null</span>)&#123;<span class="comment">//孩子节点为空，新建链表，加入孩子节点，再作为该节点的孩子结合</span></span><br><span class="line">        List&lt;FP_TreeNode&gt; list=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        list.add(child);</span><br><span class="line">        <span class="keyword">this</span>.setChildren(list);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.getChildren().add(child);</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//查找孩子节点</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> FP_TreeNode <span class="title">findChild</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">    List&lt;FP_TreeNode&gt; children=<span class="keyword">this</span>.getChildren();</span><br><span class="line">    <span class="keyword">if</span>(children!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">for</span>(FP_TreeNode child:children)&#123;</span><br><span class="line">        <span class="keyword">if</span>(child.getNodeName().equals(name))&#123;</span><br><span class="line">            <span class="keyword">return</span> child;</span><br><span class="line">        &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//打印孩子节点的名称</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printChildrenName</span><span class="params">()</span></span>&#123;</span><br><span class="line">    List&lt;FP_TreeNode&gt; children=<span class="keyword">this</span>.getChildren();</span><br><span class="line">    <span class="keyword">if</span>(children!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">for</span>(FP_TreeNode child : children)&#123;</span><br><span class="line">        System.out.print(child.getNodeName()+<span class="string">" "</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"null"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">countCreament</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.count+=n;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//使得Arrays.sort()按照降序排列</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(FP_TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count=node.getCount();</span><br><span class="line">    <span class="keyword">return</span> count-<span class="keyword">this</span>.count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
@@ -357,72 +359,43 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.jiang.fpGrowth;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileReader;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestFPGrowth</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; readTransRecords(String file)&#123;</span><br><span class="line">    List&lt;List&lt;String&gt;&gt; transRecord=<span class="keyword">new</span> LinkedList&lt;List&lt;String&gt;&gt;();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">       BufferedReader bf=<span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader(file));</span><br><span class="line">        String line;</span><br><span class="line">        List&lt;String&gt; record;</span><br><span class="line">        <span class="keyword">while</span>((line=bf.readLine())!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(line.trim().length()&gt;<span class="number">0</span>)&#123;</span><br><span class="line">           <span class="comment">// System.out.println(line);</span></span><br><span class="line">            String[] str=line.split(<span class="string">" "</span>);</span><br><span class="line"><span class="comment">//          for(int i=0;i&lt;str.length;i++)&#123;</span></span><br><span class="line"><span class="comment">//          System.out.print(str[i]+" ");</span></span><br><span class="line"><span class="comment">//          &#125;</span></span><br><span class="line">            record = <span class="keyword">new</span> LinkedList&lt;String&gt;();</span><br><span class="line">            <span class="keyword">for</span>(String string:str)&#123;</span><br><span class="line">            record.add(string);</span><br><span class="line">            &#125;</span><br><span class="line">            transRecord.add(record);</span><br><span class="line">        &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="comment">// <span class="doctag">TODO:</span> handle exception</span></span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> transRecord;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    FPGrowth fpGrowth=<span class="keyword">new</span> FPGrowth();</span><br><span class="line">    fpGrowth.setMinSupport(<span class="number">3</span>);</span><br><span class="line">    TestFPGrowth res=<span class="keyword">new</span> TestFPGrowth();</span><br><span class="line">    String file=<span class="string">"F:\\FPGrowth\\record.txt"</span>;</span><br><span class="line">    List&lt;List&lt;String&gt;&gt; transRecords=res.readTransRecords(file);</span><br><span class="line">    <span class="comment">/*for(int i=0;i&lt;transRecords.size();i++)&#123;</span></span><br><span class="line"><span class="comment">        for(int j=0;j&lt;transRecords.get(i).size();j++)&#123;</span></span><br><span class="line"><span class="comment">        System.out.print(transRecords.get(i).get(j)+" ");</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">        System.out.println();</span></span><br><span class="line"><span class="comment">    &#125;*/</span></span><br><span class="line">    ArrayList&lt;FP_TreeNode&gt; list=fpGrowth.buildHeaderTable(transRecords);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*for(int i=0;i&lt;list.size();i++)&#123;</span></span><br><span class="line"><span class="comment">        System.out.print(list.get(i).getNodeName()+" ");</span></span><br><span class="line"><span class="comment">    &#125;*/</span></span><br><span class="line">    fpGrowth.FPGrowth(transRecords, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
 
+          
+        
       
     </div>
 
     <div>
       
-        
-
-      
     </div>
 
     <div>
-      
-        
-
       
     </div>
 
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
-          
-        </div>
+
       
 
       
-        
-      
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/02/03/本地执行-spark-程序/" rel="prev" title="本地执行 spark 程序">
-                本地执行 spark 程序 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-        
-<script>
-  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
-</script>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+  </nav>
 
-      
-    </div>
-  </div>
 
           
           </div>
@@ -430,10 +403,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -651,10 +620,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
-
-
 
   
 

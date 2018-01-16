@@ -91,7 +91,7 @@
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="江峰的技术博客">
-<meta property="og:url" content="http://leo.github.com/index.html">
+<meta property="og:url" content="http://JiangFeng.github.com/index.html">
 <meta property="og:site_name" content="江峰的技术博客">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -123,7 +123,7 @@
 
 
 
-  <link rel="canonical" href="http://leo.github.com/"/>
+  <link rel="canonical" href="http://JiangFeng.github.com/"/>
 
 
 
@@ -260,7 +260,185 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2018/01/16/java并发编程-volatile关键字/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2018/01/16/TF-IDF算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/01/16/TF-IDF算法/" itemprop="url">
+                  TF-IDF算法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-16T20:04:55+08:00">
+                2018-01-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NLP/" itemprop="url" rel="index">
+                    <span itemprop="name">NLP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/01/16/TF-IDF算法/" class="leancloud_visitors" data-flag-title="TF-IDF算法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="TF-IDF算法"><a href="#TF-IDF算法" class="headerlink" title="TF-IDF算法"></a>TF-IDF算法</h1><p>TF-IDF（词频-逆文档频率）算法是一种统计方法，用以评估一字词对于一个文件集或一个语料库中的其中一份文件的重要程度。<font color="ff0000">字词的重要性随着它在文件中出现的次数成正比增加，但同时会随着它在语料库中出现的频率成反比下降</font>。该算法在数据挖掘、文本处理和信息检索等领域得到了广泛的应用，如从一篇文章中找到它的关键词。</p>
+<p>TFIDF的主要思想是：如果某个词或短语在一篇文章中出现的频率TF高，并且在其他文章中很少出现，则认为此词或者短语具有很好的类别区分能力，适合用来分类。TF-IDF实际上就是 TF*IDF，其中 TF（Term Frequency），表示词条在文章Document 中出现的频率；IDF（Inverse Document Frequency），其主要思想就是，如果包含某个词 Word的文档越少，则这个词的区分度就越大，也就是 IDF 越大。对于如何获取一篇文章的关键词，我们可以计算这边文章出现的所有名词的 TF-IDF，TF-IDF越大，则说明这个名词对这篇文章的区分度就越高，取 TF-IDF 值较大的几个词，就可以当做这篇文章的关键词。</p>
+<h2 id="计算步骤"><a href="#计算步骤" class="headerlink" title="计算步骤"></a>计算步骤</h2><ol>
+<li><p>计算词频（TF）</p>
+<font size="6" face="微软雅黑">$词频=\frac{某个词在文章中的出现次数}{文章总次数}$</font>
+</li>
+<li><p>计算逆文档频率（IDF）</p>
+<font size="6" face="微软雅黑">$逆文档频率=\log \frac{语料库的文档总数}{包含该词的文档数+1}$</font>
+</li>
+<li><p>计算词频-逆文档频率（TF-IDF）</p>
+<font size="6" face="微软雅黑">$词频-逆文档频率={词频}\ast{逆文档频率}$</font>
+
+
+</li>
+</ol>
+<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><p>为了建立自己的语料库，我从网上爬了100个 url 存放在本地的 txt 文件中，<br>存放格式如下：<br><img src="http://img.blog.csdn.net/20161216234101427?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGlvbmVsX2Zlbmdq/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>这就相当于存放了100篇文章，即语料库的的文档总数是100。</p>
+<ul>
+<li>TF-IDF 算法代码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br></pre></td><td class="code"><pre><span class="line">package com.myapp.ml.nlp;</span><br><span class="line"></span><br><span class="line">import org.ansj.domain.Term;</span><br><span class="line">import org.ansj.splitWord.analysis.ToAnalysis;</span><br><span class="line">import org.ansj.util.FilterModifWord;</span><br><span class="line">import org.apache.commons.lang3.StringUtils;</span><br><span class="line">import org.jsoup.Jsoup;</span><br><span class="line">import org.jsoup.nodes.Document;</span><br><span class="line"></span><br><span class="line">import java.io.BufferedReader;</span><br><span class="line">import java.io.FileReader;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by lionel on 16/12/15.</span><br><span class="line"> */</span><br><span class="line">public class TFIDFAlgorithm &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 根据文件路径，文件中存放的100个网址的 url，获取 url 路径列表</span><br><span class="line">     *</span><br><span class="line">     * @param path 本地文件路径</span><br><span class="line">     * @return 路径列表</span><br><span class="line">     */</span><br><span class="line">    public List&lt;String&gt; readUrlFromText(String path) &#123;</span><br><span class="line">        if (StringUtils.isBlank(path)) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;String&gt; urls = new ArrayList&lt;String&gt;();</span><br><span class="line">        try &#123;</span><br><span class="line">            BufferedReader reader = new BufferedReader(new FileReader(path));</span><br><span class="line">            String line;</span><br><span class="line">            while ((line = reader.readLine()) != null) &#123;</span><br><span class="line">                urls.add(line.trim());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return urls;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 利用 Jsoup 工具，根据网址获取网页文本</span><br><span class="line">     *</span><br><span class="line">     * @param url 网址</span><br><span class="line">     * @return 网页文本</span><br><span class="line">     */</span><br><span class="line">    public String getTextFromUrl(String url) &#123;</span><br><span class="line">        if (StringUtils.isBlank(url)) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String text = &quot;&quot;;</span><br><span class="line">        try &#123;</span><br><span class="line">            Document document = Jsoup.connect(url).get();</span><br><span class="line">            text = document.text();</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return text.replace(&quot; &quot;, &quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 运用 ansj 给文本分词</span><br><span class="line">     *</span><br><span class="line">     * @param text 文本内容</span><br><span class="line">     * @return 分词结果</span><br><span class="line">     */</span><br><span class="line">    public List&lt;Term&gt; parse(String text) &#123;</span><br><span class="line">        if (StringUtils.isBlank(text)) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;Term&gt; terms = FilterModifWord.modifResult(ToAnalysis.parse(text));</span><br><span class="line">        if (terms == null || terms.size() == 0) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        return terms;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 计算一篇文章分词后除去标点符号后词的总数</span><br><span class="line">     *</span><br><span class="line">     * @param terms 分词后的集合</span><br><span class="line">     * @return 一篇文章分词后除去标点符号后词的总数</span><br><span class="line">     */</span><br><span class="line">    private Integer countWord(List&lt;Term&gt; terms) &#123;</span><br><span class="line">        if (terms == null || terms.size() == 0) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        for (int i = 0; i &lt; terms.size(); i++) &#123;</span><br><span class="line">            if (&quot;null&quot;.equals(terms.get(i).getNatureStr()) || terms.get(i).getNatureStr().startsWith(&quot;w&quot;)) &#123;</span><br><span class="line">                terms.remove(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return terms.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 计算词频 IF</span><br><span class="line">     *</span><br><span class="line">     * @param word  词</span><br><span class="line">     * @param terms 分词结果集合</span><br><span class="line">     * @return IF</span><br><span class="line">     */</span><br><span class="line">    public double computeTF(String word, List&lt;Term&gt; terms) &#123;</span><br><span class="line">        if (StringUtils.isBlank(word)) &#123;</span><br><span class="line">            return 0.0;</span><br><span class="line">        &#125;</span><br><span class="line">        int count = 0;</span><br><span class="line">        for (Term term : terms) &#123;</span><br><span class="line">            if (term.getName().equals(word)) &#123;</span><br><span class="line">                count += 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return (double) count / countWord(terms);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 统计词语的逆文档频率 IDF</span><br><span class="line">     *</span><br><span class="line">     * @param path 存放 url 的文件路径</span><br><span class="line">     * @param word IDF</span><br><span class="line">     */</span><br><span class="line">    public double computeIDF(String path, String word) &#123;</span><br><span class="line">        if (StringUtils.isBlank(path) || StringUtils.isBlank(word)) &#123;</span><br><span class="line">            return 0.0;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        List&lt;String&gt; urls = readUrlFromText(path);</span><br><span class="line">        int count = 1;</span><br><span class="line">        for (String url : urls) &#123;</span><br><span class="line">            String text = getTextFromUrl(url);</span><br><span class="line">            if (text.contains(word)) &#123;</span><br><span class="line">                count += 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return Math.log10((double) urls.size() / count);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 计算词频-逆文档频率 TF—IDF</span><br><span class="line">     *</span><br><span class="line">     * @param filePath 存放url的文件路径</span><br><span class="line">     * @param terms    分词结果集合</span><br><span class="line">     * @param word     词</span><br><span class="line">     * @return TF—IDF</span><br><span class="line">     */</span><br><span class="line"></span><br><span class="line">    public Double computeTFIDF(String filePath, List&lt;Term&gt; terms, String word) &#123;</span><br><span class="line">        return computeTF(word, terms) * computeIDF(filePath, word);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试代码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package com.myapp.ml.nlp;</span><br><span class="line"></span><br><span class="line">import org.ansj.domain.Term;</span><br><span class="line">import org.junit.Test;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *测试词语“语言”的 TF-IDF</span><br><span class="line"> * Created by lionel on 16/12/15.</span><br><span class="line"> */</span><br><span class="line">public class TFIDFAlgorithmTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void test() &#123;</span><br><span class="line">        TFIDFAlgorithm tfidfAlgorithm = new TFIDFAlgorithm();</span><br><span class="line">        String filePath = &quot;/Users/lionel/PycharmProjects/python-app/com/pythonapp/spider/output.txt&quot;;</span><br><span class="line">        String url = &quot;http://baike.baidu.com/item/Java/85979&quot;;</span><br><span class="line">        String word = &quot;语言&quot;;</span><br><span class="line">        List&lt;Term&gt; terms = tfidfAlgorithm.parse(tfidfAlgorithm.getTextFromUrl(url));</span><br><span class="line">        System.out.println(&quot;[【&quot; + word + &quot;】词频 ] &quot; + tfidfAlgorithm.computeTF(word, terms));</span><br><span class="line">        System.out.println(&quot;[【&quot; + word + &quot;】逆文档频率 ] &quot; + tfidfAlgorithm.computeIDF(filePath, word));</span><br><span class="line">        System.out.println(&quot;[【&quot; + word + &quot;】词频-逆文档频率 ] &quot;+tfidfAlgorithm.computeTFIDF(filePath,terms,word));</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试结果<br><img src="http://img.blog.csdn.net/20161217001245667?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGlvbmVsX2Zlbmdq/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
+</ul>
+<p>本篇博客描述的是我对 TF-IDF 算法的理解，代码是对算法过程简单的实现，若有失偏颇，还请指出。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2018/01/16/java并发编程-volatile关键字/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -424,7 +602,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2018/01/16/java内存模型/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2018/01/16/java内存模型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -556,7 +734,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2018/01/16/RNN实现手写数字识别/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2018/01/16/RNN实现手写数字识别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -706,7 +884,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2018/01/12/java并发编程-线程三要素/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2018/01/12/java并发编程-线程三要素/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -879,7 +1057,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2017/11/01/ElasticSearch数据keyword和text的区别/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/11/01/ElasticSearch数据keyword和text的区别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -1032,7 +1210,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2017/11/01/ElasticSearch-java-api/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/11/01/ElasticSearch-java-api/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -1191,7 +1369,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2017/10/27/ElasticSearch文档管理/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/10/27/ElasticSearch文档管理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -1363,7 +1541,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2017/10/26/ElasticSearch-常用操作/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/10/26/ElasticSearch-常用操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -1556,7 +1734,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2017/10/25/Kibana安装/">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/10/25/Kibana安装/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiang Feng">
@@ -1702,192 +1880,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://leo.github.com/2017/10/24/ElasticSearch5-x安装/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Feng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="江峰的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/10/24/ElasticSearch5-x安装/" itemprop="url">
-                  ElasticSearch5.x安装
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-24T18:47:16+08:00">
-                2017-10-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ES/" itemprop="url" rel="index">
-                    <span itemprop="name">ES</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/10/24/ElasticSearch5-x安装/" class="leancloud_visitors" data-flag-title="ElasticSearch5.x安装">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="ElasticSearch5-x-安装"><a href="#ElasticSearch5-x-安装" class="headerlink" title="ElasticSearch5.x 安装"></a>ElasticSearch5.x 安装</h3><ol>
-<li>java8，安装 ES5.x 版本必须要有 java 8的环境；</li>
-<li>下载 ElasticSearch5.x，使用以下命令进行下载。可以去<a href="https://www.elastic.co/cn/products/elasticsearch" target="_blank" rel="noopener">官网</a>进行下载，本篇文章安装的是5.6.3版本；<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.3.tar.gz</span><br><span class="line">tar -xvf elasticsearch-5.6.3.tar.gz</span><br><span class="line">cd elasticsearch-5.6.3/bin</span><br><span class="line">./elasticsearch</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>安装成功后会出现输入在浏览器输入localhost:9200，出现以下信息说明安装成功。<br><img src="http://onm4pqoqp.bkt.clouddn.com/es.png" alt=""></p>
-<p>现在有一个问题，现在在本地环境下可以对 ES 进行访问，但是我们怎样从其它机器来访问它了，修改两个地方:</p>
-<ol>
-<li>修改config/elasticsearch.yml,  network.host修改为0.0.0.0</li>
-<li>修改/etc/sysconfig/iptables,开启9200端口,重启防火墙(service iptables restart)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 9200 -j ACCEPT</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>这样，你就可以使用ip-address:9200进行访问了,ip-address指的是你电脑的 ip 地址。</p>
-<h4 id="安装过程遇见问题"><a href="#安装过程遇见问题" class="headerlink" title="安装过程遇见问题"></a>安装过程遇见问题</h4><ol>
-<li><p>max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]<br>root 用户编辑 vim /etc/security/limits.conf 文件, 添加以下内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*   hard    nofile  65536</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>max number of threads [1024] for user [henry] is too low, increase to at least [2048]</p>
-</li>
-</ol>
-<p>root 用户编辑 vim /etc/security/limits.d/90-nproc.conf 修改以下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*          soft    nproc     2048</span><br></pre></td></tr></table></figure></p>
-<ol>
-<li>max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</li>
-</ol>
-<p>root 用户编辑 vim /etc/sysctl.conf 添加以下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm.max_map_count=262144</span><br></pre></td></tr></table></figure></p>
-<p>并执行命令 sysctl -p</p>
-<ol>
-<li>system call filters failed to install; check the logs and fix your configuration or disable system call filters at your own risk<br>henry 用户编辑 vim config/elasticsearch.yml 文件, 添加以下内容<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bootstrap.system_call_filter: false</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>可能需要重启服务器, 然后重启 ES 服务. 在外部通过浏览器访问 <a href="http://ip-address:9200" target="_blank" rel="noopener">http://ip-address:9200</a>, 如果看到如上图图所示的输出, 那么说明你配置成功啦!</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1932,7 +1929,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
