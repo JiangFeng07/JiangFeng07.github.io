@@ -260,6 +260,175 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/06/07/Scrapy爬虫实战/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Feng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江峰的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/07/Scrapy爬虫实战/" itemprop="url">
+                  Scrapy爬虫实战
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T18:40:02+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/爬虫/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/07/Scrapy爬虫实战/" class="leancloud_visitors" data-flag-title="Scrapy爬虫实战">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>&emsp;&emsp;最近，想好好学习下Scrapy爬虫框架，一种很强大的 python 爬虫框架，在观看了极客学院的课程后，自己实现了用 Scrapy<a href="https://movie.douban.com/top250" target="_blank" rel="noopener">爬虫豆瓣电影 top250</a>，并存于 mysql 数据库中。接下来就开始介绍实现过程。<br>&emsp;&emsp;首先来看看网页结构<br><img src="http://onm4pqoqp.bkt.clouddn.com/2.png" alt=""><br>&emsp;&emsp;对应的html 代码为：<br><img src="http://onm4pqoqp.bkt.clouddn.com/22222.png" alt=""><br>&emsp;&emsp;如上图所示，主要是爬取出电影的名称、电影简要介绍、豆瓣评分、电影概括。</p>
+<p>&emsp;&emsp;环境安装：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip3 install -U scrapy</span><br><span class="line">pip3 install -U pymysql #连接数据库</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;使用 scrapy startproject movie 命令新建一个 scrapy 项目。新建后的项目结构如下图：<br><img src="http://onm4pqoqp.bkt.clouddn.com/scrapy%20%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84.png" alt="" title="scrapy 项目结构.png"></p>
+<p>其中，几个python文件的功能如下，</p>
+<ol>
+<li>Items.py 定义需要抓取并需要后期处理的数据；</li>
+<li>settings.py 文件配置 Scrapy，从而修改 user-agent，设定爬取时间间隔，设置代理，配置各种中间件等等；</li>
+<li>pipeline.py 用于存储后期数据处理的功能，从而使得数据的爬出和处理分开，可以在这个文件中把数据存储到 mysql 数据库；</li>
+<li>MovieSpider.py 自定义爬虫，主要是爬取电影的名称、电影简要介绍、豆瓣评分、电影概括。</li>
+</ol>
+<p><strong>爬取的数据结构定义(Items.py)</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> Item, Field</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MovieItem</span><span class="params">(Item)</span>:</span></span><br><span class="line">    title = Field()</span><br><span class="line">    movieInfo = Field()</span><br><span class="line">    star = Field()</span><br><span class="line">    quote = Field()</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>爬虫器(MovieSpider.py)</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.spiders <span class="keyword">import</span> Spider</span><br><span class="line"><span class="keyword">from</span> scrapy.http <span class="keyword">import</span> Request</span><br><span class="line"><span class="keyword">from</span> scrapy.selector <span class="keyword">import</span> Selector</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> movie.items <span class="keyword">import</span> MovieItem</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MovieSpider</span><span class="params">(Spider)</span>:</span></span><br><span class="line">    name = <span class="string">'movie'</span></span><br><span class="line">    url = <span class="string">'https://movie.douban.com/top250'</span></span><br><span class="line">    start_urls = [<span class="string">'https://movie.douban.com/top250'</span>]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        item = MovieItem()</span><br><span class="line">        selector = Selector(response)</span><br><span class="line">        movies = selector.xpath(<span class="string">'//div[@class="info"]'</span>)</span><br><span class="line">        <span class="keyword">for</span> movie <span class="keyword">in</span> movies:</span><br><span class="line">            title = movie.xpath(<span class="string">'div[@class="hd"]/a/span/text()'</span>).extract()</span><br><span class="line">            fullTitle = <span class="string">''</span></span><br><span class="line">            <span class="keyword">for</span> each <span class="keyword">in</span> title:</span><br><span class="line">                fullTitle += each</span><br><span class="line">            movieInfo = movie.xpath(<span class="string">'div[@class="bd"]/p/text()'</span>).extract()</span><br><span class="line">            star = movie.xpath(<span class="string">'div[@class="bd"]/div[@class="star"]/span[@class="rating_num"]/text()'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">            quote = movie.xpath(<span class="string">'div[@class="bd"]/p/span/text()'</span>).extract()</span><br><span class="line">            <span class="keyword">if</span> quote:</span><br><span class="line">                quote = quote[<span class="number">0</span>]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                quote = <span class="string">''</span></span><br><span class="line">            item[<span class="string">'title'</span>] = fullTitle</span><br><span class="line">            item[<span class="string">'movieInfo'</span>] = <span class="string">';'</span>.join(movieInfo).replace(<span class="string">' '</span>, <span class="string">''</span>).replace(<span class="string">'\n'</span>, <span class="string">''</span>)</span><br><span class="line">            item[<span class="string">'star'</span>] = star[<span class="number">0</span>]</span><br><span class="line">            item[<span class="string">'quote'</span>] = quote</span><br><span class="line">            <span class="keyword">yield</span> item</span><br><span class="line">        nextPage = selector.xpath(<span class="string">'//span[@class="next"]/link/@href'</span>).extract()</span><br><span class="line">        <span class="keyword">if</span> nextPage:</span><br><span class="line">            nextPage = nextPage[<span class="number">0</span>]</span><br><span class="line">            print(self.url + str(nextPage))</span><br><span class="line">            <span class="keyword">yield</span> Request(self.url + str(nextPage), callback=self.parse)</span><br></pre></td></tr></table></figure></p>
+<p><strong>数据存储到 mysql 数据库</strong><br>首先，要在本地数据库建立 Movie 表，建表语句如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Movie (</span><br><span class="line">  id         INT           NOT NULL PRIMARY KEY AUTO_INCREMENT</span><br><span class="line">  COMMENT <span class="string">'自增 id'</span>,</span><br><span class="line">  name       VARCHAR(<span class="number">1024</span>) NOT NULL</span><br><span class="line">  COMMENT <span class="string">'电影名称'</span>,</span><br><span class="line">  movieInfo  VARCHAR(<span class="number">1024</span>) NOT NULL</span><br><span class="line">  COMMENT <span class="string">'电影详情'</span>,</span><br><span class="line">  star       VARCHAR(<span class="number">16</span>)                        DEFAULT NULL</span><br><span class="line">  COMMENT <span class="string">'豆瓣评分'</span>,</span><br><span class="line">  quote      VARCHAR(<span class="number">1024</span>)                      DEFAULT NULL</span><br><span class="line">  COMMENT <span class="string">'经典台词'</span>,</span><br><span class="line">  createtime DATETIME                           DEFAULT CURRENT_TIMESTAMP</span><br><span class="line">  COMMENT <span class="string">'添加时间'</span></span><br><span class="line">)</span><br><span class="line">  ENGINE = InnoDB</span><br><span class="line">  DEFAULT CHARSET = utf8;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;接着，可以对数据库进行连接和存储了。这个过程可在pipeline.py完成，代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MoviePipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.conn = pymysql.connect(host=<span class="string">'127.0.0.1'</span>, port=<span class="number">3306</span>, user=***, passwd=***, db=***,</span><br><span class="line">                                    charset=<span class="string">'utf8'</span>)</span><br><span class="line">        self.cursor = self.conn.cursor()</span><br><span class="line">        self.cursor.execute(<span class="string">"truncate table Movie"</span>)</span><br><span class="line">        self.conn.commit()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            self.cursor.execute(<span class="string">"insert into Movie (name,movieInfo,star,quote) VALUES (%s,%s,%s,%s)"</span>, (</span><br><span class="line">                item[<span class="string">'title'</span>], item[<span class="string">'movieInfo'</span>], item[<span class="string">'star'</span>], item[<span class="string">'quote'</span>]))</span><br><span class="line">            self.conn.commit()</span><br><span class="line">        <span class="keyword">except</span> pymysql.Error:</span><br><span class="line">            print(<span class="string">"Error%s,%s,%s,%s"</span> % (item[<span class="string">'title'</span>], item[<span class="string">'movieInfo'</span>], item[<span class="string">'star'</span>], item[<span class="string">'quote'</span>]))</span><br><span class="line">        <span class="keyword">return</span> item</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;到此，爬虫程序就写完了，来看下结果，<br><img src="http://onm4pqoqp.bkt.clouddn.com/%E7%94%B5%E5%BD%B1%E6%95%B0%E7%9B%AE.png" alt="" title="豆瓣电影数目"><br>&emsp;&emsp;有250条数据，和网站电影数目一致，再来看下内容，<br><img src="http://onm4pqoqp.bkt.clouddn.com/%E7%88%AC%E5%8F%96%E7%BB%93%E6%9E%9C.png" alt="" title="豆瓣电影爬取结果"></p>
+<font color="red">注意:在使用 mypysql 连接数据库时，数据库的表字段属性要定义成字符串类型，pymysql 无法插入整形和浮点型到 mysql 表中，这里面有个坑，弄了好久，都没搞定。</font>
+
+
+
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/06/04/机器学习算法系列之K近邻算法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1694,137 +1863,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://JiangFeng.github.com/2017/03/25/终端常用快捷键/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Feng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="江峰的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/25/终端常用快捷键/" itemprop="url">
-                  终端常用快捷键
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-25T10:56:48+08:00">
-                2017-03-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/03/25/终端常用快捷键/" class="leancloud_visitors" data-flag-title="终端常用快捷键">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>终端常用快捷键<br>⌘ + r = clear，而且只是换到新一屏，不会像 clear 一样创建一个空屏<br>ctrl + u 清空当前行，无论光标在什么位置<br>新建窗口：command + t<br>垂直分屏：command + d<br>水平分屏：command + shift + d<br>切换屏幕：command + option + 方向键 command + [ 或 command + ]<br>删除光标之前的字符：ctrl + h<br>删除光标之前的单词：ctrl + w<br>删除到文本末尾：ctrl + k<br>定位当前行首部：control + a<br>定位当前行尾部：contorl + e<br>清屏：command + r  或者 ctrl + l</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1874,7 +1912,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1883,7 +1921,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1892,7 +1930,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1961,7 +1999,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
